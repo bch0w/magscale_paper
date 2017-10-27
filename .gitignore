@@ -1,0 +1,11 @@
+catalogs/
+figures/
+misc/
+output/
+synthetics/salvus/data/
+synthetics/salvus/output/
+synthetics/specfem/data/
+synthetics/specfem/output/
+paper/blank_template/
+paper/figures/
+.DS_Store

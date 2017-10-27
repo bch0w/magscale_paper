@@ -1,0 +1,57 @@
+7.10.17 Paper Outline
+
++ Abstract
+>Problem, method, solution, discussion...
+
++ Introduction
+> we have a large collection of events
+> we routinely compare amplitude ratios for phase velocities
+	> this is a linear equation, but if they don't decay linearly, phase velocity is all over
+> we want to understand how rotations decay compared to translations
+> how do we do this? we make 'magnitude scales' to quantify decay characterstics
+> these are not real magnitudes because we are geographically biased and we are not averaging over hundreds of instruments like is common
+> can we connect this amplitude decay to actual surface waves
+> can we recreate this behavior with synthetics
+
+	-Rotational ground motions
+	> instrument characterstics
+	> plane wave analysis and phase velocities
+	> peak correlation coefficients
+
+	-Magnitude scales
+	> IASPEI WG Magnitudes
+	> Instrumental proxies for surface waves 
+
++ Event Choice
+
++ Methods
+	-Data processing
+	> Instrument response rotation and translation
+	> Filtering
+	> Peak to peak amplitude, associated period, arrival times
+	
+	-Linear regression
+	> Normal equation
+	> 95% confidence intervals
+
++ Results
+	-Waveform comparisons
+	> Accepted and rejected waveforms
+	> Table or statistics to represent catalog
+
+	-Magnitude scale
+	> Results
+	> Mention comparison wfith FFB
+
+	-Expected amplitudes
+	> Using magnitude scales to figure out expected rotation rates for events at a distance
+
++ Synthetics
+	-Salvus
+	-SpecfemGlobal
+	-Mesh
+	-Results
+
++ Discussions/Conclusions
+	> Connection to surface waves
+
