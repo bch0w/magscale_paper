@@ -1,19 +1,5 @@
-"""25.09.17 PAPER VERSION LMU 
-
-Script for WETTZELL
-Waveform comparison code used to determine magnitude scales from rotational and
-translation motion, outputs all processed information into JSON, XML and PNG's.
-Files tagged as the event information and magnitudes
-
-+variable 'ac' refers only to translation components, used to be acceleration 
-and too much work to change all variable names
-+ spaces not tabs
-+ added an error log
-+ removed correlation coefficients
-+ add time of max amplitude
-+ 25.09.17 output rotation (integration of rotation rate) - 
-    and plot, comment out other plots and create new figure, 
-    overwrite .json in output folder
+"""determine peak trace ampltidues from synthetic data (pyasdf format) 
+outputted by specfem3d globe
 """
 
 from __future__ import division
@@ -48,7 +34,6 @@ mpl.rcParams.update({'font.size': 6.5})
 
 def process_save(station,station_tag):
     
-
     # set sampling rate and copy traces for filtering
     rt = station.synthetic.select(channel='MY*') # rotation
     tr = station.synthetic.select(channel='MX*') # displacement
@@ -218,7 +203,8 @@ def process_save(station,station_tag):
     return peak2troughs,periods,zero_crossings_abs
 
 
-def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,station_tag):
+def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
+                                                                station_tag):
     
     # create all info to be stored in json
     rrz_max,rrr_max,rrt_max,rtz_max,rtr_max,rtt_max,vlz_max,vlr_max,vlt_max \
@@ -230,13 +216,12 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,statio
 
     station_coords = station.StationXML.networks[0].stations[0]                                                    
 
-    dic = OrderedDict([
-            ('sampling_rate',station.synthetic[0].stats.sampling_rate),
+     dic = OrderedDict([
+            ('event_id', event.resource_id.id),
+            ('starttime', str(event.origins[0].time)),
             ('network', station.synthetic[0].stats.network),
             ('station', station.synthetic[0].stats.station),
             ('loc', station.synthetic[0].stats.location),
-            ('event_id', event.resource_id.id),
-            ('starttime', str(event.origins[0].time)),
             ('station_latitude', station_coords.latitude),
             ('station_longitude', station_coords.longitude),
             ('station_elevation', station_coords.elevation),
@@ -244,48 +229,80 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,statio
             ('event_longitude', event.origins[0].longitude),
             ('moment', event.focal_mechanisms[0].moment_tensor.scalar_moment),
             ('depth', event.origins[0].depth/1000),
-            ('depth_unit', 'km'),
-
-            ('peak_vertical_rotation_rate', rrz_max),
-            ('dominant_period_vertical_rotation_rate',rrz_per),
-            ('vertical_rotation_rate_zero_crossing',rrz_zca),
-
-            ('peak_radial_rotation_rate', rrr_max),
-            ('dominant_period_radial_rotation_rate',rrr_per),
-            ('radial_rotation_rate_zero_crossing',rrr_zca),
-
-            ('peak_transverse_rotation_rate', rrt_max),
-            ('dominant_period_transverse_rotation_rate',rrt_per),
-            ('transverse_rotation_rate_zero_crossing',rrt_zca),
-            ('peak_rr_unit', 'rad/s'),
-
-            ('peak_vertical_rotation', rtz_max),
-            ('dominant_period_vertical_rotation',rtz_per),
-            ('vertical_rotation_zero_crossing',rtz_zca),
-
-            ('peak_radial_rotation', rtr_max),
-            ('dominant_period_radial_rotation',rtr_per),
-            ('radial_rotation_zero_crossing',rtr_zca),
-
-            ('peak_transverse_rotation', rtt_max),
-            ('dominant_period_transverse_rotation',rtt_per),
-            ('transverse_rotation_zero_crossing',rtt_zca),
-            ('peak_rt_unit', 'rad'),
-
-            ('peak_vertical_vel', vlz_max),
-            ('dominant_period_vertical_vel',vlz_per),
-            ('vertical_vel_zero_crossing',vlz_zca),
-
-            ('peak_radial_vel',vlr_max),
-            ('dominant_period_radial_vel',vlr_per),
-            ('radial_vel_zero_crossing',vlr_zca),
-
-            ('peak_transverse_vel',vlt_max),
-            ('dominant_period_transverse_vel',vlt_per),
-            ('transverse_vel_zero_crossing',vlt_zca),
-            ('peak_vel_unit', 'm/s'),
-
-            ('zero_crossing_unit','sec. from trace start')
+            ('epicentral_distance_in_km', distance),
+            ('zero_crossing_unit','sec. from trace start'),           
+            ('vertical_rotation_rate', 
+                OrderedDict([
+                ('peak_amplitude',rrz_max),
+                ('dominant_period',rrz_per),
+                ('zero_crossing',rrz_zca),
+                ('unit','nrad/s')
+                ])
+            ),
+            ('radial_rotation_rate', 
+                OrderedDict([
+                ('peak_amplitude',rrr_max),
+                ('dominant_period',rrr_per),
+                ('zero_crossing',rrr_zca),
+                ('unit','nrad/s')
+                ])
+            ),
+            ('transverse_rotation_rate', 
+                OrderedDict([
+                ('peak_amplitude',rrt_max),
+                ('dominant_period',rrt_per),
+                ('zero_crossing',rrt_zca),
+                ('unit','nrad/s')
+                ])
+            ),
+            ('vertical_rotation', 
+                OrderedDict([
+                ('peak_amplitude',rtz_max),
+                ('dominant_period',rtz_per),
+                ('zero_crossing',rtz_zca),
+                ('unit','nrad')
+                ])
+            ),
+            ('radial_rotation', 
+                OrderedDict([
+                ('peak_amplitude',rtr_max),
+                ('dominant_period',rtr_per),
+                ('zero_crossing',rtr_zca),
+                ('unit','nrad')
+                ])
+            ),
+            ('transverse_rotation', 
+                OrderedDict([
+                ('peak_amplitude',rtt_max),
+                ('dominant_period',rtt_per),
+                ('zero_crossing',rtt_zca),
+                ('unit','nrad')
+                ])
+            ),
+            ('vertical_velocity', 
+                OrderedDict([
+                ('peak_amplitude',vlz_max),
+                ('dominant_period',vlz_per),
+                ('zero_crossing',vlz_zca),
+                ('unit','nm/s')
+                ])
+            ),
+            ('transverse_velocity', 
+                OrderedDict([
+                ('peak_amplitude',vlt_max),
+                ('dominant_period',vlt_per),
+                ('zero_crossing',vlt_zca),
+                ('unit','nm/s')
+                ])
+            ),
+            ('radial_velocity', 
+                OrderedDict([
+                ('peak_amplitude',vlr_max),
+                ('dominant_period',vlr_per),
+                ('zero_crossing',vlr_zca),
+                ('unit','nm/s')
+                ])
+            )
             ])
 
     

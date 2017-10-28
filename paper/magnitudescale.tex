@@ -10,7 +10,12 @@
 \title[Comparisons of surface wave amplitude decays]
   {Comparisons of surface wave amplitude decays \\as measured by rotation and translation sensors}
 \author[Bryant Chow]
-  {Bryant Chow$^1$\thanks{Now at Victoria University of Wellington, Wellington, New Zealand}, Heiner Igel$^1$, Joachim Wassermann$^1$ \\
+  {Bryant Chow$^1$\thanks{Now at Victoria University of Wellington, Wellington, New Zealand}, 
+  Heiner Igel$^1$, 
+  Joachim Wassermann$^1$,
+  Bernhard Schuberth$^1$,
+  Stefanie Donner$^1$\thanks{Now at University of Stuttgart},
+  Celine Hadziiannou$^2$ \\
   $^1$ Department of Earth and Environmental Sciences, Ludwig-Maximilians-University Munich, Theresienstra\ss e 41, D-80333 Munich, Germany. \\E-mail: bchow@geophysik.uni-muenchen.de
   }
 \date{}
@@ -44,23 +49,22 @@ magnitude, rotational ground motions, seismic instrumentation, amplitude decay
 
 \section{Introduction} 
 % rotations are gaining traction, large catalog of events
-For over a decade, the application of ring laser gyroscope technology to the field of seismology has allowed for near-continuous, direct, measurements of rotational ground motions. In the context of earthquake seismology, an ever growing number of observations from seismic events of varying size, distance and source mechanism has been collected in an expansive catalog of waveform recordings for both direct rotation, and collocated translation measurements.
+For over a decade, the application of ring laser gyroscope technology to the field of seismology has allowed for near-continuous, direct, measurements of rotational ground motions. An ever growing number of observations from seismic events of varying size, distance and source mechanism, has been collected in an expansive catalog of waveform recordings for both direct rotation, and collocated translation measurements.
 %> we routinely compare amplitude ratios for phase velocities
-Previous work on this unique dataset includes phase comparisons of translations and rotations [Igel 2005] %cite
+Previous work on this unique waveform dataset includes phase comparisons of translations and rotations [Igel 2005] %cite
 and estimations of local horizontal phase velocities. %cite
-Observations of rotations have also proved useful in analyzing seismic noise attributed to oceanic influences % cite Celine?
 Much of this preceding work however, focuses on single events, or collections of non-earthquake sources. 
 
 %> we want to understand how rotations decay compared to translations
 %> how do we do this? we make 'magnitude scales' to quantify decay characterstics
 %> these are not real magnitudes because we are geographically biased and we are not avera
 %ging over hundreds of instruments like is common
-In this paper, we aim to characterize and understand the differences in amplitude decay behavior of rotational and translational ground motion for a large number of events. To do this, we make use of a sizable catalog of seismic events measured by an observatory based ring laser and collocated translation sensor. By processing rotation and translation observations simultaneously and identically, we are able to directly compare their results over a large set of event sizes, epicentral distances and backazimuths. We additionally seek to use this information to better understand decay characteristics of Love and Rayleigh waves, through instrumental proxies. 
-This paper builds on work done by [Igel 2007], %cite igel 2007
-where the question was posed, whether observed peak rotation amplitudes matched with expected values given by the surface wave magnitude equation. At the time, a lack of events lead to a limited study size, however currently, a much larger number of events is available. In this work, we attempt to readdress this question with a larger sample size of events, and by also approaching the problem from the unique perspective of deriving magnitude scales for peak rotations and peak translations, in an attempt to quantify the decay characteristics of rotation and translation amplitudes
+In this paper, we aim to characterize and understand the differences in amplitude decay behavior of rotational and translational ground motion for a large number of events. To do this, we make use of a sizable catalog of seismic event data, measured by an observatory based ring laser gyroscope and collocated broadband translation sensor. By processing rotation and translation observations in an identical manner, we are able to directly compare processed results over a large set of event magnitudes, epicentral distances and backazimuths. We additionally seek to use this information to better understand decay characteristics of Love and Rayleigh waves.
 
-To quantify amplitude decay behavior, we make use an of empirically derived decay constant, in the form of the surface wave magnitude equation. %citation
-With these derived magnitude equations, we are able to compare different observables in a standard and approachable manner. Due to the uniqueness of our observational setup, we are restricted to a single station approach. As a result, we aim to combine observational and 3D synthetic modeling, in an effort reduce any bias in having a single point of observation. Global 3D synthetic seismograms are produced by newly developed and industry standard spectral-element solvers.
+This paper builds on work done by [Igel 2007], %cite igel 2007
+where the question was posed, whether observed peak rotation amplitudes matched with expected values given by the surface wave magnitude equation. At the time, a lack of events lead to a limited study size, however a much larger number of events is now currently available. In this work, we attempt to readdress this question, while also approaching the problem from the unique perspective of deriving magnitude scales for peak amplitudes over distance, in an attempt to similarly quantify the decay characteristics of rotations and translations.
+
+Due to the uniqueness of our instrumental setup, we were restricted to observations at a single station. As a result, Global 3D synthetic simulations were run with the wave propagation code Specfem3D Globe, such that we could compare with synthetics. Numerically generated seismograms for source-receiver pairs similar or identical to the real world observations were created. Outputs of synthetic rotations and translations were fitted with magnitude scales, and their decay characteristics were compared against observations. Real seismic event locations and source parameters were used, as well as real station locations, in order to provide the most comparable synthetic setup to our observations.
 
 %motivation
 %salvus
@@ -68,61 +72,63 @@ With these derived magnitude equations, we are able to compare different observa
 
 
 \subsection{Rotational Ground Motions}
-Rotational ground motions induced by seismic events can currently be measured two ways: by array methods and by direct measurement. %citation
-In the former, spatial gradients are taken, for measurements in an adequately spaced array of translation sensors. In the latter, unique instrument designs allow for direct gradient measurements. %different rotation sensors
+Rotational ground motions induced by seismic events can currently be measured in two ways: by array methods and by direct measurement. %citation
+In the former, spatial gradients are taken, for measurements in an adequately spaced array of translation sensors, in order to derive components of the strain tensor [Spudich ?]. In the latter, unique instrument designs allow for direct gradient measurements [Schreiber? Others?]. %different rotation sensors
 
-
-In this study, data was recorded by the Gro\ss ring (G-ring) [Schreiber 2005, 2006], a 4x4m helium-neon ring laser gyroscope, located in Wettzell, Germany (49.144$^\circ$N, 12.87$^\circ$E). The G-ring operates on the principle of Sagnac interferometry [Stedman, 1997], which relates interference of counter propagating light beams to an absolute rotation through the following equation, 
+In this study, data was recorded by the Gro\ss ring (G-ring) [Schreiber 2005, 2006], a 4x4m helium-neon ring laser gyroscope, located in Wettzell, Germany (49.144$^\circ$N, 12.87$^\circ$E). The G-ring operates on the principle of Sagnac interferometry [Stedman, 1997], which relates interference of counter propagating light beams to absolute rotation rate, through the following equation, 
 
 \begin{equation}\label{eq:sagnac}
 	\delta f = \frac{4A}{\lambda P}\mathbf{n}\cdot \mathbf{\Omega},
 \end{equation}
 
-\noindent where the constants are given by instrument area A, perimeter P and operating light wavelength $\lambda$. Equation \ref{eq:sagnac} relates rotation rate $\Omega$ to a observable beat frequency $\delta f$. 
+\noindent where the constants are given by instrument area A, perimeter P and operating light wavelength $\lambda$. Equation \ref{eq:sagnac} relates an observable beat frequency $\delta f$ to rotation rate $\Omega$.
 
-It is important to note that given stable instrument geometry and lasing, changes to the beat frequency can only be introduced by changes to the inner product of the plane normal {\bfseries n} with $\mathbf{\Omega}$ and through externally induced rotations (i.e. the passing of seismic waves). It has been shown that changes to the inner product, as produced by tilt, are one to two orders of magnitude smaller than rotations produced by passing seismic waves. This gives G the very unique benefit that it is theoretically insensitive to translations, and only sensitive to externally induced rotations.
-
-\subsubsection{Peak correlation coefficient}
-Correlations are a useful measure of similarity between waveforms. It has been shown that for collocated measurements of rotation rate and transverse acceleration, high values for zero lag correlations can be retrieved in time windows centered around surface wave arrivals. %citation
-Peak values of zero lag correlation coefficients are routinely processed for new events measured by G, %citation
-and are used in this study as a filtering tool to remove events with low signal to noise ratio or dissimilar waveforms which may arise due to non-physical effects (i.e. instrumental effects). 
+It is important to note that given stable instrument geometry and lasing, changes to the beat frequency $\delta f$, can only be introduced by changes to the inner product of the plane normal {\bfseries n} with $\mathbf{\Omega}$ (i.e. through instrumental tilt), and through externally induced rotations (i.e. the passing of seismic waves). It has been shown that changes to the inner product as produced by tilt are one to two orders of magnitude smaller than rotations produced by passing seismic waves [Igel? Schreiber?]. This gives G the very unique benefit that it is theoretically insensitive to translations, and only sensitive to externally induced rotations.
 
 \subsubsection{Phase velocity relation}\label{phasevel}
 As shown in [Igel 2005], %citation
-for a simple plane wave assumption, the amplitudes of vertical rotation rate and transverse acceleration can be related through the equation $\frac{\ddot{u}_t}{\Omega_z} = -2c$, where c is the apparent horizontal phase velocity. In this paper the shortest epicentral distances considered are 2$^\circ$. A surface wave moving at a velocity of 4 km/s, with dominant period $T=20$s, covers 80 km per wavelength. As a rule of thumb, if 1$^\circ$ epicentral distance covers ~100 km distance, this gives two wavelengths as the shortest propagation distance. 
+for a simple plane wave assumption, the amplitudes of vertical rotation rate and transverse acceleration can be related through the equation $\frac{\ddot{u}_t}{\Omega_z} = -2c$, where c represents an apparent horizontal phase velocity. This relationship shows that for a sufficient distance from an event to assume a plane wave, rotations are similarly sensitive to the transverse component of translation, represented by surface horizontal waves (either SH or Love waves). It also states that waveforms of transverse acceleration and vertical rotation rate will theoretically be in phase for passing horizontal waves.
+%In this paper the shortest epicentral distances considered are 2$^\circ$. A surface wave moving at a velocity of 4 km/s, with dominant period $T=20$s, covers 80 km per wavelength. As a rule of thumb, if 1$^\circ$ epicentral distance covers ~100 km distance, this gives two wavelengths as the shortest propagation distance. 
+
+\subsubsection{Peak correlation coefficient}
+Correlations are a useful measure of similarity between waveforms. It has been shown previously that for collocated measurements of rotation rate and transverse acceleration, high values for zero lag correlations can be retrieved in time windows centered around surface wave arrivals. %citation
+Peak values of zero lag correlation coefficients are routinely processed for new events measured by the G ring [Salvermoser 2017], %citation
+and are used in this study as a filtering tool to separate out events with low signal to noise ratio or dissimilar waveforms which may arise due to non-physical effects (i.e. instrumental effects). 
+
 
 \subsection{Magnitude scales}
-Amplitude based magnitude scales provide empirically derived relationships between maximum trace amplitudes and distance of an event from a recording site. Magnitude scales provide useful, quick, estimates of relative sizes of earthquakes in a standard fashion. 
+Amplitude based magnitude scales provide empirically derived relationships between maximum trace amplitudes and source-receiver distances. Magnitude scales offer useful and quick estimates of relative sizes of earthquakes in a standard and easily-understandable manner. 
 The International Association of Planets Seismology and Earths Interior (IASPEI) Working Group on Magnitudes has proposed a modified version of the original surface wave magnitude equation proposed by Karnik et al. and Vanek et al., %citation
-which is suitable for use with modern day broadband seismic instruments. 
+which is compatible for use with modern day broadband seismic instruments. 
 
 In this work, we adhere strictly to the standard procedures provided by IASPEI as an outline for defining our own empirical magnitude scales. We use these derived scales as a tool for quantifying amplitude decay for different measured observables, in a standard fashion.
 
 \subsubsection{Standard Procedures}
-The working group on magnitudes' standard procedures states that their revised surface wave magnitude equation for broad-band instruments is,
+The Working Group on Magnitudes' standard procedures states that the revised surface wave magnitude equation for broad-band instruments is given as,
 \begin{equation}\label{eq:mag}
 	M_S^{BB} = log_{10}(V/2\pi) + B\cdot log_{10}(\Delta) + C, 
 \end{equation}
-where the constants $B=1.66, C=0.3$ control amplitude decay and order of magnitude, respectively. The parameter V gives the maximum trace amplitude (in nanometers per second), in the surface wave train, of a seismogram proportional to velocity, measured on the vertical component. 
+where the constants $B=1.66$ and $C=0.3$ control amplitude decay and order of magnitude, respectively. The parameter V should be the maximum trace amplitude (in nanometers per second) in the surface wave train, for a seismogram proportional to velocity, measured on the vertical component. 
 
-Further criteria given by IASPEI posit that the period of the surface wave should lie within 3 s $<$ T $<$ 60 s, while epicentral distances should be between 2$^\circ < \Delta < 160^\circ$. It is further recommended that only shallow focus earthquakes should be considered, as medium to deep events are less capable of generating strong surface waves. Considerations for these parameters are taken from %citation
-Maximum trace amplitudes are described as one half the largest peak to adjacent trough deflection, and associated period are given as two times the temporal difference between peak and adjacent trough. All events and processing steps in this paper adhere to the guidelines given here.
+Further criteria given by IASPEI posit that the period of the surface wave should lie within 3 s $<$ T $<$ 60 s, while epicentral distances should be between 2$^\circ < \Delta < 160^\circ$. It is further recommended that only shallow focus earthquakes should be considered, as medium to deep events are less capable of generating strong surface waves [Borrmann and Bergman 2000]. %citation
+Maximum trace amplitudes are described as one half the largest peak to adjacent trough deflection, and associated period are given as two times the temporal difference between peak and adjacent trough. All events and processing steps in this paper adhere to these guidelines.
 
 \subsubsection{Instrumental proxies for Love and Rayleigh waves}
-As mentioned in the previous section, standard procedures for determining surface wave magnitude pose that amplitudes should be measured on vertical component translation instruments. The reason for this is stated as vertical translation should only be sensitive to Rayleigh waves, whereas vector sums of horizontal components can have influence from both Love and Rayleigh waves. In the same vein, velocity measured on a transverse component should be insensitive to the radial component of Rayleigh waves, showing only sensitivity to Love waves. This is however less commonly done in practice, potentially due to the necessity of prior knowledge of the event backazimuth, and rotation of the horizontal components to the correct backazimuth. 
+Standard procedures for determining surface wave magnitude pose that amplitudes should be measured on vertical component translation instruments. The reason given is that vertical translation should only be sensitive to  the vertical motion caused by Rayleigh waves, whereas vector sums of horizontal components can have influence from both Love and Rayleigh waves. In the same vein, velocity measured on a transverse component should be insensitive to the radial component of Rayleigh waves, showing only sensitivity to Love waves. This is however less commonly done in practice, potentially due to the necessity of prior knowledge of the event backazimuth, and rotation of the horizontal components to the correct backazimuth. 
 
 The G-ring, which is 1) insensitive to translations and 2) proportional in phase and amplitude to transverse acceleration, should also only be sensitive to Love waves in the surface wave train, irrespective of backazimuth.  
-By using each respective instrument or component as a physical filter, we are capable of separating the surface wave train wave field, in order to study the influences of Love waves and Rayleigh waves individually. In this paper we take advantage of this idea by comparing the vertical and transverse components of a three component translation sensor, to the vertical component of rotation in order to understand, by proxy, the wave types they are sensitive to.
+In this study we use the respective instrument or component as a physical filter, in order to separate phases in the surface wave train. This allows us to study the influences of Love waves and Rayleigh waves individually. In this paper we take advantage of this idea by comparing the vertical and transverse components of a three component translation sensor, to the vertical component of rotation in order to understand, by proxy, the wave types they are sensitive to.
 
 \subsubsection{Application of rotations to magnitude scales}
-The surface wave magnitude equation is only defined for peak vertical velocity amplitudes in the surface wave train. In order to give a fair comparison using derived magnitude scales, a complementary rotation parameter to vertical velocity is necessary. In Section \ref{phasevel}, an equation is given that relates rotation rates $\Omega$ with accelerations $\ddot{u}$. It would make the most sense, then, to take derivatives of both to give us relationships between rotation $\omega$ and velocity $\dot{u}$. Without precedence however, we present in this paper both rotation and rotation rate together, for completeness.
-
+The surface wave magnitude equation is only defined for peak vertical velocity amplitudes in the surface wave train. In order to give a fair comparison using derived magnitude scales, a complementary rotation parameter to vertical velocity is necessary. In Section \ref{phasevel}, an equation is given that relates rotation rates $\Omega$ with accelerations $\ddot{u}$. It would make the most sense then, to compare and velocities with rotations $\omega$, if one integrates both sides. Without precedence and for completeness, however, we present here both rotations and rotation rates.
 
 \section{Event choice}
-The G-ring has been continuously recording at its current resolution since May, 2009, %citation?
-and the time range for events used in this study spans from June, 2009 to September, 2016. A general catalog was fetched from the Global Centroid Moment Tensor, %citation 
-and events were sorted by acceptable distance and depth criteria. Only events with moment magnitude values $6 \le M_w < 8$ were considered, as surface wave magnitude and moment magnitude are approximately equal in this range; %citat
-we impose the restriction that our derived magnitudes should be as close to given surface wave magnitudes as possible, this insures that our derived scales do not stray far from established values. Events were filtered by peak correlation coefficient $0.7 \le$ PCC $\le 1.0$, to insure well behaved waveform data without the need to inspect individual waveforms. These bounds narrowed the catalog down to less than 500 events in the given time period. Each event was appropriately filtered and processed (Section \ref{sec:dataproc}), and waveforms were individually inspected. Waveforms that exhibited anomalous behavior (i.e. unexpected high amplitude peaks outside the surface wave train, high signal-to-noise ratio etc.) were rejected. This left a final event catalog consisting of 243 events.
+The G-ring has been continuously recording at its current resolution since May, 2009. %citation?
+The time range for events used in this study spans from June, 2009 to September, 2016. A general catalog was fetched from the Harvard Global Centroid Moment Tensor [Ekstr\"om et al. 2012 ?], %citation 
+and events were sorted by acceptable distance and depth criteria. Only events with moment magnitude values $6 \le M_{w} < 8$ were considered, as surface wave magnitude and moment magnitude are approximately equal in this range [Shearer 2009]; %citat
+we impose the restriction that our derived magnitudes should be as close to the given surface wave magnitudes as possible, this insures that our derived scales do not stray far from established values. 
+
+Events were filtered by peak correlation coefficient $0.7 \le$ PCC $\le 1.0$, to ensure well behaved waveform. These bounds narrowed the catalog down to less than 500 events in the given time period. Each event was appropriately filtered and processed (Section \ref{sec:dataproc}), and waveforms were individually inspected. Waveforms that exhibited anomalous behavior (i.e. unexpected high amplitude peaks outside the surface wave train, high signal-to-noise ratio etc.) were rejected. A final event catalog of 243 events was reached.
 
 \section{Methods}
 \subsection{Data Processing}\label{sec:dataproc}
@@ -162,6 +168,13 @@ Solving for B and C, we create an empirical magnitude scale that best describes 
 \subsubsection{Confidence intervals}
 A 95\% confidence interval was constructed for each parameter of the vector $\mathbf{m}$, which gives a measure of error by providing bounds where 95\% of repeated measurements would lie. Confidence intervals were constructed by the variance of estimates of the jth parameter of m, by $\hat{m_j} \pm c \sqrt{\hat{var}(\hat{m_j})}$, where the hat denotes an estimate and the value of c is given as 1.96 for a 95\% confidence interval.
 
+\section{Synthetic seismograms}
+Because the G-ring is a unique instrumental setup, it is not currently possible to draw on other catalogs of rotational ground motion. One possibility to achieve more observations is through array derived rotations as a substitute for direct rotation measurements. A lack of long-term arrays with the optimal station spacing however,  limits this option. In lieu of this, we turn to waveform modelling to generate synthetic seismograms, in order to recreate our experimental setup and provide a comparable set of observations.
+
+The wave propagation code Specfem3D Globe was employed for this purpose. A realistic global model featuring 3D crust and mantle models was used. Real world effects that might influence the the travel and amplitudes of surface waves at periods close to 20 seconds were also included: ocean loading, ellipticity, topography, self gravitation, Earth's rotation and attenuation. Event locations and moment tensors were taken from a handful of real seismic events present in the observation catalogs, so as to provide comparable source receiver pairings. A corner frequency was set to 10 s, which limited the number of events we were capable of propagating. To generate more observations, many stations, both real and synthetic, were included. Real stations were set to the locations of the Global Seismic Network (GSN) with inclusion of the G-ring location of Wettzell, and the observatory station F\"urstenfeldbruck. Synthetic stations were generated on an event by event basis, but based on real station location, either temporary or permanent. Most synthetic stations were placed close to the source, for better coverage at smaller epicentral distances, something that was unfortunately lacking in the observational data. 
+
+The direct outputs of Specfem3D were adjusted from the standard to give displacement in the transverse, radial and vertical components, as well as a direct output of rotation in the same coordinate system. These traces were differentiated to velocity and rotation rate, respectively.  A workflow identical to that used for observations was employed to calculate peak trace amplitudes. A magnitude equation was then fit to the data.
+
 \section{Results}
 \subsection{Derived magnitude scales}
 For rotations and translations, decay characteristics were derived by solving for constants B and C in the magnitude equation. These values are presented in a Table \ref{tab:scales}. Since the constant C is dependent on the order of magnitude of the units, it is difficult to compare this between the different observation types. The value of B, however, controls the decay of amplitude with distance, and allows us to fairly compare rotations and translations. To check the results, the same processing was performed on observations taken at the geophysical observatory in F\"urstenfeldbruck, Germany (48.163$^\circ$N, 11.275$^\circ$E), which is located roughly 200 km to the south-west of Wettzell. Though a smaller subset of events was used due to data availability, the results confirmed those given by Wettzell by returning derived constants B and C within 1\%.
@@ -189,12 +202,6 @@ Consulting Table \ref{tab:scales}, rotation has the closest decay constant B to 
 
 \subsection{Expected amplitudes}
 
-\subsection{Synthetic comparison}
-Since G is a unique instrument, in terms of operating principle as well as longevity of continuous measurement, it is not possible to compare results to other rotation instruments. One possibility to achieve more observations is through array derived rotations, which could be used as a substitute for direct rotation measurements. A lack of long-term arrays with the correct station spacing, however, severely limits the number of observations available. In lieu of this, numerical approximations were used to generate synthetic seismograms, in order to recreate the experimental setup and provide a second set of observations with which to compare our results.
-
-The spectral element code Salvus was employed on a 3D globe with a 3D crustal model in order to achieve realistic surface wave amplitudes through scattering and attenuation. The real world events from observations were used as synthetic sources. Station locations were matched, and for a larger catalog of synthetic observations, all Global Seismic Network (GSN) stations were implemented into the model. A dominant period of 30s was chosen for computational efficiency, while still remaining close to the dominant periods observed. Simulations were propagated long enough to reach all stations and the same processing steps outlined in Section \ref{sec:dataproc} were performed on the synthetics.
-
-As yet another form of comparison, synthetics were also generated with the spectral element code Specfem3D with the same synthetic experiemental setup.
 
 \subsection{Synthetic results}
 
