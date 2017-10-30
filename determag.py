@@ -178,8 +178,7 @@ def event_info_data(event, station):
     lonter = origin.longitude
     startev = origin.time
     depth = origin.depth * 0.001  # Depth in km
-    baz = gps2dist_azimuth(latter, lonter, rt[0].stats.coordinates.latitude,
-                          rt[0].stats.coordinates.longitude)
+    
 
     if station == 'RLAS':
         source = ['http://eida.bgr.de', 
@@ -217,7 +216,8 @@ def event_info_data(event, station):
             ca.stats['sampling_rate'] = 20.
 
     # theoretical event backazimuth and distance
-
+    baz = gps2dist_azimuth(latter, lonter, rt[0].stats.coordinates.latitude,
+                          rt[0].stats.coordinates.longitude)
     
     return latter, lonter, depth, startev, rt, ac, baz, net_r, net_s,\
         chan1, chan2, chan3, chan4, sta_r, sta_s, loc_r, loc_s, srcRT, srcTR
@@ -900,96 +900,97 @@ success_counter = fail_counter = already_processed = 0
 bars = '='*79
 error_list = []
 for event in cat:
-    try:
-        # print event divider
-        event_information = str(event).split('\n')[0][7:]
-        flinn_engdahl = event.event_descriptions[0]['text'].upper()
-        print('{}\n{}\n{}\n{}'.format(
-                                bars,flinn_engdahl,event_information,bars))
+    # try:
+    # print event divider
+    event_information = str(event).split('\n')[0][7:]
+    flinn_engdahl = event.event_descriptions[0]['text'].upper()
+    print('{}\n{}\n{}\n{}'.format(
+                            bars,flinn_engdahl,event_information,bars))
 
-        # create tags for standard filenaming
-        # magnitude, always keep at 3 characters long, fill w/ 0's if not
-        mag_tag = '{:0^4}'.format(str(event.magnitudes[0]['mag']))
+    # create tags for standard filenaming
+    # magnitude, always keep at 3 characters long, fill w/ 0's if not
+    mag_tag = '{:0^4}'.format(str(event.magnitudes[0]['mag']))
 
-        # Flinn Engdahl region, i.e. SOUTHEAST_OF_HONSHU_JAPAN
-        substitutions = [(', ', '_'),(' ','_')]
-        for search, replace in substitutions:
-            flinn_engdahl = flinn_engdahl.replace(search,replace)
+    # Flinn Engdahl region, i.e. SOUTHEAST_OF_HONSHU_JAPAN
+    substitutions = [(', ', '_'),(' ','_')]
+    for search, replace in substitutions:
+        flinn_engdahl = flinn_engdahl.replace(search,replace)
 
-        # remove '.' from end of region name if necessary (i.e. _P.N.G.)
-        if flinn_engdahl[-1] == '.':
-            flinn_engdahl = flinn_engdahl[:-1]
+    # remove '.' from end of region name if necessary (i.e. _P.N.G.)
+    if flinn_engdahl[-1] == '.':
+        flinn_engdahl = flinn_engdahl[:-1]
 
-        # ISO861 Time Format, i.e. '2017-09-23T125302Z'
-        orig = event.preferred_origin() or event.origins[0]
-        time_tag = orig['time'].isoformat()[:19].replace(':','')+'Z'
+    # ISO861 Time Format, i.e. '2017-09-23T125302Z'
+    orig = event.preferred_origin() or event.origins[0]
+    time_tag = orig['time'].isoformat()[:19].replace(':','')+'Z'
 
-        # i.e. 'GCMT_2017-09-23T125302_6.05_OAXACA_MEXICO'
-        tag_name = '_'.join((station,time_tag,mag_tag,flinn_engdahl))
+    # i.e. 'GCMT_2017-09-23T125302_6.05_OAXACA_MEXICO'
+    tag_name = '_'.join((station,time_tag,mag_tag,flinn_engdahl))
 
-        xml_tag = os.path.join(output_path,'xmls',tag_name + '.xml')
-        # if os.path.exists(xml_tag):
-        #     print('Already Processed')
-        #     continue
+    xml_tag = os.path.join(output_path,'xmls',tag_name + '.xml')
+    # if os.path.exists(xml_tag):
+    #     print('Already Processed')
+    #     continue
+    
+    # run processing function
+    # import pdb;pdb.set_trace()
+    # try:
+    latter, lonter, depth, startev, rt, ac, baz, net_r, net_s,\
+    chan1, chan2, chan3, chan4, sta_r, sta_s, loc_r, loc_s, srcRT, srcTR = \
+                                           event_info_data(event, station)
+    
+    rt,ac,sec,cutoff, = resample(is_local(baz),baz,rt,ac)
+
+    rt,ac = remove_instr_resp(rt,ac,station,startev)
+
+    print("Getting arrival times...")
+    init_sec = startev - ac[0].stats.starttime
+    # When the event starts in the fetched data
+    arriv_p,arriv_s = ps_arrival_times(baz[0],depth,init_sec)
+
+    min_pw,max_pw,min_sw,max_sw,min_lwi,max_lwi,min_lwf,max_lwf =\
+                    time_windows(baz,arriv_p,arriv_s,init_sec,is_local(baz))
+    
+    print("Finding peak correlations...")
+    PCC = peak_correlation(ac,rt,sec,station)
+
+    print("Processing data and saving figures...")
+    event_ID = event.resource_id.id[-7:] 
+    peak2troughs,periods,zero_crossings_abs = process_save(
+                                        ac,rt,baz,cutoff,station,
+                                        is_local(baz),min_lwi,max_lwf,
+                                        output_path,tag_name,event_ID)
+
+    print("Saving data...")
+    store_info_json(tag_name,output_path,ac,rt,baz,peak2troughs,
+                    periods,zero_crossings_abs,station,startev,event,
+                    event_source,depth,PCC)
+    event.write(xml_tag,format='QUAKEML')
+    
+    success_counter += 1
         
-        # run processing function
-        try:
-            latter, lonter, depth, startev, rt, ac, baz, net_r, net_s,\
-            chan1, chan2, chan3, chan4, sta_r, sta_s, loc_r, loc_s, srcRT, srcTR = \
-                                                   event_info_data(event, station)
-            
-            rt,ac,sec,cutoff, = resample(is_local(baz),baz,rt,ac)
-
-            rt,ac = remove_instr_resp(rt,ac,station,startev)
-
-            print("Getting arrival times...")
-            init_sec = startev - ac[0].stats.starttime
-            # When the event starts in the fetched data
-            arriv_p,arriv_s = ps_arrival_times(baz[0],depth,init_sec)
-
-            min_pw,max_pw,min_sw,max_sw,min_lwi,max_lwi,min_lwf,max_lwf =\
-                            time_windows(baz,arriv_p,arriv_s,init_sec,is_local(baz))
-            
-            print("Finding peak correlations...")
-            PCC = peak_correlation(ac,rt,sec,station)
-
-            print("Processing data and saving figures...")
-            event_ID = event.resource_id.id[-7:] 
-            peak2troughs,periods,zero_crossings_abs = process_save(
-                                                ac,rt,baz,cutoff,station,
-                                                is_local(baz),min_lwi,max_lwf,
-                                                output_path,tag_name,event_ID)
-
-            print("Saving data...")
-            store_info_json(tag_name,output_path,ac,rt,baz,peak2troughs,
-                            periods,zero_crossings_abs,station,startev,event,
-                            event_source,depth,PCC)
-            event.write(xml_tag,format='QUAKEML')
-            
-            success_counter += 1
-        
-        # if any error
-        except Exception as e:
-            fail_counter += 1
-            print(e)
-            error_list.append(tag_name)
+        # # if any error
+        # except Exception as e:
+        #     fail_counter += 1
+        #     print(e)
+        #     error_list.append(tag_name)
        
-        # if keyboard interrupt, quit
-        except KeyboardInterrupt:
-            fail_counter += 1
-            sys.exit()
+        # # if keyboard interrupt, quit
+        # except KeyboardInterrupt:
+        #     fail_counter += 1
+        #     sys.exit()
 
 
     # if any error
-    except Exception as e:
-        fail_counter += 1
-        print(e)
-        error_list.append(tag_name)
+    # except Exception as e:
+    #     fail_counter += 1
+    #     print(e)
+    #     error_list.append(tag_name)
    
-    # if keyboard interrupt, quit
-    except KeyboardInterrupt:
-        fail_counter += 1
-        sys.exit()
+    # # if keyboard interrupt, quit
+    # except KeyboardInterrupt:
+    #     fail_counter += 1
+    #     sys.exit()
 
 # print end message
 print('{}\n'.format('_'*79))
