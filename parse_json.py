@@ -13,6 +13,7 @@ filenames = glob.glob(file_path + 'json/*.json')
 
 
 
+
 # ============================ FOR OBSERVATIONS ==============================
 # command line argument
 # choice = sys.argv[1].upper()

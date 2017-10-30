@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  27 OCT 2017 22:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  28 OCT 2017 18:52
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -90,7 +90,11 @@ LaTeX Info: Redefining \] on input line 2666.
 )
 \c@theorem=\count100
 
-(./magnitudescale.aux)
+(./magnitudescale.aux
+
+LaTeX Warning: Label `tab:scales' multiply defined.
+
+)
 \openout1 = `magnitudescale.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 36.
@@ -106,8 +110,7 @@ LaTeX Font Info:    ... okay on input line 36.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 36.
 LaTeX Font Info:    ... okay on input line 36.
 LaTeX Font Info:    Try loading font information for OT1+ptm on input line 36.
-
-(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+ (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
@@ -135,30 +138,19 @@ Underfull \hbox (badness 1014) in paragraph at lines 100--103
 e-
  []
 
+[2] [3] [4] [5] (./magnitudescale.aux)
 
-Underfull \vbox (badness 1221) has occurred while \output is active []
-
- [2]
-[3]
-
-LaTeX Warning: Reference `authors' on page 4 undefined on input line 298.
-
-
-LaTeX Warning: Reference `editors' on page 4 undefined on input line 303.
-
-[4] [5] (./magnitudescale.aux)
-
-LaTeX Warning: There were undefined references.
+LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 1106 strings out of 493089
- 11823 string characters out of 6134842
- 80144 words of memory out of 5000000
- 4623 multiletter control sequences out of 15000+600000
+ 1104 strings out of 493089
+ 11805 string characters out of 6134842
+ 84144 words of memory out of 5000000
+ 4621 multiletter control sequences out of 15000+600000
  31452 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 31i,15n,20p,1380b,323s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 31i,15n,20p,1437b,323s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/tex
 live/2015/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/
@@ -179,7 +171,7 @@ s/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2015/texmf-dist/fonts/
 type1/urw/times/utmb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/
 times/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/times/utmr
 i8a.pfb>
-Output written on magnitudescale.pdf (5 pages, 206511 bytes).
+Output written on magnitudescale.pdf (5 pages, 208484 bytes).
 PDF statistics:
  97 PDF objects out of 1000 (max. 8388607)
  70 compressed objects within 1 object stream

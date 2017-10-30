@@ -178,6 +178,8 @@ def event_info_data(event, station):
     lonter = origin.longitude
     startev = origin.time
     depth = origin.depth * 0.001  # Depth in km
+    baz = gps2dist_azimuth(latter, lonter, rt[0].stats.coordinates.latitude,
+                          rt[0].stats.coordinates.longitude)
 
     if station == 'RLAS':
         source = ['http://eida.bgr.de', 
@@ -215,8 +217,7 @@ def event_info_data(event, station):
             ca.stats['sampling_rate'] = 20.
 
     # theoretical event backazimuth and distance
-    baz = gps2dist_azimuth(latter, lonter, rt[0].stats.coordinates.latitude,
-                          rt[0].stats.coordinates.longitude)
+
     
     return latter, lonter, depth, startev, rt, ac, baz, net_r, net_s,\
         chan1, chan2, chan3, chan4, sta_r, sta_s, loc_r, loc_s, srcRT, srcTR
@@ -289,58 +290,6 @@ def resample(is_local, baz, rt, ac):
         ac.decimate(factor=2)
         sec = 3
         cutoff = 4.0  # close events
-
-    return rt, ac, sec, cutoff
-
-def resample(is_local, baz, rt, ac):
-    """
-    Resamples signal according to sampling rates and cut-off frequencies
-    dependent on the location of the event (5 sec and 2Hz for local events,
-    60 sec and 1 Hz for non-local events).
-
-    :type is_local: str
-    :param is_local: Self-explaining string for event distance.
-    :type baz: tuple
-    :param baz: Great circle distance in m, azimuth A->B in degrees,
-        azimuth B->A in degrees.
-    :type rt: :class: `~obspy.core.stream.Stream`
-    :param rt: Rotational signal from ringlaser.
-    :type ac: :class: `~obspy.core.stream.Stream`
-    :param ac: Three component broadband station signal.
-    :rtype rt: :class: `~obspy.core.stream.Stream`
-    :return rt: Decimated rotational signal from ringlaser.
-    :rtype ac: :class: `~obspy.core.stream.Stream`
-    :return ac: Decimated three component broadband station signal.
-    :rtype sec: int
-    :return sec: Sampling rate.
-    :rtype cutoff: float
-    :return cutoff: Cut-off frequency for the lowpass filter.
-    :rtype cutoff_pc: float
-    :return cutoff_pc: Cut-off frequency for the highpass filter in P-coda.
-
-    """
-
-    cutoff_pc = 0.5  # Cut-off frequency for the highpass filter in the P-coda
-    if is_local == 'local':
-        for trr in (rt + ac):
-            trr.data = trr.data[0: int(1800 * rt[0].stats.sampling_rate)]
-        rt.decimate(factor=2)
-        ac.decimate(factor=2)
-        sec = 5
-        cutoff = 2.0  # Cut-off freq for the lowpass filter for local events
-    elif is_local == 'non-local':
-        rt.decimate(factor=4)
-        ac.decimate(factor=4)
-        sec = 120
-        cutoff = 1.0  # Cut-off freq for the lowpass filter for non-loc events
-    elif is_local == 'close':
-        for trr in (rt + ac):
-            trr.data = trr.data[0: int(1800 * rt[0].stats.sampling_rate)]
-
-        rt.decimate(factor=2)
-        ac.decimate(factor=2)
-        sec = 3
-        cutoff = 4.0  # Cut-off freq for the lowpass filter for close events
 
     return rt, ac, sec, cutoff
 
@@ -979,9 +928,9 @@ for event in cat:
         tag_name = '_'.join((station,time_tag,mag_tag,flinn_engdahl))
 
         xml_tag = os.path.join(output_path,'xmls',tag_name + '.xml')
-        if os.path.exists(xml_tag):
-            print('Already Processed')
-            continue
+        # if os.path.exists(xml_tag):
+        #     print('Already Processed')
+        #     continue
         
         # run processing function
         try:
