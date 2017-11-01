@@ -27,6 +27,7 @@ import argparse
 import datetime
 import numpy as np
 import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pylab as plt
 from obspy.core import read
 from obspy.taup import TauPyModel
@@ -147,7 +148,7 @@ def event_info_data(event, station):
     the event latitude, longitude, depth, and origin time.
     Ringlaser (RLAS) and broadband signals (WET) are received from the
     download_data function.
-    The great circle distance (in m and °) between event location and station
+    The great circle distance (in m and ) between event location and station
     in Wetzell, as well as the theoretical backazimuth are computed.
 
     :type event: :class: `~obspy.core.event.Event`
