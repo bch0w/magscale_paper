@@ -1,0 +1,140 @@
+ PDE 2011 09 16 19 26 41.00   40.2700  142.7800  35.0 6.7 6.7 NEAR EAST COAST OF HONSHU, JAPAN
+event name:   C201109161926A
+time shift:           9.6000
+half duration:        5.3000
+latitude:            40.2000
+longitude:          143.2200
+depth:               22.5000
+Mrr:            7.140000E+25
+Mtt:           -1.000000E+23
+Mpp:           -7.120000E+25
+Mrt:            4.350000E+25
+Mrp:            9.380000E+25
+Mtp:           -1.340000E+25
+
+ PDE 2010 07 18 13 34 59.30   -5.9300  150.5900  35.0 7.3 7.3 NEW BRITAIN REGION, P.N.G.
+event name:   C201007181335A
+time shift:          13.8000
+half duration:       11.2000
+latitude:            -6.2200
+longitude:          150.3300
+depth:               36.7000
+Mrr:            1.020000E+27
+Mtt:           -1.030000E+27
+Mpp:            6.000000E+24
+Mrt:            6.260000E+26
+Mrp:           -1.000000E+25
+Mtp:           -1.540000E+26
+
+ PDE 2013 01 05 08 58 19.30   55.3900 -134.6500  10.0 7.5 7.7 SOUTHEASTERN ALASKA
+event name:   C201301050858A
+time shift:          12.2000
+half duration:       14.2000
+latitude:            55.6900
+longitude:         -134.9700
+depth:               13.8000
+Mrr:            6.000000E+24
+Mtt:           -1.700000E+27
+Mpp:            1.690000E+27
+Mrt:            1.090000E+27
+Mrp:            5.960000E+26
+Mtp:            1.290000E+27
+
+ PDE 2013 04 16 10 44 20.20   28.0300   62.0000  80.0 7.7 7.7 SOUTHWESTERN PAKISTAN
+event name:   C201304161044A
+time shift:          12.0000
+half duration:       18.1000
+latitude:            27.8900
+longitude:           62.2100
+depth:               50.8000
+Mrr:           -4.320000E+27
+Mtt:            4.280000E+27
+Mpp:            4.000000E+25
+Mrt:            1.400000E+27
+Mrp:            1.390000E+27
+Mtp:            1.950000E+27
+
+ PDE 2013 04 19 19 58 40.20   49.9700  157.6500  15.0 6.1 6.1 EAST OF KURIL ISLANDS
+event name:   C201304191958A
+time shift:           5.4000
+half duration:        2.6000
+latitude:            49.9200
+longitude:          157.9500
+depth:               17.8000
+Mrr:            1.260000E+25
+Mtt:           -3.860000E+24
+Mpp:           -8.710000E+24
+Mrt:            4.780000E+24
+Mrp:            7.960000E+24
+Mtp:           -6.060000E+24
+
+ PDE 2015 02 13 18 59 12.20   52.6500  -31.9000  16.7 7.1 7.1 NORTHERN MID-ATLANTIC RIDGE
+event name:   C201502131859A
+time shift:          15.8000
+half duration:        8.4000
+latitude:            52.7000
+longitude:          -32.7400
+depth:               25.2000
+Mrr:           -3.790000E+25
+Mtt:           -1.030000E+26
+Mpp:            1.410000E+26
+Mrt:            8.910000E+25
+Mrp:           -5.200000E+24
+Mtp:           -4.910000E+26
+
+ PDE 2015 04 25 06 11 26.30   28.1500   84.7100  15.0 7.9 7.8 NEPAL
+event name:   C201504250611A
+time shift:          32.3000
+half duration:       21.3000
+latitude:            27.9100
+longitude:           85.3300
+depth:               12.0000
+Mrr:            1.760000E+27
+Mtt:           -1.820000E+27
+Mpp:            5.800000E+25
+Mrt:            8.040000E+27
+Mrp:           -1.510000E+27
+Mtp:            4.750000E+26
+
+ PDE 2015 09 13 08 14 12.20   25.1400 -109.4300  10.0 6.6 6.7 GULF OF CALIFORNIA
+event name:   C201509130814A
+time shift:           4.2000
+half duration:        4.9000
+latitude:            25.0900
+longitude:         -109.5300
+depth:               14.9000
+Mrr:           -3.300000E+24
+Mtt:           -9.610000E+25
+Mpp:            9.940000E+25
+Mrt:           -1.500000E+24
+Mrp:           -1.700000E+24
+Mtp:           -1.630000E+25
+
+ PDE 2015 09 16 23 18 41.80  -31.5600  -71.4300  28.4 7.1 7.0 NEAR COAST OF CENTRAL CHILE
+event name:   S201509162318A
+time shift:          10.3000
+half duration:        8.7000
+latitude:           -31.7900
+longitude:          -71.9500
+depth:               35.7000
+Mrr:            5.130000E+26
+Mtt:           -6.370000E+25
+Mpp:           -4.490000E+26
+Mrt:            2.650000E+25
+Mrp:           -2.850000E+26
+Mtp:            6.410000E+25
+
+ PDE 2016 01 25 04 22 02.70   35.6500   -3.6800  12.0 6.4 6.3 STRAIT OF GIBRALTAR
+event name:   C201601250422A
+time shift:           3.7000
+half duration:        3.8000
+latitude:            35.5900
+longitude:           -3.6000
+depth:               12.0000
+Mrr:            1.610000E+24
+Mtt:           -3.950000E+25
+Mpp:            3.780000E+25
+Mrt:            2.720000E+24
+Mrp:           -1.920000E+25
+Mtp:           -1.860000E+25
+

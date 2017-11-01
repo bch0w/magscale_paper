@@ -9,5 +9,7 @@ misc/
 !misc/*.py
 synthetics/salvus/
 synthetics/specfem/*
-#!synthetics/specfem/input/*.*
+!synthetics/specfem/input/
+synthetics/specfem/input/*/
+
 !synthetics/specfem/*.py
