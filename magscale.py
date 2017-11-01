@@ -16,7 +16,9 @@ import matplotlib.pyplot as plt
 from scipy import optimize
 from numpy.linalg import inv
 from obspy import UTCDateTime
+from mpl_toolkits.basemap import Basemap
 from obspy.geodetics.base import locations2degrees
+
 
 # ignoring polyval rank warning - look into
 warnings.simplefilter('ignore', np.RankWarning)
@@ -141,25 +143,6 @@ def loglog_misfit(dist,amps,magnis,check_ll):
 
         return polly[0],polly[1]
 
-def output2txt(sta):
-    """Output to txt file, manually choose files you want to output
-    :type fid: string
-    :param fid: file identifier
-    """
-    if sta == 'WET':
-        with open('wet_events.csv','w') as f:
-            f.write('ID\tMag\tDs\tRR\tZV\tTV\n')
-            for i in range(len(ID)):
-                f.write('{}\t{}\t{}\t{}\t{}\t{}\n'.format(
-                            ID[i],round(mags[i],3),round(ds[i],3),
-                            round(Arr[i],3),round(Azv[i],3),round(Atv[i],3)))
-    elif sta == 'FUR':
-        with open('fur_events.csv','w') as f:
-            f.write('ID\tMag\tDs\tZV\tTV\n')
-            for i in range(len(ID)):
-                f.write('{}\t{}\t{}\t{}\t{}\n'.format(
-                            ID[i],round(mags[i],3),round(ds[i],3),
-                            round(Azv[i],3),round(Atv[i],3)))
 
 def leasquares(amplitudes,distances,magnitudes):
     """ numpy matrices are confusing so to get into the correct order we need to 
@@ -281,6 +264,52 @@ def plot_histograms():
 
     plt.show()
 
+def plot_map(lons,lats,mags,depths):
+    """plot events on a map, no shooting 
+    """
+    # draw base map
+    plt.figure(figsize=(18, 9))
+    map = Basemap(projection='eck4', lon_0=10,lat_0=30, resolution='l')
+    map.drawmeridians(np.arange(0, 360, 30))
+    map.drawparallels(np.arange(-90, 90, 30))
+    map.drawcoastlines(linewidth=0.25)
+    map.drawcountries(linewidth=0.25)
+    map.fillcontinents(color='coral', lake_color='lightblue')
+    map.drawmapboundary(fill_color='lightblue')
+    
+    # event lat and lon in map x y
+    lat_coo,lon_coo = [],[]
+    for i in range(0,len(lats)):
+        lon_c, lat_c = map(lons[i],lats[i])
+        lat_coo.append(lat_c)
+        lon_coo.append(lon_c)
+
+    # station lat and lon
+    statlon, statlat = map(12.846, 49.145)
+    map.scatter(statlon, statlat, 200, color='w', marker="*",
+                        edgecolor="k", zorder=100)
+
+    # use magnitudes for size
+    for i in range(0,len(mags)): 
+        mags[i] = (mags[i]**5)/50
+
+    sct = map.scatter(lon_coo, lat_coo, s=mags, c=depths, marker=".",
+                        edgecolor="k", zorder=100, cmap='viridis')
+    
+    cbar = map.colorbar(sct,location='bottom',pad="5%")
+
+    # plot markers to show relative event size
+    map.scatter(3.16202E6,9.41777E6,s=(6**5)/50,c='r',marker='.',edgecolor='k')
+    map.scatter(3.16202E6,8.95919E6,s=(7**5)/50,c='c',marker='.',edgecolor='k')
+    map.scatter(3.16202E6,8.46062E6,s=(8**5)/50,c='m',marker='.',edgecolor='k')
+    plt.text(3.5E6,9.41777E6-0.2E6,'M6',fontsize=10)
+    plt.text(3.5E6,8.95919E6-0.2E6,'M7',fontsize=10)
+    plt.text(3.5E6,8.46062E6-0.2E6,'M8',fontsize=10)
+
+    cbar.ax.set_xlabel('Depth (km)')
+
+    plt.show()
+
 # =================================== MAIN ====================================
 parser = argparse.ArgumentParser(description='Magscale script.')
 parser.add_argument('--scale',help='scale choice: rotation [rt], \
@@ -293,8 +322,8 @@ parser.add_argument('--log',help='log or loglog plot (default: log)',type=str,
 parser.add_argument('--mag',help='magnitude choice for CI (default: 6)',
     type=int,default=6)
 
+# parse out arguments
 args = parser.parse_args()
-
 pick = args.scale
 if not pick: 
     parser.print_help()
@@ -304,67 +333,46 @@ log = args.log
 mag = args.mag
 
 # change rejected events to station specific?
-rejected_events = np.load('./output/rejected_events.npy')
+reject_events = np.load('./output/reject_events.npz')
+
+# make lists, though not all are used
+event_IDs,ev_lats,ev_lons,sta_lats,sta_lons,pccs,file_IDs,depths,\
+mags,Z_vel_max,T_vel_max,Z_rr_max,Z_rt_max,ds = [[] for _ in range(14)]
 
 # load in data as numpy arrays, convert to lists of floats, calculate distance
 if sta == 'wet':
-    path = './output/wet/jsons/'
+    path = './output/processed_events/jsons/'
     filenames = glob.glob(path + '*')    
 
-    ID,ev_lats,ev_lons,mags,Z_vel_max,T_vel_max,Z_rr_max,Z_rt_max,ds = \
-                                                        [[] for _ in range(9)]
-    # rt_Tmax, rr_Tmax, zv_Tmax, tv_Tmax = [[] for _ in range(4)] 
     for file in filenames:
         with open(file) as f:
             data = json.load(f)
-            file_id = data['event_id'][-7:]
-            if file_id in rejected_events:
+            event_id = data['event_id'][-7:]
+            if event_id in reject_events[sta]:
                 continue
-            ID.append(ID)
+            file_IDs.append(file)
+            event_IDs.append(event_id)
             ev_lats.append(data['event_latitude'])
             ev_lons.append(data['event_longitude'])
+            depths.append(data['depth_in_km'])
             mags.append(data['magnitude'])
-            Z_vel_max.append(data['peak_filtered_vertical_vel'])
-            T_vel_max.append(data['peak_filtered_transverse_vel'])
-            Z_rr_max.append(data['peak_filtered_rotation_rate'])
-            Z_rt_max.append(data['peak_filtered_rotation'])
-            # rr_Tmax.append(data['dominant_period_rotation_rate'])
-            # rt_Tmax.append(data['dominant_period_rotation'])
-            # zv_Tmax.append(data['dominant_period_vertical_vel'])
-            # tv_Tmax.append(data['dominant_period_transverse_vel'])
+            pccs.append(data['peak_correlation_coefficient'])
+            Z_vel_max.append(data['vertical_velocity']['peak_amplitude'])
+            T_vel_max.append(data['transverse_velocity']['peak_amplitude'])
+            Z_rr_max.append(data['vertical_rotation_rate']['peak_amplitude'])
+            Z_rt_max.append(data['vertical_rotation']['peak_amplitude'])
+            # zv_Tmax.append(data['vertical_vel']['dominant_period'])
+            # tv_Tmax.append(data['transverse_vel']['dominant_period'])
+            # rr_Tmax.append(data['vertical_rotation_rate']['dominant_period'])
+            # rt_Tmax.append(data['vertical_rotation']['dominant_period'])
+
 
     sta_lat = float(data['station_latitude'])
     sta_lon = float(data['station_longitude'])
     ds = epidist(ev_lats,ev_lons,lat2=sta_lat,lon2=sta_lon)
-
-# same as above but for FFB events
-elif sta == 'fur':
-    path = './output/fur/jsons/'
-    filenames = glob.glob(path + '*')    
-
-    ID,ev_lats,ev_lons,mags,Z_vel_max,T_vel_max,ds = [[] for _ in range(7)] 
-    for file in filenames:
-        with open(file) as f:
-            data = json.load(f)
-            file_id = data['event_id'][-7:]
-            if file_id in rejected_events:
-                continue
-            ID.append(ID)
-            ev_lats.append(data['event_latitude'])
-            ev_lons.append(data['event_longitude'])
-            mags.append(data['magnitude'])
-            Z_vel_max.append(data['peak_filtered_vertical_vel'])
-            T_vel_max.append(data['peak_filtered_transverse_vel'])
-
-    sta_lat = float(data['station_latitude'])
-    sta_lon = float(data['station_longitude'])
-    ds = epidist(ev_lats,ev_lons,lat2=sta_lat,lon2=sta_lon)
-
 
 # for synthetics made by specfem
 elif sta == 'specfem':
-    ID,sta_lats,sta_lons,Z_vel_max,T_vel_max,Z_rr_max,Z_rt_max,ds = \
-                                                        [[] for _ in range(8)] 
     path = './specfem/output/jsons/'
     filenames = glob.glob(path + '*')
     for file in filenames:
@@ -419,6 +427,39 @@ m0,m1,GTGi,nxp = leasquares(psurf,ds,mags)
 m0n,m0p,m1n,m1p,residuals,resi_sq = confidence(psurf,mags,ds,GTGi,nxp,m0,m1)
 
 
+# ========================== Plot events on map ================================
+if sta != 'specfem':
+    # zip together magnitudes and pcc's, sort by mags
+    zipped_lists = zip(mags,pccs,event_IDs,file_IDs,ev_lats,ev_lons,depths)
+    sorted_lists = sorted(zipped_lists,key=lambda x:x[0])
+    m6, m65, m7, m75 = [],[],[],[]
+    for groups in sorted_lists:
+        if 6.0 <= groups[0] < 6.5:
+            m6.append(groups)
+        elif 6.5 <= groups[0] < 7.0:
+            m65.append(groups)
+        elif 7.0 <= groups[0] < 7.5:
+            m7.append(groups)
+        elif 7.5 <= groups[0] <= 8.0:
+            m75.append(groups)
+
+    # sort each new list by pcc
+    m6_sorted = sorted(m6, key=lambda x:x[1], reverse=True)
+    m65_sorted = sorted(m65, key=lambda x:x[1], reverse=True)
+    m7_sorted = sorted(m7, key=lambda x:x[1], reverse=True)
+    m75_sorted = sorted(m75, key=lambda x:x[1], reverse=True)
+
+    plot_ev_lons,plot_ev_lats,plot_mags,plot_depths = [],[],[],[]
+    for sorty in [m6_sorted,m65_sorted,m7_sorted,m75_sorted]:
+        for top in range(0,10,1):
+            plot_mags.append(sorty[top][0])
+            plot_ev_lats.append(sorty[top][4])
+            plot_ev_lons.append(sorty[top][5])
+            plot_depths.append(sorty[top][6])
+    import pdb;pdb.set_trace()
+
+    plot_map(plot_ev_lons,plot_ev_lats,plot_mags,plot_depths)
+    sys.exit()
 # ============================== PLOT ==========================================
 # plot Attributes and hacked up color choice
 # f = plt.figure(1,dpi=150,figsize=(11,7))
@@ -496,9 +537,9 @@ ax2.set_xlim(([1.1,165]))
 
 # f.set_tight_layout(True)
 print(mag_eq)
-plt.savefig('./figures/{}/{}_{}.png'.format(sta,sta,pick),
-                                                    dpi=600,figsize=(11,7))
-# plt.show()
+# plt.savefig('./figures/{}/{}_{}.png'.format(sta,sta,pick),
+#                                                     dpi=600,figsize=(11,7))
+plt.show()
 
 
 

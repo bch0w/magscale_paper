@@ -1,11 +1,13 @@
+# folders to ignore
 catalogs/
-figures/
-misc/
 output/
-synthetics/salvus/data/
-synthetics/salvus/output/
-synthetics/specfem/data/
-synthetics/specfem/output/
+figures/
 paper/blank_template/
-paper/figures/
 .DS_Store
+# ignore patterns
+misc/
+!misc/*.py
+synthetics/salvus/
+synthetics/specfem/*
+#!synthetics/specfem/input/*.*
+!synthetics/specfem/*.py
