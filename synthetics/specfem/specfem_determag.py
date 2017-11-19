@@ -16,6 +16,7 @@ import argparse
 import datetime
 import numpy as np
 import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pylab as plt
 from obspy.core import read
 from obspy.taup import TauPyModel
@@ -33,7 +34,7 @@ from collections import OrderedDict
 
 mpl.rcParams.update({'font.size': 6.5})
 
-def process_save(station,station_tag,event):
+def process_save(station,station_tag,event_name):
     
     # set sampling rate and copy traces for filtering
     rt = station.synthetic.select(channel='MY*') # rotation
@@ -198,7 +199,7 @@ def process_save(station,station_tag,event):
     f.subplots_adjust(hspace=0.1)
     f.subplots_adjust(wspace=0.1)
 
-    output_path = './output/{}/'.format(event)
+    output_path = './output/{}/'.format(os.path.basename(event_name))
     image_path = os.path.join(output_path,'imgs',station_tag+'.png')
     plt.savefig(image_path,dpi=150)
     plt.close()
@@ -207,7 +208,7 @@ def process_save(station,station_tag,event):
 
 
 def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
-                                                                station_tag):
+                                                 station_tag,event_name):
     
     # create all info to be stored in json
     rrz_max,rrr_max,rrt_max,rtz_max,rtr_max,rtt_max,vlz_max,vlr_max,vlt_max \
@@ -232,7 +233,6 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
             ('event_longitude', event.origins[0].longitude),
             ('moment', event.focal_mechanisms[0].moment_tensor.scalar_moment),
             ('depth', event.origins[0].depth/1000),
-            ('epicentral_distance_in_km', distance),
             ('zero_crossing_unit','sec. from trace start'),           
             ('vertical_rotation_rate', 
                 OrderedDict([
@@ -308,7 +308,7 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
             )
             ])
 
-    output_path = './output/{}/'.format(event)
+    output_path = './output/{}/'.format(os.path.basename(event_name))
     json_path = os.path.join(output_path,'jsons',station_tag+'.json')
     outfile = open(json_path, 'wt')
     json.dump(dic, outfile, indent=4)
@@ -321,20 +321,20 @@ filepath = '/import/netapp-m-02-terra/bernhard/RUNS_SEM3D/S40RTS/S40RTS_MAGSCALE
 filepathtest = '/import/como-data/bchow/'
 cat = glob.glob(filepathtest + 'synthetic*A') 
 
-for event in cat:
-    print(event)
+for event_name in cat:
+    print(event_name)
 
     # make event specific folder
-    output_path = './output/{}/'.format(event)
+    output_path = './output/{}/'.format(os.path.basename(event_name))
 
     # check if subdirectories already exist
     for subpath in ['imgs','jsons']:
-        folderpath = os.path.join(output_path,subpath)
+        folder_path = os.path.join(output_path,subpath)
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
     # read in data
-    ds = pyasdf.ASDFDataSet(event)
+    ds = pyasdf.ASDFDataSet(event_name)
     i=-1
     error_list = []
 
@@ -351,8 +351,8 @@ for event in cat:
 
         print(station_tag)
         event = ds.events[0]
-        peak2troughs,periods,zero_crossings_abs = process_save(station,station_tag,event)
-        store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,station_tag)
+        peak2troughs,periods,zero_crossings_abs = process_save(station,station_tag,event_name)
+        store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,station_tag,event_name)
 
         # except Exception as e:
         #     error_list.append('{} {}\t{}'.format(i,station_tag,e))
