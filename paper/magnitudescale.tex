@@ -13,9 +13,7 @@
   {Bryant Chow$^1$\thanks{Now at Victoria University of Wellington, Wellington, New Zealand}, 
   Heiner Igel$^1$, 
   Joachim Wassermann$^1$,
-  Bernhard Schuberth$^1$,
-  Stefanie Donner$^1$\thanks{Now at University of Stuttgart},
-  Celine Hadziiannou$^2$ \\
+  Bernhard Schuberth$^1$\\
   $^1$ Department of Earth and Environmental Sciences, Ludwig-Maximilians-University Munich, Theresienstra\ss e 41, D-80333 Munich, Germany. \\E-mail: bchow@geophysik.uni-muenchen.de
   }
 \date{}
@@ -52,7 +50,7 @@ magnitude, rotational ground motions, seismic instrumentation, amplitude decay
 For over a decade, the application of ring laser gyroscope technology to the field of seismology has allowed for near-continuous, direct, measurements of rotational ground motions. An ever growing number of observations from seismic events of varying size, distance and source mechanism, has been collected in an expansive catalog of waveform recordings for both direct rotation, and collocated translation measurements.
 %> we routinely compare amplitude ratios for phase velocities
 Previous work on this unique waveform dataset includes phase comparisons of translations and rotations [Igel 2005] %cite
-and estimations of local horizontal phase velocities. %cite
+and estimations of local horizontal phase velocities. [include more previous work?] %cite
 Much of this preceding work however, focuses on single events, or collections of non-earthquake sources. 
 
 %> we want to understand how rotations decay compared to translations
@@ -123,22 +121,25 @@ The surface wave magnitude equation is defined for peak vertical velocity amplit
 
 \section{Event choice}
 The G-ring has been continuously recording at its current resolution since May, 2009. %citation?
-The time range for events used in this study spans from June, 2009 to September, 2016. An initial catalog was fetched from the Harvard Global Centroid Moment Tensor [Ekstr\"om et al. 2012 ?], %citation 
-and events were first sorted by acceptable epicentral distance and source depth criteria. Here we impose the restriction that our derived magnitudes should be as close to the given surface wave magnitudes as possible, to ensure that our derived scales do not stray far from established scales, therefore only moment magnitude values of $6 \le M_{w} < 8$ were considered, as surface wave magnitude and moment magnitude are approximately equal in this range [Shearer 2009]; %citat
-Broadband traces of vertical rotation rate and transverse acceleration were segmented into small time windows and zero lag cross correlations were taken. Events were discarded if their maximum, or peak correlation coefficient of fell below PCC $< 0.7$. 
+The time range for events used in this study spans from June, 2009 until September, 2016. An initial catalog was fetched from the Harvard Global Centroid Moment Tensor (GCMT) [Ekstr\"om et al. 2012 ?], %citation 
+with events initially filtered by acceptable magnitude, source depth and epicentral distance from Wettzell, Germany. At this point we imposed the restriction that the derived 'magnitude' as given by our magnitude equations, should fall as close to the given surface wave magnitude as possible. This ensures that our derived scales do not stray too far from established scales. This meant only events with centroid moment magnitude values of $6 \le M_{\text{wc}} < 8$ (as published in the GCMT catalog), were considered;   surface wave magnitude and moment magnitude are approximately equal in this range [Shearer 2009]. %citat
+Zero-lag cross correlations were taken in order to calculate peak correlation coefficients between rotation and acceleration traces (Section \ref{sec:dataproc}). Events were not considered if their peak correlation coefficient was below PCC $< 0.7$. 
 
-These criteria narrowed the catalog down to less than 500 events in the given time period. Each event was appropriately filtered and processed (Section \ref{sec:dataproc}), and waveforms were individually inspected. Waveforms that exhibited anomalous behavior (i.e. unexpected high amplitude peaks outside the surface wave train, high signal-to-noise ratio etc.) were rejected. Examples of accepted and rejected waveforms are given in Figure (put a figure here). A final event catalog of 243 events was reached.
+These event choice criteria narrowed the catalog down to less than 500 events in the given time period. Each event was appropriately filtered and processed (Section \ref{sec:dataproc}), and waveforms were individually inspected. Waveforms that exhibited anomalous behavior (i.e. unexpected high amplitude peaks outside the surface wave train, high signal-to-noise ratio etc.) were rejected. Examples of accepted and rejected waveforms are given in Figure (put a figure here). A final event catalog of 243 events was reached.
 
 \section{Methods}
 \subsection{Data Processing}\label{sec:dataproc}
-Events were processed in a similar fashion as the processing outlined in [Salvermoser 2017]. %cite johannes
-Raw translation data in North, East and up components, as well as vertical rotation data, was fetched based on event origin time. Instrument response correction gave translation seismograms proportional to units of velocity (nm s$^{-1}$). Epicentral distances and theoretical backazimuth values were calculated from station-receiver latitude longitude pairs, and events were separated into categories of close ($\Delta <$330 km), local ($\Delta <$1100 km) and far ($\Delta \ge$1100 km). Horizontal components were rotated into the transverse, radial coordinate system by the appropriate theoretical backazimuth. Measurements from ring laser gyroscope instruments do not require frequency dependent instrument correction [Sagnac?], %citation
-therefore only a simple scale factor was necessary to retrieve seismograms proportional to rotation rate (nrad s$^{-1}$). Rotation rate traces were integrated to provide measurements of rotation (nrad). Transverse velocity was integrated to retrieve transverse acceleration, used to calculate correlations with vertical rotation rates.
+Events were processed in a similar fashion as the steps outlined in [Salvermoser 2017]. %cite johannes
+Raw continuous translation data in North, East and up components, as well as vertical rotation data, was fetched based on event origin time. Instrument response correction produced translation seismograms proportional to units of velocity (nm s$^{-1}$). Epicentral distances and theoretical backazimuth values were calculated from station-receiver latitude longitude pairs, and events were separated into categories of close ($\Delta < 3^\circ$), local ($\Delta <100^\circ$) and far ($\Delta \ge 100^\circ$). Horizontal components were rotated into the transverse, radial coordinate system by the appropriate theoretical backazimuth. Measurements from ring laser gyroscope instruments do not require frequency dependent instrument correction [Sagnac?], %citation
+therefore only a simple scale factor was necessary to retrieve seismograms proportional to rotation rate (nrad s$^{-1}$). Rotation rate traces were integrated to provide measurements of rotation (nrad), and transverse velocity was integrated to retrieve transverse acceleration, which was subsequently used to calculate correlations with vertical rotation rates.
 
-A bandpass filter was applied to all traces for periods between 3 s $\le$ T $\le$ 60 s, according to the given standard procedures. Peak amplitudes were chosen by finding minimum and maximum trace values and their largest associated peak or trough, respectively. The larger of the two was taken, alongside the associated arrival time and dominant period. Theoretical considerations used to restrict search to the surface wave train proved inconsistent over a large number of events, so maximum amplitudes in the entire trace were considered. Through manual inspection, picked amplitudes that fell outside the surface wave train were rejected. 
+A bandpass filter was applied to all traces for periods between 3 s $\le$ T $\le$ 60 s, in accordance to the IASPEI standard procedures. Peak amplitudes were chosen by finding minimum and maximum trace values and the largest associated peak or trough, respectively. The larger of the two was taken, alongside the associated arrival time and dominant period. %explain how dominant period calculated?
+Theoretical considerations used to restrict search to the surface wave train proved inconsistent over a large number of events, so maximum amplitudes in the entire trace were considered. Through manual inspection, picked amplitudes that fell outside the surface wave train were rejected. % could go back and justify this better by stating the order of magnitude differences weren't that big since were only looking at log scales
+
+\subsubsection{Zero-lag correlations}
+To calculate peak correlations, traces of transverse acceleration and vertical rotation rate were segmented into small time windows based on the event-station distance. In each time window, a zero-lag correlation was performed, and a single value of correlation produced. From the entire trace, the max value was taken to represent the peak correlation coefficient. For most waveforms, the peak correlation coefficient lie in the surface wave train. As mentioned previously, these peak correlation values are used extensively as a ranking system for events, providing a quickly attainable measure of waveform quality.
 
 \subsection{Curve fitting}
-\subsubsection{Linear regression}
 To quantify amplitude decay, magnitude scale coefficients were fit to the data using a simple linear regression. Equation \ref{eq:mag} represents a relationship between magnitude and amplitude for a single event. A collection of $n$ events can be represented in the form, 
 \begin{equation}
 	\begin{pmatrix}
@@ -153,30 +154,56 @@ To quantify amplitude decay, magnitude scale coefficients were fit to the data u
 	\end{pmatrix}
 	=
 	\begin{pmatrix}
-		M_{w_1} - log_{10}({V_1}/{2\pi})_{max} \\
-		M_{w_2} - log_{10}({V_2}/{2\pi})_{max} \\
+		M_{\text{wc}_1} - log_{10}({V_1}/{2\pi})_{\text{max}} \\
+		M_{\text{wc}_2} - log_{10}({V_2}/{2\pi})_{\text{max}} \\
 		\vdots  \\
-		M_{w_n} - log_{10}({V_n}/{2\pi})_{max}
+		M_{\text{wc}_n} - log_{10}({V_n}/{2\pi})_{\text{max}}
 	\end{pmatrix},
 	\label{eq:linearreg}
 \end{equation}
 
-\noindent which can be condensed to the form, $\mathbf{Gm = d}$. The unknowns B and C are represented in the vector {\bfseries m}, and can be solved for through the normal equation $\mathbf{m} = \mathbf{(G}^{T}\mathbf{G})^{-1}\mathbf{G}^T\mathbf{d}$.
-By determining values of B and C, we create an empirical magnitude scale that best describes the amplitude decay behavior of our events. In Equation \ref{eq:linearreg}, we impose that our derived magnitude value should be as close to an events given moment magnitude as possible, by setting $M_S^{BB}$ equal to the value of $M_w$ retrieved from our event catalog. 
+\noindent which can be further condensed to the form, $\mathbf{Gm = d}$. The unknowns B and C are represented in the vector {\bfseries m}, and can be solved for through the normal equation $\mathbf{m} = \mathbf{(G}^{T}\mathbf{G})^{-1}\mathbf{G}^T\mathbf{d}$.
+By determining values of B and C, we create an empirical magnitude scale that best describes the amplitude decay behavior of our events. In Equation \ref{eq:linearreg}, we impose that our derived magnitude value should be as close to an events given moment magnitude as possible, by setting $M_S^{BB}$ equal to the value of $M_\text{wc}$ retrieved from our event catalog. 
 
-\subsubsection{Confidence intervals}
-A 95\% confidence interval was constructed for each parameter of the vector $\mathbf{m}$, which gives a measure of error by providing bounds where 95\% of repeated measurements would lie. Confidence intervals were constructed by the variance of estimates of the jth parameter of m, by $\hat{m_j} \pm c \sqrt{\hat{var}(\hat{m_j})}$, where the hat denotes an estimate and the value of c is given as 1.96 for a 95\% confidence interval.
+95\% confidence intervals were constructed for each parameter of the vector $\mathbf{m}$. These were calculated with the variance of estimates of the $j$th parameter of $\mathbf{m}$ by the equation $\hat{m}_j \pm c \sqrt{\hat{var}(\hat{m}_j)}$, where the value of c is given as 1.96.
 
 \section{Synthetic seismograms}
-Because the G-ring is a unique instrumental setup, it is not currently possible to draw on other rotational ground motion data. Single events are available from other rotation instruments [Donner 2017 PFO?], however the temporal extent of the G-ring's measurements are currently unmatched. One possibility to achieve more observations is through array derived rotations as a substitute for direct rotation measurements [Spudich ?]; a lack of long-term arrays with the optimal station spacing, however, limits this option. In lieu of this, we turn to waveform modeling to generate synthetic seismograms, with which we can recreate our experimental setup and provide a comparable set of observations.
+Due to the unique instrumental setup of the G-ring, there are currently no other instruments with as much temporal coverage to draw data from for comparisons. Single events are available from other rotation instruments [Donner 2017 PFO?], however these are insufficient for the purposes of this paper. One possibility for gathering more observations would be through array derived rotations as a substitute for direct rotation measurements [Spudich ?]; a lack of long-term arrays with the optimal station spacing, however, limits this option. In lieu of this, we turn to waveform modeling to generate synthetic seismograms, with which we can recreate our experimental setup and provide a comparable set of observations.
 
-The wave propagation code Specfem3D Globe was employed to generate synthetic observations. A realistic global model featuring 3D crust and mantle models was used, and the simulation featured effects that might potentially influence surface waves at the periods of interest. These effects included: ocean loading, ellipticity, topography, self gravitation, Earth's rotation and 1-D attenuation. Event locations and moment tensors were taken from a handful of real seismic events present in the observation catalogs. Events were chosen based on data quality, to provide the highest quality comparisons of observations and synthetics, as well as event location and depth, so as to provide a varied distribution of source-receiver pairings. A simulation corner frequency was set to 10 s and simulations were run for (how much synthetic time?). To generate more observations, many stations, both real and synthetic, were included. Real stations were set to the locations of the Global Seismic Network (GSN) with inclusion of the G-ring location of Wettzell, and the observatory station F\"urstenfeldbruck. Synthetic stations were generated on an event by event basis, but based on real station location, either temporary or permanent. Most synthetic stations were placed close to the source, for better coverage at smaller epicentral distances, something that was unfortunately lacking in the observational data. 
+The wave propagation code Specfem3D Globe was employed to generate synthetic observations. A realistic global model featuring 3D crust and mantle models was used, and the simulation featured effects that might potentially influence surface waves at the periods of interest. These effects include: ocean loading, ellipticity, topography, self gravitation, Earth's rotation and 1-D attenuation. Event locations and moment tensors were taken from a handful of real seismic events present in the observation catalogs. Events were chosen based on data quality, to provide the highest quality comparisons of observations and synthetics, as well as event location and depth, so as to provide a varied distribution of source-receiver pairings. Table \ref{tab:syn_events} provides more information on the chosen events. 
 
-The direct outputs of Specfem3D were adjusted from the standard to give displacement in the transverse, radial and vertical components, as well as a direct output of rotation in the same coordinate system. These traces were differentiated to velocity and rotation rate, respectively.  A workflow identical to that used for observations was employed to calculate peak trace amplitudes. A magnitude equation was then fit to the data.
+A simulation corner frequency was set to 10 s and simulations were run for (how much synthetic time?). To generate a larger swath of observations, many stations, both real and synthetic, were included. Real stations included in every event were set as the locations of the Global Seismic Network (GSN), with inclusion of the G-ring location in Wettzell, as well as the observatory station F\"urstenfeldbruck. Synthetic station locations were used to boost the resolution at small epicentral distances. Data was outputted to roughly 50,000 stations equally spaced around the surface of the Earth. For each event, a small radius of stations surrounding the epicenter was chosen, and these data included in the calculation of the magnitude scale.
+
+\begin{table*}
+\begin{minipage}{150mm}
+	\begin{center}
+		\begin{tabular}{ |c|c|c|c|c|c|c|c| } 
+		\bf{Date} & \bf{Time (UTC)} & \bf{Lat($^\circ$)} & \bf{Lon($^\circ)$} & \bf{Depth(km)} & \bf{M$_{\text{wc}}$} &\bf{Region} &\bf{Peak Corr. Coeff.}\\ \hline
+	2010-07-18 & 13:34:59 & -5.93 & 150.59 & 35.0 & 7.32 & New Britain Region, P.N.G. & 0.98\\
+	2011-09-16 & 19:26:41 & 40.27 & 142.78 & 35.0 & 6.67 & Off East Coast Of Honshu, Japan & 0.99\\
+	2013-01-05 & 08:58:19 & 55.39 & -134.65 & 10.0 & 7.53 & Southeastern Alaska & 0.95\\
+	2013-04-16 & 10:44:20 & 28.03 & 62.0 & 80.0 & 7.74 & Southern Iran & 0.98\\
+	2013-04-19 & 19:58:40 & 49.97 & 157.65 & 15.0 & 6.06 & East Of Kuril Islands & 0.99\\
+	2015-02-13 & 18:59:12 & 52.65 & -31.9 & 16.7 & 7.07 & Reykjanes Ridge & 0.99\\
+	2015-04-25 & 06:11:26 & 28.15 & 84.71 & 15.0 & 7.88 & Nepal & 0.99\\
+	2015-09-13 & 08:14:12 & 25.14 & -109.43 & 10.0 & 6.6 & Gulf Of California & 0.98\\
+	2015-09-16 & 23:18:41 & -31.56 & -71.43 & 28.4 & 7.1 & Near Coast Of Central Chile & 0.99\\
+	2016-01-25 & 04:22:02 & 35.65 & -3.68 & 12.0 & 6.38 & Strait Of Gibraltar & 0.99\\
+		\end{tabular}
+    		\caption{List of events used as synthetic sources in Specfem3D. Peak correlations are used as a measure of waveform quality, and only events with the highest values were used, in order to provide the best comparisons of synthetics with observations. Events were also chosen based on a diverse coverage of magnitudes and epicentral distances from the ring laser stationed in Wettzell, Germany. Event information taken from the GCMT catalog.}
+		\label{tab:syn_events}
+	\end{center}
+	\end{minipage}
+\end{table*}
+
+The direct outputs of Specfem3D were adjusted to produce displacement in the transverse, radial and vertical components, by rotation with respect to the theoretical backazimuth. Direct rotation in the same coordinate system was also produced as output. A workflow identical to that used for observations was employed to calculate peak trace amplitudes, and a magnitude equation was fit to the data for comparison.
+
+\subsection{Comparative Study}
+The recent availability of Salvus, a suite of software developed at ETH Zurich, aimed at full waveform modeling and inversion, it was possible to make a differential study with respect to the outputs of Specfem. To do so we chose one event from those listed in Table \ref{tab:syn_events}, specifically the M$_{wc}$ 2011 Japan event, as a case study for comparisons. In Salvus we again generated a realistic mesh with 3D crustal structures, as well as topography and effects including (???). With the same station locations as Specfem, we were able to generate seismograms and a single event magnitude scale, with which to compare against our observations and synthetics.
 
 \section{Results}
 \subsection{Derived magnitude scales}
-For rotations and translations, decay characteristics were derived by solving for constants B and C in the magnitude equation. These values are presented in a Table \ref{tab:scales}. Since the constant C is dependent on the order of magnitude of the units, it is difficult to compare this between the different observation types. The value of B, however, controls the decay of amplitude with distance, and allows us to fairly compare rotations and translations. To check the results, the same processing was performed on observations taken at the geophysical observatory in F\"urstenfeldbruck, Germany (48.163$^\circ$N, 11.275$^\circ$E), which is located roughly 200 km to the south-west of Wettzell. Though a smaller subset of events was used due to data availability, the results confirmed those given by Wettzell by returning derived constants B and C within 1\%.
+For rotations and translations, decay characteristics were derived by solving for constants B and C in the magnitude equation. These values are presented in a Table \ref{tab:scales}. Since the constant C is dependent on the order of magnitude of the units, it is difficult to compare this between the different observation types. The value of B, however, controls the decay of amplitude with distance, and allows us to fairly compare rotations and translations. To check the results, the same processing was performed on observations taken at the geophysical observatory in F\"urstenfeldbruck, Germany (48.163$^\circ$N, 11.275$^\circ$E), which is located roughly 200 km to the south-west of Wettzell. Though a smaller subset of events was used due to data availability, the results confirmed those given by Wettzell by returning derived constants B and C within 1\%. To reduce clutter of results, however, these are not shown here (show in appendix?)
 
 Consulting Table \ref{tab:scales}, rotation has the closest decay constant B to the surface wave magnitude equation. Rotation rate exhbiits even higher 
 
@@ -211,107 +238,22 @@ Consulting Table \ref{tab:scales}, rotation has the closest decay constant B to 
 		\end{tabular}
 		
     		\caption{Synthetic magnitude scales and derived constants with 95\% confidence intervals, for equations of the form $M = log_{10}(V/2\pi) + B\cdot log_{10}(\Delta) + C$. The final column gives consideration to the wave type that each instrument component should provide a proxy for.}
-		\label{tab:scales}
+		\label{tab:syn_scales}
 	\end{center}
 	\end{minipage}
 \end{table*}
 
 \subsection{Expected amplitudes}
-
+One powerful use of magnitude scales is to provide a magnitude value, and predict the expected value of ground velocity at a certain distance. This is useful, for example, in seismic hazard analysis, where one can estimate the order of magnitude of ground motion at a location some distance away from an event, given a certain event size. In this way, we can try to determine the predicted ground rotation for a specific magnitude. This will be quite useful for the future of field-based rotational seismology, where resolution of field-deployable sensors is quite often much lower than those achieved by observatory based instruments, which have the benefit of large construction size and spatial stability. At the time of writing, field deployable rotation sensors have a noise floor of about (???) [Cite ???]. With our given magnitude equation, we can predict the farthest distance necessary to obtain a useable signal to noise ratio of vertical rotation or rotation rate. For example, given a magnitude 6 event, according to our observations, one must be within (???) epicentral distance to achieve some signal. One hopes this proves a useful tool in future field work, perhaps for catching aftershocks at a reasonable distance.
 
 \subsection{Synthetic results}
+Synthesize.
 
 \section{Discussions and conclusions}
 Long term continuous recordings of collocated rotation and translation has now provided a superb catalog of seismic events useable in comparisons of direct translation measurements and direct measurements of spatial gradients. Phase information was the logical starting point, but now the measurement of amplitudes proves useful in understanding both subsurface velocity structures as well as amplitude decays of surface waves. 
 
 The results of this work show the consistency of rotation measurements for a large observatory based ring laser gyroscope, and allow very accurate and stable comparisons of rotations and translations. Since events were manually chosen to exhibit the best characteristics for their waveforms, we can be sure that the derived decay characteristics that are shown here also are stable, albeit for teleseismic waves. The results at face value show that observed rotations for the event catalog used decay faster than observed translations for the same events, and that rotation rate decays faster than the rotation, though this is to be excepted as we are simply looking at time derivative information. What is most interesting is how the rotation and rotation rate decays match much closer to the globally averaged surface wave magnitude as compared to the translation measurements which it is based off. Understandably a global average should be taken to give a more reasonable value for the decay. It should be pointed out, however, that even without global averaging, it is exciting to see the characteristics of this new observable, and by taking comparisons of direct measurements, we are gaining more understanding of the behaviors of this observable.
 
-
-
-
-%
-%\newline
-%\begin{tabular}{ll}
-%\verb"\areps" & \areps \\
-%\verb"\bssa"  & \bssa \\
-%\verb"\eos"   & \eos  \\
-%\verb"\eps"   & \eps \\
-%\verb"\epsl"  & \epsl \\
-%\verb"\gca"   & \gca \\
-%\verb"\geo"   & \geo \\
-%\verb"\geop"  & \geop \\
-%\verb"\gji"   & \gji \\
-%\verb"\gjras" & \gjras \\
-%\verb"\grl"   & \grl \\
-%\verb"\gsab"  & \gsab \\
-%\verb"\gs"    & \gs \\
-%\verb"\jgr"   & \jgr \\
-%\verb"\jseis" & \jseis \\
-%\verb"\mnras" & \mnras \\
-%\verb"\pag"   & \pag \\
-%\verb"\pepi"  & \pepi \\
-%\verb"\rg"    & \rg \\
-%\verb"\tecto" & \tecto \\
-%\end{tabular}
-%\subsection{Acknowledgments}
-%Acknowledgments after the main text and before the appendices can be
-%included with the
-%\texttt{acknowledgments} environment, as
-%\begin{verbatim}
-%\begin{acknowledgments}
-%We wish to thank ...
-%\end{acknowledgments}
-%\end{verbatim}
-%There is also a corresponding \texttt{acknowledgment} environment for a
-%single acknowledgment.
-
-%\begin{acknowledgments}
-%A number of colleagues have helped with suggestions for the
-%improvement of this material and I would particularly like to thank
-%Bob Geller, University of Tokyo for his criticisms and corrections.
-%\end{acknowledgments}
-%
-%\begin{thebibliography}{}
-%  \bibitem[\protect\citename{Butcher }1992]{bu}
-%    Butcher J. 1992. \textit{Copy-editing: The Cambridge
-%    Handbook}, 3rd edn, Cambridge Univ. Press, Cambridge.
-%  \bibitem[\protect\citename{The Chicago Manual }%
-%    1982]{cm} \textit{The Chicago Manual of Style}, Univ.
-%    Chicago Press, Chicago, 1982.
-%  \bibitem[\protect\citename{Chao }1985]{ch}
-%    Chao, B. F., 1985. Normal mode study of the Earth's rigid
-%     body motions, \textit{Geophys. Res. Lett.}, \textbf{12}, 526-529.
-%  \bibitem[\protect\citename{Hinderer }1986]{hi}
-%    Hinderer, J., 1986. Resonance effects of the earth's fluid
-%    core in earth rotation, in \textit{Solved and Unsolved
-%    Problems}, pp. 277-296, ed. Cazenave A., Reidel,
-%    Dordrecht.
-%  \bibitem[\protect\citename{Kopka \& Daly}1995]{kd}
-%    Kopka H. \& Daly P.W., 1995, \textit{A guide to} \LaTeX2e,
-%    Addison--Wesley, New York
-%  \bibitem[\protect\citename{Lamport }1986]{la}
-%    Lamport L., 1986,  \LaTeX: \textit{A Document
-%    Preparation System}, Addison--Wesley, New York
-%  \bibitem[\protect\citename{Lindberg }1986]{bl}
-%    Lindberg, C., 1986.  Multiple taper harmonic analysis of
-%    terrestrial free oscillations, \textit{PhD thesis},
-%    University of California.
-%  \bibitem[\protect\citename{Maupin }1992]{ma}
-%    Maupin, V., 1992. Modelling of laterally trapped surface
-%    waves with application to Rayleigh waves in the Hawaiian
-%    swell, \textit{Geophys. J. Int.}. \textbf{110}, 553-570.
-%  \bibitem[\protect\citename{Rutherford \& Hawker }%
-%    1981]{rh}  Rutherford, S. R. \& Hawker, K. E., 1981,
-%    Consistent coupled mode theory of sound propagation for a
-%    class of non-separable problems,
-%   \textit{J. acoust. Soc. Am.}, \textbf{71}, 554-564
-%\end{thebibliography}
-%
-%
-
-
-\bsp % ``This paper has been produced using the Blackwell
-     %   Publishing GJI \LaTeXe\ class file.''
 
 \label{lastpage}
 

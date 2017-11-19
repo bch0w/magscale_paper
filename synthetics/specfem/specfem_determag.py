@@ -6,6 +6,7 @@ from __future__ import division
 import os
 import sys
 import json
+import glob
 import obspy
 import heapq
 import shutil
@@ -32,7 +33,7 @@ from collections import OrderedDict
 
 mpl.rcParams.update({'font.size': 6.5})
 
-def process_save(station,station_tag):
+def process_save(station,station_tag,event):
     
     # set sampling rate and copy traces for filtering
     rt = station.synthetic.select(channel='MY*') # rotation
@@ -197,7 +198,9 @@ def process_save(station,station_tag):
     f.subplots_adjust(hspace=0.1)
     f.subplots_adjust(wspace=0.1)
 
-    plt.savefig('./output/imgs/'+station_tag+'.png',dpi=150)
+    output_path = './output/{}/'.format(event)
+    image_path = os.path.join(output_path,'imgs',station_tag+'.png')
+    plt.savefig(image_path,dpi=150)
     plt.close()
 
     return peak2troughs,periods,zero_crossings_abs
@@ -305,32 +308,47 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
             )
             ])
 
-    
-    outfile = open('./output/jsons/'+station_tag+'.json', 'wt')
+    output_path = './output/{}/'.format(event)
+    json_path = os.path.join(output_path,'jsons',station_tag+'.json')
+    outfile = open(json_path, 'wt')
     json.dump(dic, outfile, indent=4)
     outfile.close()
 
 
 # MAIN
 # create catalog
-ds = pyasdf.ASDFDataSet('synthetic.h5_CMTSOLUTION_Hokkaido')
-i=-1
-error_list = []
-for station in ds.waveforms:
-    i+=1
-    print(i)
-    station_tag = station.synthetic[0].stats.network+'_'+\
-                                    station.synthetic[0].stats.station
-    if os.path.exists('./output/imgs/'+station_tag+'.png'):
-        continue
-    else:
-        try:
-            print(station_tag)
-            event = ds.events[0]
-            peak2troughs,periods,zero_crossings_abs = process_save(station,station_tag)
-            store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,station_tag)
-        except Exception as e:
-            error_list.append('{} {}\t{}'.format(i,station_tag,e))
+filepath = '/import/netapp-m-02-terra/bernhard/RUNS_SEM3D/S40RTS/S40RTS_MAGSCALE/OUTPUT_FILES'
+cat = glob.glob(filepath + 'synthetic*A') 
+
+for event in cat:
+    # make event specific folder
+    output_path = './output/{}/'.format(event)
+    os.makedirs(os.path.join(output_path,'imgs'))
+    os.makedirs(os.path.join(output_path,'jsons'))
+
+    # read in data
+    ds = pyasdf.ASDFDataSet(event)
+    i=-1
+    error_list = []
+
+    # process each station
+    for station in ds.waveforms:
+        # for now, skip over synthetic stations
+        if station.synthetic[0].stats.network == 'GG':
+            continue
+        i+=1
+        print(i)
+
+        station_tag = station.synthetic[0].stats.network+'_'+\
+                                        station.synthetic[0].stats.station
+
+        print(station_tag)
+        event = ds.events[0]
+        peak2troughs,periods,zero_crossings_abs = process_save(station,station_tag,event)
+        store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,station_tag)
+
+        # except Exception as e:
+        #     error_list.append('{} {}\t{}'.format(i,station_tag,e))
 
 
  

@@ -36,9 +36,9 @@ Japan (lots of events, just picked the largest scatter of locations):
 
 Shortlist by PCC
 Finalists:
-('3800250', 0.9488, 'RLAS_2013-01-05T085819Z_7.50_SOUTHEASTERN_ALASKA.json')
 ('2875597', 0.9874, 'RLAS_2010-07-18T133500Z_7.30_NEW_BRITAIN_REGION_P.N.G.json')
 ('3322307', 0.9955, 'RLAS_2011-09-16T192640Z_6.70_NEAR_EAST_COAST_OF_HONSHU_JAPAN.json')
+('3800250', 0.9488, 'RLAS_2013-01-05T085819Z_7.50_SOUTHEASTERN_ALASKA.json')
 ('4215452', 0.9501, 'RLAS_2013-04-16T104419Z_7.70_SOUTHERN_IRAN.json')
 ('4215671', 0.9842, 'RLAS_2013-04-19T195841Z_6.10_EAST_OF_KURIL_ISLANDS.json')
 ('5005184', 0.9854, 'RLAS_2015-02-13T185912Z_7.10_NORTHERN_MID-ATLANTIC_RIDGE.json')
@@ -62,3 +62,13 @@ spud_event_list= ['C201601250422A','C201502131859A','S201509162318A','C201304161
 for i in range(len(spud_cat)):
 	if str(spud_cat[i].resource_id)[14:-6] in spud_event_list:
 		spud_cat_new.append(spud_cat[i])
+
+for a in catalogs:
+    lat = event.origins[0].latitude
+    lon = event.origins[0].longitude
+    depth = event.origins[0].depth * 1E-3
+    region = event.event_descriptions[0]['text'].title()
+    mag = event.magnitudes[0].mag
+    date = str(event.origins[0].time.date)
+    time = str(event.origins[0].time.time)
+    print('{} & {} & {} & {} & {} & {} & {} &'.format(date,time,lat,lon,depth,mag,region))
