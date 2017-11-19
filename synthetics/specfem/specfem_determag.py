@@ -318,13 +318,20 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
 # MAIN
 # create catalog
 filepath = '/import/netapp-m-02-terra/bernhard/RUNS_SEM3D/S40RTS/S40RTS_MAGSCALE/OUTPUT_FILES'
-cat = glob.glob(filepath + 'synthetic*A') 
+filepathtest = '/import/como-data/bchow/'
+cat = glob.glob(filepathtest + 'synthetic*A') 
 
 for event in cat:
+    print(event)
+
     # make event specific folder
     output_path = './output/{}/'.format(event)
-    os.makedirs(os.path.join(output_path,'imgs'))
-    os.makedirs(os.path.join(output_path,'jsons'))
+
+    # check if subdirectories already exist
+    for subpath in ['imgs','jsons']:
+        folderpath = os.path.join(output_path,subpath)
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
 
     # read in data
     ds = pyasdf.ASDFDataSet(event)
