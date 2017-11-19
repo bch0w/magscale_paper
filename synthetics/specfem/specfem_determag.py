@@ -219,7 +219,7 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
 
     station_coords = station.StationXML.networks[0].stations[0]                                                    
 
-     dic = OrderedDict([
+    dic = OrderedDict([
             ('event_id', event.resource_id.id),
             ('starttime', str(event.origins[0].time)),
             ('network', station.synthetic[0].stats.network),
