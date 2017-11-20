@@ -335,27 +335,25 @@ for event_name in cat:
 
     # read in data
     ds = pyasdf.ASDFDataSet(event_name)
-    i=-1
-    error_list = []
-
+    i = 0
     # process each station
     for station in ds.waveforms:
-        # for now, skip over synthetic stations
-        if station.synthetic[0].stats.network == 'GG':
-            continue
         i+=1
         print(i)
-
+        # for now, skip over synthetic stations, -143
+        if station.synthetic[0].stats.network == 'GG':
+            continue
         station_tag = station.synthetic[0].stats.network+'_'+\
                                         station.synthetic[0].stats.station
+        json_path = os.path.join(output_path,'jsons',station_tag+'.json')
+        if os.path.exists(json_path):
+            print('{} Already processed'.format(station_tag))
+            continue
 
         print(station_tag)
         event = ds.events[0]
         peak2troughs,periods,zero_crossings_abs = process_save(station,station_tag,event_name)
         store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,station_tag,event_name)
-
-        # except Exception as e:
-        #     error_list.append('{} {}\t{}'.format(i,station_tag,e))
 
 
  
