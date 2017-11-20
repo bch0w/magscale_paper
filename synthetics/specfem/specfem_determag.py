@@ -336,13 +336,14 @@ for event_name in cat:
     # read in data
     ds = pyasdf.ASDFDataSet(event_name)
     i = 0
-    # process each station
-    for station in ds.waveforms:
+
+    # ignore synthetic stations, manual select
+    station_list = ds.waveforms.list()[:10] + ds.waveforms.list()[-143:]
+
+    for station_string in station_list:
         i+=1
         print(i)
-        # for now, skip over synthetic stations, -143
-        if station.synthetic[0].stats.network == 'GG':
-            continue
+        station = ds.waveforms[station_string]
         station_tag = station.synthetic[0].stats.network+'_'+\
                                         station.synthetic[0].stats.station
         json_path = os.path.join(output_path,'jsons',station_tag+'.json')
