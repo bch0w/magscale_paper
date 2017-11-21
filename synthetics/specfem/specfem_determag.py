@@ -34,6 +34,48 @@ from collections import OrderedDict
 
 mpl.rcParams.update({'font.size': 6.5})
 
+
+def grid_stations(event_name):
+    """find grid stations surrounding events
+    """
+    # determine grid station locations
+    synthetic_path = './input/STATIONS_GRID_icosa_cleaned'
+    grid_num,grid_lat,grid_lon = [],[],[]
+    with open(synthetic_path,'r') as f:
+        syn_stations = f.readlines()
+    for station in syn_stations:
+        grid_num.append(station.split()[0])
+        grid_lat.append(float(station.split()[2]))
+        grid_lon.append(float(station.split()[3]))
+
+    # determine event locations
+    event_path = './input/tenGoodCMTSolutions'
+    cat = read_events(event_path)
+    for event in cat:
+        if event.event_descriptions[0]['text'] == event_name:
+            lat = event.origins[0].latitude
+            lon = event.origins[0].longitude
+
+    grid_lat_lists,grid_lon_lists,grid_num_lists = [],[],[]
+
+    # iterate over event lat/lon pairs
+    extra = 3
+    lat_plus = lat + extra
+    lat_minu = lat - extra
+    lon_plus = lon + extra
+    lon_minu = lon - extra
+
+    # iterate over grid station lat/lon pairs
+    for glat,glon,gnum in zip(grid_lat,grid_lon,grid_num):
+        if (lat_minu < glat < lat_plus) and (lon_minu < glon < lon_plus): 
+            lat_list.append(glat)
+            lon_list.append(glon)
+            num_list.append(gnum)
+
+
+    return lat_list,lon_list,num_list
+
+
 def process_save(station,station_tag,event_name):
     
     # set sampling rate and copy traces for filtering
@@ -57,9 +99,9 @@ def process_save(station,station_tag,event_name):
     surf_big = 0
     surf_end = len(rt[0].data)-1
 
-    # bandpass all traces for 3s to 60s
-    f_start = 1/35
-    f_end = 1/25
+    # bandpass all traces for 5s to 15s
+    f_start = 1/5
+    f_end = 1/15
     for traces in [rot_rate,rotation,velocity_rtz]:
         traces.filter('bandpass', freqmin=f_start, freqmax=f_end, corners=3,
                   zerophase=True)
@@ -317,12 +359,13 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
 
 # MAIN
 # create catalog
-filepath = '/import/netapp-m-02-terra/bernhard/RUNS_SEM3D/S40RTS/S40RTS_MAGSCALE/OUTPUT_FILES'
+# filepath = '/import/netapp-m-02-terra/bernhard/RUNS_SEM3D/S40RTS/S40RTS_MAGSCALE/OUTPUT_FILES'
 filepathtest = '/import/como-data/bchow/'
 cat = glob.glob(filepathtest + 'synthetic*A') 
 
 for event_name in cat:
-    print(event_name)
+    event_name_short = event_name[25:]
+    print(event_name_short)
 
     # make event specific folder
     output_path = './output/{}/'.format(os.path.basename(event_name))
@@ -337,12 +380,18 @@ for event_name in cat:
     ds = pyasdf.ASDFDataSet(event_name)
     i = 0
 
-    # ignore synthetic stations, manual select
-    station_list = ds.waveforms.list()[:10] + ds.waveforms.list()[-143:]
+    # sort out stations, GSN and 3deg radius from event
+    grid_lats,grid_lons,grid_nums = grid_stations(event_name_short)
+    grid_nums_list = []
+    for G in grid_nums:
+        grid_nums_list.append('GG.{}'.format(G))
+
+    station_list = ds.waveforms.list()[:10] + ds.waveforms.list()[-143:] +\
+                                                    grid_nums_list
 
     for station_string in station_list:
         i+=1
-        print(i)
+        print(i,end="")
         station = ds.waveforms[station_string]
         station_tag = station.synthetic[0].stats.network+'_'+\
                                         station.synthetic[0].stats.station
