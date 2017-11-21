@@ -56,8 +56,6 @@ def grid_stations(event_name):
             lat = event.origins[0].latitude
             lon = event.origins[0].longitude
 
-    grid_lat_lists,grid_lon_lists,grid_num_lists = [],[],[]
-
     # iterate over event lat/lon pairs
     extra = 3
     lat_plus = lat + extra
@@ -66,6 +64,7 @@ def grid_stations(event_name):
     lon_minu = lon - extra
 
     # iterate over grid station lat/lon pairs
+    lat_list,lon_list,num_list = [],[],[]
     for glat,glon,gnum in zip(grid_lat,grid_lon,grid_num):
         if (lat_minu < glat < lat_plus) and (lon_minu < glon < lon_plus): 
             lat_list.append(glat)
@@ -364,7 +363,7 @@ filepathtest = '/import/como-data/bchow/'
 cat = glob.glob(filepathtest + 'synthetic*A') 
 
 for event_name in cat:
-    event_name_short = event_name[25:]
+    event_name_short = os.path.basename(event_name)[25:]
     print(event_name_short)
 
     # make event specific folder
@@ -388,7 +387,6 @@ for event_name in cat:
 
     station_list = ds.waveforms.list()[:10] + ds.waveforms.list()[-143:] +\
                                                     grid_nums_list
-
     for station_string in station_list:
         i+=1
         print(i,end="")
