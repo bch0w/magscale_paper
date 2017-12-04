@@ -75,7 +75,7 @@ def grid_stations(event_name):
     return lat_list,lon_list,num_list
 
 
-def process_save(station,station_tag,event_name):
+def process_save(station,station_tag,event_name,f_start,f_end,output_path):
     
     # set sampling rate and copy traces for filtering
     rt = station.synthetic.select(channel='MY*') # rotation
@@ -99,8 +99,6 @@ def process_save(station,station_tag,event_name):
     surf_end = len(rt[0].data)-1
 
     # bandpass all traces for 5s to 15s
-    f_start = 1/5
-    f_end = 1/15
     for traces in [rot_rate,rotation,velocity_rtz]:
         traces.filter('bandpass', freqmin=f_start, freqmax=f_end, corners=3,
                   zerophase=True)
@@ -186,7 +184,7 @@ def process_save(station,station_tag,event_name):
     j = 0
     for i in range(axrow):
         # trace overviews
-        axes[i][0].plot(alltraces[j].data,'k')
+        axes[i][0].plot(alltraces[j].data,'k',linewidth=0.3)
         axes[i][0].plot(peak_indS[j],peakS[j],'go',adj_trough_indS[j],
                                                         adj_troughS[j],'go')
         axes[i][0].plot(adj_peak_indS[j],adj_peakS[j],'ro',trough_indS[j],
@@ -205,15 +203,15 @@ def process_save(station,station_tag,event_name):
         
         # hacky ylabels
         if channelS[i][:2] == 'My':
-            axes[i][0].set_ylabel('{} rot. rate (rad/s)'.format(channelS[j][2]))
+            axes[i][0].set_ylabel('{} (rad/s)'.format(channelS[j][2]))
         elif channelS[i][:2] == 'MY':
-            axes[i][0].set_ylabel('{} rotation (rad)'.format(channelS[j][2]))
+            axes[i][0].set_ylabel('{} (rad)'.format(channelS[j][2]))
         else:
-            axes[i][0].set_ylabel('{} vel.(m/s)'.format(channelS[j][2]))
+            axes[i][0].set_ylabel('{} (m/s)'.format(channelS[j][2]))
 
 
         # zoomed in plot
-        axes[i][1].plot(alltraces[j].data,'k')
+        axes[i][1].plot(alltraces[j].data,'k',linewidth=0.3)
         axes[i][1].plot(peak_indS[j],peakS[j],'go',adj_trough_indS[j],
                                                         adj_troughS[j],'go')
         axes[i][1].plot(adj_peak_indS[j],adj_peakS[j],'ro',trough_indS[j],
@@ -240,7 +238,6 @@ def process_save(station,station_tag,event_name):
     f.subplots_adjust(hspace=0.1)
     f.subplots_adjust(wspace=0.1)
 
-    output_path = './output/{}/'.format(os.path.basename(event_name))
     image_path = os.path.join(output_path,'imgs',station_tag+'.png')
     plt.savefig(image_path,dpi=150)
     plt.close()
@@ -249,7 +246,7 @@ def process_save(station,station_tag,event_name):
 
 
 def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
-                                                 station_tag,event_name):
+                                        station_tag,event_name,output_path):
     
     # create all info to be stored in json
     rrz_max,rrr_max,rrt_max,rtz_max,rtr_max,rtt_max,vlz_max,vlr_max,vlt_max \
@@ -349,7 +346,6 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
             )
             ])
 
-    output_path = './output/{}/'.format(os.path.basename(event_name))
     json_path = os.path.join(output_path,'jsons',station_tag+'.json')
     outfile = open(json_path, 'wt')
     json.dump(dic, outfile, indent=4)
@@ -358,16 +354,24 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
 
 # MAIN
 # create catalog
-# filepath = '/import/netapp-m-02-terra/bernhard/RUNS_SEM3D/S40RTS/S40RTS_MAGSCALE/OUTPUT_FILES'
-filepathtest = '/import/como-data/bchow/'
-cat = glob.glob(filepathtest + 'synthetic*A') 
+filepath = '/import/como-data/bchow/specfem_data/'
+filepath2 = '/import/leela-data/bchow/specfem_data/'
+cat = glob.glob(filepath + '*') + glob.glob(filepath2 + '*')
+
+# set freq. bands
+per_start = 7
+per_end = 60
+freq_start = 1/per_end
+freq_end = 1/per_start
 
 for event_name in cat:
     event_name_short = os.path.basename(event_name)[25:]
     print(event_name_short)
 
     # make event specific folder
-    output_path = './output/{}/'.format(os.path.basename(event_name))
+    output_folder_name = '{}_{}-{}s'.format(
+            os.path.basename(event_name),per_start,per_end)
+    output_path = './output/{}/'.format(output_folder_name)
 
     # check if subdirectories already exist
     for subpath in ['imgs','jsons']:
@@ -388,20 +392,22 @@ for event_name in cat:
     station_list = ds.waveforms.list()[:10] + ds.waveforms.list()[-143:] +\
                                                     grid_nums_list
     for station_string in station_list:
-        i+=1
-        print(i,end="")
-        station = ds.waveforms[station_string]
-        station_tag = station.synthetic[0].stats.network+'_'+\
-                                        station.synthetic[0].stats.station
-        json_path = os.path.join(output_path,'jsons',station_tag+'.json')
-        if os.path.exists(json_path):
-            print('{} Already processed'.format(station_tag))
-            continue
+        try:
+            i+=1
+            print(i,end="")
+            station = ds.waveforms[station_string]
+            station_tag = station.synthetic[0].stats.network+'_'+\
+                                            station.synthetic[0].stats.station
+            json_path = os.path.join(output_path,'jsons',station_tag+'.json')
+            if os.path.exists(json_path):
+                print('{} Already processed'.format(station_tag))
+                continue
 
-        print(station_tag)
-        event = ds.events[0]
-        peak2troughs,periods,zero_crossings_abs = process_save(station,station_tag,event_name)
-        store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,station_tag,event_name)
-
+            print(station_tag)
+            event = ds.events[0]
+            peak2troughs,periods,zero_crossings_abs = process_save(station,station_tag,event_name,freq_start,freq_end,output_path)
+            store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,station_tag,event_name,output_path)
+        except Exception as e:
+            print(e)
 
  
