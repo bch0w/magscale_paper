@@ -57,7 +57,7 @@ def grid_stations(event_name):
             lon = event.origins[0].longitude
 
     # iterate over event lat/lon pairs
-    extra = 3
+    extra = 5
     lat_plus = lat + extra
     lat_minu = lat - extra
     lon_plus = lon + extra
