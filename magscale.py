@@ -3,6 +3,7 @@ Used for plotting the rotation rate magnitude scale
 Also does linear regression for a subset of events filtered to get a
 magnitude scale equation, plots events, equation and projected lines
 """
+import os
 import sys
 import math
 import glob
@@ -250,7 +251,7 @@ def plot_histograms():
     bars = ax.bar(bin_edge[:-1],hist,width,color='k',ecolor='w')
 
     for b in bars:
-        b.set_facecolor("#%06x" % random.randint(0,0xFFFFFF))
+        b.set_facecolor('#{:06x}'.format(random.randint(0,256**3)))
         b.set_alpha(0.8)
 
     for be in range(len(hist)):
@@ -336,8 +337,8 @@ mag = args.mag
 reject_events = np.load('./output/reject_events.npz')
 
 # make lists, though not all are used
-event_IDs,ev_lats,ev_lons,sta_lats,sta_lons,pccs,file_IDs,depths,\
-mags,Z_vel_max,T_vel_max,Z_rr_max,Z_rt_max,ds = [[] for _ in range(14)]
+ID,event_IDs,ev_lats,ev_lons,sta_lats,sta_lons,pccs,file_IDs,depths,\
+mags,Z_vel_max,T_vel_max,Z_rr_max,Z_rt_max,ds,moments = [[] for _ in range(16)]
 
 # load in data as numpy arrays, convert to lists of floats, calculate distance
 if sta == 'wet':
@@ -373,23 +374,30 @@ if sta == 'wet':
 
 # for synthetics made by specfem
 elif sta == 'specfem':
-    path = './specfem/output/jsons/'
-    filenames = glob.glob(path + '*')
+    # path = './synthetics/specfem/output/synthetic.h5_CMTSOLUTION_C201007181335A_5-60s/jsons/'
+    # filenames = glob.glob(path + '*')
+
+    # grab all stations
+    path = './synthetics/specfem/output/'
+    filenames = glob.glob(os.path.join(path,'*7-60s','jsons','*'))
     for file in filenames:
         with open(file) as f:
             data = json.load(f)
+            if data['network'] == 'GG':
+                continue
             ID.append(data['network']+'_'+data['station'])
+            moments.append(data['moment'])
             sta_lats.append(data['station_latitude'])
             sta_lons.append(data['station_longitude'])
-            Z_vel_max.append(data['peak_filtered_vertical_vel'])
-            T_vel_max.append(data['peak_filtered_transverse_vel'])
-            Z_rr_max.append(data['peak_vertical_rotation_rate'])
-            Z_rt_max.append(data['peak_filtered_vertical_rotation'])
+            Z_vel_max.append(data['vertical_velocity']['peak_amplitude'])
+            T_vel_max.append(data['transverse_velocity']['peak_amplitude'])
+            Z_rr_max.append(data['vertical_rotation_rate']['peak_amplitude'])
+            Z_rt_max.append(data['vertical_rotation']['peak_amplitude'])
 
     ev_lat = data['event_latitude']
     ev_lon = data['event_longitude'] 
-    mag = 2/3 * np.log10(data['moment']*10**7) - 10.7
-    mags = [mag]*len(filenames)
+    mags = [2/3 * np.log10(M*10**7) - 10.7 for M in moments]
+    uniq_mags = list(set(mags))
     depth = data['depth']
     ds = epidist(sta_lats,sta_lons,lat2=ev_lat,lon2=ev_lon)
     
@@ -398,7 +406,6 @@ elif sta == 'specfem':
     T_vel_max = [_*(10**9) for _ in T_vel_max]
     Z_rt_max = [_*(10**9) for _ in Z_rt_max]
     Z_rr_max = [_*(10**9) for _ in Z_rr_max]
-
 
 
 # pick amplitudes and divide by 2pi for mag equation, amplitudes should be 
@@ -456,10 +463,10 @@ if sta != 'specfem':
             plot_ev_lats.append(sorty[top][4])
             plot_ev_lons.append(sorty[top][5])
             plot_depths.append(sorty[top][6])
-    import pdb;pdb.set_trace()
 
     plot_map(plot_ev_lons,plot_ev_lats,plot_mags,plot_depths)
     sys.exit()
+
 # ============================== PLOT ==========================================
 # plot Attributes and hacked up color choice
 # f = plt.figure(1,dpi=150,figsize=(11,7))
@@ -470,37 +477,48 @@ minor_ticks = np.arange(0, 170, 5)
 # colorhack = ['0','1','2','b','y','g','r','c','m']
 colorhack = ['0','1','2','g','r','g','r','c','m','k']
 
+# scatter by magnitude value
+for MAG in uniq_mags:
+    color = '#{:06x}'.format(random.randint(0,256**3))
+    ax.scatter(0,0,c=color,label='M{}'.format(MAG))
+    for D,P,M in zip(ds,psurf,mags):
+        if M == MAG:
+            ax.scatter(D,P,c=color,marker='o',s=15,zorder=12)
+
+
+# ============================== OLD SCATTERPLOTS ==============================
 # scatter plot points
-delta=[];ps_scale=[];mag_filt=[]
-MS = 40
-for ix in range(len(psurf)):
-    # if ID[ix] in manual_reject:
-    #     continue
-    if 3.0 <= mags[ix] < 4.0:
-        ax.scatter(ds[ix],psurf[ix],c='#329932',marker='o',s=MS,zorder=10)
-    elif 4.0 <= mags[ix] < 5.0:
-        ax.scatter(ds[ix],psurf[ix],c='#ff0000',marker='o',s=MS,zorder=10)
-    elif 5.0 <= mags[ix] < 6.0:
-        ax.scatter(ds[ix],psurf[ix],c='#00ffff',marker='o',s=MS,zorder=10)
-    elif 6.0 <= mags[ix] < 6.5:
-        ax.scatter(ds[ix],psurf[ix],c='#ff0000',marker='o',s=MS,zorder=10)
-    elif 6.5 <= mags[ix] < 7.0:
-        ax.scatter(ds[ix],psurf[ix],c='#ff0000',marker='o',s=MS,zorder=10)
-    elif 7.0 <= mags[ix] < 7.5:
-        ax.scatter(ds[ix],psurf[ix],c='#00ffff',marker='o',s=MS,zorder=10)
-    elif 7.5 <= mags[ix] <= 8.0:
-        ax.scatter(ds[ix],psurf[ix],c='#00ffff',marker='o',s=MS,zorder=10)
-    elif 8.0 <= mags[ix] <= 8.5:
-        ax.scatter(ds[ix],psurf[ix],c='m',marker='o',s=MS,zorder=10)
+# delta=[];ps_scale=[];mag_filt=[]
+# MS = 40
+# for ix in range(len(psurf)):
+#     # if ID[ix] in manual_reject:
+#     #     continue
+#     if 3.0 <= mags[ix] < 4.0:
+#         ax.scatter(ds[ix],psurf[ix],c='#329932',marker='o',s=MS,zorder=10)
+#     elif 4.0 <= mags[ix] < 5.0:
+#         ax.scatter(ds[ix],psurf[ix],c='#ff0000',marker='o',s=MS,zorder=10)
+#     elif 5.0 <= mags[ix] < 6.0:
+#         ax.scatter(ds[ix],psurf[ix],c='#00ffff',marker='o',s=MS,zorder=10)
+#     elif 6.0 <= mags[ix] < 6.5:
+#         ax.scatter(ds[ix],psurf[ix],c='#ff0000',marker='o',s=MS,zorder=10)
+#     elif 6.5 <= mags[ix] < 7.0:
+#         ax.scatter(ds[ix],psurf[ix],c='#ff0000',marker='o',s=MS,zorder=10)
+#     elif 7.0 <= mags[ix] < 7.5:
+#         ax.scatter(ds[ix],psurf[ix],c='#00ffff',marker='o',s=MS,zorder=10)
+#     elif 7.5 <= mags[ix] <= 8.0:
+#         ax.scatter(ds[ix],psurf[ix],c='#00ffff',marker='o',s=MS,zorder=10)
+#     elif 8.0 <= mags[ix] <= 8.5:
+#         ax.scatter(ds[ix],psurf[ix],c='m',marker='o',s=MS,zorder=10)
     # plt.annotate(xy=(ds[ix]+.5,psurf[ix]),s='{}'.format(ID[ix]),
     #                 fontsize=7.5,zorder=10)
     # print('{} : {} , {}'.format(i,delta[ix],ps_scale[ix]))
+# ============================== OLD SCATTERPLOTS ==============================
 
 # plot least squares, confidence intervals, magnitude lines
-# ax.fill_between(x,y(x,m0n,m1n,mag),y(x,m0p,m1p,mag),
-#                       facecolor=colorhack[mag],zorder=4,alpha=0.1)
-# ax.plot(x,y(x,m0n,m1n,mag),'k--',linewidth=1.75)
-# ax.plot(x,y(x,m0p,m1p,mag),'k--',linewidth=1.75)
+ax.fill_between(x,y(x,m0n,m1n,mag),y(x,m0p,m1p,mag),
+                      facecolor=colorhack[mag],zorder=4,alpha=0.1)
+ax.plot(x,y(x,m0n,m1n,mag),'k--',linewidth=1.75)
+ax.plot(x,y(x,m0p,m1p,mag),'k--',linewidth=1.75)
 
 for i in range(5,10):
     ax.plot(x,y(x,m0,m1,i),zorder=5,linewidth=2.5,label='M{}'.format(i),
@@ -541,6 +559,3 @@ print(mag_eq)
 #                                                     dpi=600,figsize=(11,7))
 plt.show()
 
-
-
-# from IPython.core.debugger import Tracer; Tracer(colors="Linux")()

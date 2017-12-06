@@ -99,6 +99,11 @@ def process_save(station,station_tag,event_name,f_start,f_end,output_path):
     surf_end = len(rt[0].data)-1
 
     # bandpass all traces for 5s to 15s
+<<<<<<< Updated upstream
+=======
+    f_start = 1/15
+    f_end = 1/5
+>>>>>>> Stashed changes
     for traces in [rot_rate,rotation,velocity_rtz]:
         traces.filter('bandpass', freqmin=f_start, freqmax=f_end, corners=3,
                   zerophase=True)
