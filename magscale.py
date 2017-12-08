@@ -374,39 +374,39 @@ if sta == 'wet':
 
 # for synthetics made by specfem
 elif sta == 'specfem':
-    # path = './synthetics/specfem/output/synthetic.h5_CMTSOLUTION_C201007181335A_5-60s/jsons/'
-    # filenames = glob.glob(path + '*')
-
     # grab all stations
     path = './synthetics/specfem/output/'
-    filenames = glob.glob(os.path.join(path,'*7-60s','jsons','*'))
-    for file in filenames:
-        with open(file) as f:
-            data = json.load(f)
-            if data['network'] == 'GG':
-                continue
-            ID.append(data['network']+'_'+data['station'])
-            moments.append(data['moment'])
-            sta_lats.append(data['station_latitude'])
-            sta_lons.append(data['station_longitude'])
-            Z_vel_max.append(data['vertical_velocity']['peak_amplitude'])
-            T_vel_max.append(data['transverse_velocity']['peak_amplitude'])
-            Z_rr_max.append(data['vertical_rotation_rate']['peak_amplitude'])
-            Z_rt_max.append(data['vertical_rotation']['peak_amplitude'])
+    eventnames = glob.glob(os.path.join(path,'*7-60s','jsons'))
+    for event in eventnames:
+        filenames = glob.glob(os.path.join(event,'*'))
+        sta_lats,sta_lons = [],[]
+        for file in filenames:
+            with open(file) as f:
+                data = json.load(f)
+                ID.append(data['network']+'_'+data['station'])
+                moments.append(data['moment'])
+                sta_lats.append(data['station_latitude'])
+                sta_lons.append(data['station_longitude'])
+                Z_vel_max.append(data['vertical_velocity']['peak_amplitude'])
+                T_vel_max.append(data['transverse_velocity']['peak_amplitude'])
+                Z_rr_max.append(data['vertical_rotation_rate']['peak_amplitude'])
+                Z_rt_max.append(data['vertical_rotation']['peak_amplitude'])
 
-    ev_lat = data['event_latitude']
-    ev_lon = data['event_longitude'] 
+        # distances calculated per event
+        ev_lat = data['event_latitude'] 
+        ev_lon = data['event_longitude']
+        ds_temp = epidist(sta_lats,sta_lons,lat2=ev_lat,lon2=ev_lon)
+        ds += ds_temp
+
+    # convert seismic moment to moment magnitude
     mags = [2/3 * np.log10(M*10**7) - 10.7 for M in moments]
     uniq_mags = list(set(mags))
-    depth = data['depth']
-    ds = epidist(sta_lats,sta_lons,lat2=ev_lat,lon2=ev_lon)
     
-    # convert to units of nano radians/(m/s))
+    # convert to units of nano radians or m/s
     Z_vel_max = [_*(10**9) for _ in Z_vel_max]
     T_vel_max = [_*(10**9) for _ in T_vel_max]
     Z_rt_max = [_*(10**9) for _ in Z_rt_max]
     Z_rr_max = [_*(10**9) for _ in Z_rr_max]
-
 
 # pick amplitudes and divide by 2pi for mag equation, amplitudes should be 
 # in units of nano by here
@@ -555,7 +555,7 @@ ax2.set_xlim(([1.1,165]))
 
 # f.set_tight_layout(True)
 print(mag_eq)
-# plt.savefig('./figures/{}/{}_{}.png'.format(sta,sta,pick),
-#                                                     dpi=600,figsize=(11,7))
+plt.savefig('./figures/{}/{}_{}.png'.format(sta,sta,pick),
+                                                    dpi=600,figsize=(11,7))
 plt.show()
 
