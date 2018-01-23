@@ -78,8 +78,8 @@ def grid_stations(event_name):
 def process_save(station,station_tag,event_name,f_start,f_end,output_path):
     
     # set sampling rate and copy traces for filtering
-    rt = station.synthetic.select(channel='MY*') # rotation
-    tr = station.synthetic.select(channel='MX*') # displacement
+    rt = station.synthetic.select(channel='MY*') # rotation [rad]
+    tr = station.synthetic.select(channel='MX*') # displacement [m]
 
     sampling_rate = int(rt[0].stats.sampling_rate)
     
@@ -95,15 +95,15 @@ def process_save(station,station_tag,event_name,f_start,f_end,output_path):
     rot_rate.select(component='R')[0].stats.channel = 'MyR'
     rot_rate.select(component='T')[0].stats.channel = 'MyT'
 
+    # beginning and end of suface waves
+    # !used to choose based on theoretical travel times, however unstable, so 
+    # currently just searches entire waveform
     surf_big = 0
     surf_end = len(rt[0].data)-1
 
-    # bandpass all traces for 5s to 15s
-<<<<<<< Updated upstream
-=======
-    f_start = 1/15
-    f_end = 1/5
->>>>>>> Stashed changes
+    # bandpass all traces for start and end frequencies (converted from T)
+    f_start = 1/60
+    f_end = 1/8
     for traces in [rot_rate,rotation,velocity_rtz]:
         traces.filter('bandpass', freqmin=f_start, freqmax=f_end, corners=3,
                   zerophase=True)
@@ -176,6 +176,9 @@ def process_save(station,station_tag,event_name,f_start,f_end,output_path):
 
 
     # divy up lists
+    # [peak index, peak amplitude, adjacent trough index, adjacent trough amp,
+    # adjacent peak index, adjacent peak amp, trough index, trough amp, channel
+    # name, peak to adjacent trough distance, trough to adj. peak distance]
     peak_indS,peakS,adj_trough_indS,adj_troughS,adj_peak_indS,adj_peakS,\
                         trough_indS,troughS,channelS,p2atS,ap2tS = plot_lists[:]
 
@@ -282,7 +285,7 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
                 ('peak_amplitude',rrz_max),
                 ('dominant_period',rrz_per),
                 ('zero_crossing',rrz_zca),
-                ('unit','nrad/s')
+                ('unit','rad/s')
                 ])
             ),
             ('radial_rotation_rate', 
@@ -290,7 +293,7 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
                 ('peak_amplitude',rrr_max),
                 ('dominant_period',rrr_per),
                 ('zero_crossing',rrr_zca),
-                ('unit','nrad/s')
+                ('unit','rad/s')
                 ])
             ),
             ('transverse_rotation_rate', 
@@ -298,7 +301,7 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
                 ('peak_amplitude',rrt_max),
                 ('dominant_period',rrt_per),
                 ('zero_crossing',rrt_zca),
-                ('unit','nrad/s')
+                ('unit','rad/s')
                 ])
             ),
             ('vertical_rotation', 
@@ -306,7 +309,7 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
                 ('peak_amplitude',rtz_max),
                 ('dominant_period',rtz_per),
                 ('zero_crossing',rtz_zca),
-                ('unit','nrad')
+                ('unit','rad')
                 ])
             ),
             ('radial_rotation', 
@@ -314,7 +317,7 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
                 ('peak_amplitude',rtr_max),
                 ('dominant_period',rtr_per),
                 ('zero_crossing',rtr_zca),
-                ('unit','nrad')
+                ('unit','rad')
                 ])
             ),
             ('transverse_rotation', 
@@ -322,7 +325,7 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
                 ('peak_amplitude',rtt_max),
                 ('dominant_period',rtt_per),
                 ('zero_crossing',rtt_zca),
-                ('unit','nrad')
+                ('unit','rad')
                 ])
             ),
             ('vertical_velocity', 
@@ -330,7 +333,7 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
                 ('peak_amplitude',vlz_max),
                 ('dominant_period',vlz_per),
                 ('zero_crossing',vlz_zca),
-                ('unit','nm/s')
+                ('unit','m/s')
                 ])
             ),
             ('transverse_velocity', 
@@ -338,7 +341,7 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
                 ('peak_amplitude',vlt_max),
                 ('dominant_period',vlt_per),
                 ('zero_crossing',vlt_zca),
-                ('unit','nm/s')
+                ('unit','m/s')
                 ])
             ),
             ('radial_velocity', 
@@ -346,7 +349,7 @@ def store_info_json(event,station,peak2troughs,periods,zero_crossings_abs,
                 ('peak_amplitude',vlr_max),
                 ('dominant_period',vlr_per),
                 ('zero_crossing',vlr_zca),
-                ('unit','nm/s')
+                ('unit','m/s')
                 ])
             )
             ])
@@ -396,6 +399,7 @@ for event_name in cat:
 
     station_list = ds.waveforms.list()[:10] + ds.waveforms.list()[-143:] +\
                                                     grid_nums_list
+    import pdb;pdb.set_trace()
     for station_string in station_list:
         try:
             i+=1

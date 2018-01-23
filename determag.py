@@ -219,7 +219,7 @@ def event_info_data(event, station):
     # theoretical event backazimuth and distance
     baz = gps2dist_azimuth(latter, lonter, rt[0].stats.coordinates.latitude,
                           rt[0].stats.coordinates.longitude)
-    
+
     return latter, lonter, depth, startev, rt, ac, baz, net_r, net_s,\
         chan1, chan2, chan3, chan4, sta_r, sta_s, loc_r, loc_s, srcRT, srcTR
 
@@ -875,8 +875,8 @@ mode = args.mode.upper()
 # set catalog variables
 if mode == 'XML':
     event_source = 'QUAKEML'
-    catpath = './catalogs/final_events_244.xml'
-    cat = read_events(catpath,format='QUAKEML')
+    catpath = './synthetics/specfem/input/tenGoodCMTSolutions'
+    cat = read_events(catpath)#,format='QUAKEML')
 
 elif mode == 'IRIS':
         print("\nDownloading events from IRIS")
@@ -943,6 +943,13 @@ for event in cat:
             rt,ac,sec,cutoff, = resample(is_local(baz),baz,rt,ac)
 
             rt,ac = remove_instr_resp(rt,ac,station,startev)
+
+            # # temp addition, write mseed out
+            # outpath = './output/mseeds/'
+            # outname = os.path.join(outpath,tag_name+'.mseed')
+            # st = rt + ac
+            # st.write(outname,format='MSEED')   
+            # a=1/0
 
             print("Getting arrival times...")
             init_sec = startev - ac[0].stats.starttime

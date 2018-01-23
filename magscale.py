@@ -52,15 +52,19 @@ def normalize(list):
 
 
 def epidist(lat1, lon1, lat2, lon2):
-    """Converts lat and lon lists to epicentral distance, iterates on lat1/lon1
+    """Converts lat and lon lists to epicentral distance in degrees,
+    iterates on lat1/lon1
     :type ev_lat/ev_lon: float
     :param ev_lat/ev_lon: lat/lon of event
     :rtype: np.array of floats
     :return: epicentral distance in degrees
     """
     delta=[]        
-    for i in range(0,len(lat1)):
-        delta.append(locations2degrees(lat1[i],lon1[i],lat2,lon2))
+    if type(lat1) == float:
+        delta = locations2degrees(lat1,lon1,lat2,lon2)
+    else:
+        for i in range(0,len(lat1)):
+            delta.append(locations2degrees(lat1[i],lon1[i],lat2,lon2))
 
     return delta
 
@@ -198,7 +202,7 @@ def confidence(data,mags,dists,GTGi,nxp,m0,m1):
 
     noise_varia = (1/(n-p)) * sum(resi_sq)
     sum_resi_sq = sum(resi_sq)
-    print('Sum of squared residuals: ',sum_resi_sq)
+    # print('Sum of squared residuals: ',sum_resi_sq)
     var_b1 = GTGi.item(0) * noise_varia
     var_b2 = GTGi.item(3) * noise_varia
 
@@ -311,6 +315,22 @@ def plot_map(lons,lats,mags,depths):
 
     plt.show()
 
+def give_distinct_color(i):
+    """red,green,yellow,blue,orange,uprple,cyan,magenta,lime,pink,teal,lavender,
+    brown,beige,maroon,mint,olive,coral,navy,grey,white,black
+    https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
+    """
+    distinct_colors = ['#e6194b','#3cb44b','#ffe119','#0082c8','#f58231',
+                        '#911eb4','#46f0f0','#f032e6','#d2f53c','#fabebe',
+                        '#008080','#e6beff','#aa6e28','#fffac8','#800000',
+                        '#aaffc3','#808000','#ffd8b1','#000080','#808080',
+                        '#FFFFFF','#000000']
+    if i > len(distinct_colors):
+        print('out of bounds')
+        return
+    else:
+        return distinct_colors[i]
+
 # =================================== MAIN ====================================
 parser = argparse.ArgumentParser(description='Magscale script.')
 parser.add_argument('--scale',help='scale choice: rotation [rt], \
@@ -322,6 +342,8 @@ parser.add_argument('--log',help='log or loglog plot (default: log)',type=str,
     default='log')
 parser.add_argument('--mag',help='magnitude choice for CI (default: 6)',
     type=int,default=6)
+parser.add_argument('--event',help='event list choice (default: "all"',
+    type=int,default=69)
 
 # parse out arguments
 args = parser.parse_args()
@@ -332,6 +354,9 @@ if not pick:
 sta = args.sta.lower()
 log = args.log
 mag = args.mag
+event_list_choice = args.event
+if event_list_choice == 69:
+    event_list_choice = 'all'
 
 # change rejected events to station specific?
 reject_events = np.load('./output/reject_events.npz')
@@ -349,7 +374,7 @@ if sta == 'wet':
         with open(file) as f:
             data = json.load(f)
             event_id = data['event_id'][-7:]
-            if event_id in reject_events[sta]:
+            if event_id in reject_events[sta].tolist():
                 continue
             file_IDs.append(file)
             event_IDs.append(event_id)
@@ -374,23 +399,62 @@ if sta == 'wet':
 
 # for synthetics made by specfem
 elif sta == 'specfem':
+    # hacky choice for event_list
+    # event_list_choice = 'all'
     # grab all stations
     path = './synthetics/specfem/output/'
-    eventnames = glob.glob(os.path.join(path,'*7-60s','jsons'))
-    for event in eventnames:
+    event_list = ['C201007181335A',
+            'C201109161926A',
+            'C201301050858A',
+            'C201304161044A',
+            'C201304191958A',
+            'C201502131859A',
+            'C201504250611A',
+            'C201509130814A',
+            'S201509162318A',
+            'C201601250422A']
+
+    # choose between plotting all events and single events
+    if event_list_choice == 'all':
+        eventnames = glob.glob(os.path.join(path,'*7-60s','jsons'))
+    else:
+        eventnames = glob.glob(os.path.join(path,'*{}_7-60s'.format(
+                                        event_list[event_list_choice]),'jsons'))
+    for i,event in enumerate(eventnames):
         filenames = glob.glob(os.path.join(event,'*'))
         sta_lats,sta_lons = [],[]
         for file in filenames:
             with open(file) as f:
                 data = json.load(f)
-                ID.append(data['network']+'_'+data['station'])
-                moments.append(data['moment'])
-                sta_lats.append(data['station_latitude'])
-                sta_lons.append(data['station_longitude'])
-                Z_vel_max.append(data['vertical_velocity']['peak_amplitude'])
-                T_vel_max.append(data['transverse_velocity']['peak_amplitude'])
-                Z_rr_max.append(data['vertical_rotation_rate']['peak_amplitude'])
-                Z_rt_max.append(data['vertical_rotation']['peak_amplitude'])
+            f.close()
+            # don't include synthetic stations
+            if data['network'] == 'GG':
+                continue
+
+            # grab station location TEMP
+            # if data['station'] == 'RLAS':
+            #     ds_rlas = epidist(lat1 = data['station_latitude'],
+            #                        lon1 = data['station_longitude'],
+            #                        lat2 = data['event_latitude'],
+            #                        lon2 = data['event_longitude'])
+            #     print(ds_rlas,end=',')
+
+            # filter by epientral distance
+            ds_check = epidist(lat1 = data['station_latitude'],
+                               lon1 = data['station_longitude'],
+                               lat2 = data['event_latitude'],
+                               lon2 = data['event_longitude'])
+            if not (2 <= ds_check <= 160):
+                continue
+
+            ID.append(data['network']+'_'+data['station'])
+            moments.append(data['moment'])
+            sta_lats.append(data['station_latitude'])
+            sta_lons.append(data['station_longitude'])
+            Z_vel_max.append(data['vertical_velocity']['peak_amplitude'])
+            T_vel_max.append(data['transverse_velocity']['peak_amplitude'])
+            Z_rr_max.append(data['vertical_rotation_rate']['peak_amplitude'])
+            Z_rt_max.append(data['vertical_rotation']['peak_amplitude'])
 
         # distances calculated per event
         ev_lat = data['event_latitude'] 
@@ -398,11 +462,12 @@ elif sta == 'specfem':
         ds_temp = epidist(sta_lats,sta_lons,lat2=ev_lat,lon2=ev_lon)
         ds += ds_temp
 
+
     # convert seismic moment to moment magnitude
     mags = [2/3 * np.log10(M*10**7) - 10.7 for M in moments]
     uniq_mags = list(set(mags))
-    
-    # convert to units of nano radians or m/s
+
+    # convert to units of nano radians or nm/s
     Z_vel_max = [_*(10**9) for _ in Z_vel_max]
     T_vel_max = [_*(10**9) for _ in T_vel_max]
     Z_rt_max = [_*(10**9) for _ in Z_rt_max]
@@ -433,86 +498,105 @@ y = lambda x,B,C,Mr: x**(-B) * 10**(Mr-C)
 m0,m1,GTGi,nxp = leasquares(psurf,ds,mags)
 m0n,m0p,m1n,m1p,residuals,resi_sq = confidence(psurf,mags,ds,GTGi,nxp,m0,m1)
 
+# create magnitude equation and annotation
+mag_eq_ano = 'M = log(V$_{max}$/2$\pi$) + '+\
+                '({} $\pm$ {}) log($\Delta$) + ({} $\pm$ {})'.format(
+                round(m0,3),round(m0-m0n,3),round(m1,3),round(m1-m1n,3))
+mag_eq = 'M_{} = log(V/2pi) + ({} +/- {}) log(D) + ({} +/- {})'.format(
+                pick,round(m0,3),round(m0-m0n,3),round(m1,3),round(m1-m1n,3))
+mag_eq_latex = '{} & {} $\pm$ {} & {} $\pm$ {}'.format(
+            label,round(m0,3),round(m0-m0n,3),round(m1,3),round(m1-m1n,3))
+event_eq_latex = '{} & {} $\pm$ {} & {} $\pm$ {} \\\ \hline'.format(
+            event_list[event_list_choice],round(m0,3),round(m0-m0n,3),round(m1,3),round(m1-m1n,3))
+print(event_eq_latex)
+sys.exit()
+# print(mag_eq)
+
 
 # ========================== Plot events on map ================================
-if sta != 'specfem':
-    # zip together magnitudes and pcc's, sort by mags
-    zipped_lists = zip(mags,pccs,event_IDs,file_IDs,ev_lats,ev_lons,depths)
-    sorted_lists = sorted(zipped_lists,key=lambda x:x[0])
-    m6, m65, m7, m75 = [],[],[],[]
-    for groups in sorted_lists:
-        if 6.0 <= groups[0] < 6.5:
-            m6.append(groups)
-        elif 6.5 <= groups[0] < 7.0:
-            m65.append(groups)
-        elif 7.0 <= groups[0] < 7.5:
-            m7.append(groups)
-        elif 7.5 <= groups[0] <= 8.0:
-            m75.append(groups)
+# if sta != 'specfem':
+#     # zip together magnitudes and pcc's, sort by mags
+#     zipped_lists = zip(mags,pccs,event_IDs,file_IDs,ev_lats,ev_lons,depths)
+#     sorted_lists = sorted(zipped_lists,key=lambda x:x[0])
+#     m6, m65, m7, m75 = [],[],[],[]
+#     for groups in sorted_lists:
+#         if 6.0 <= groups[0] < 6.5:
+#             m6.append(groups)
+#         elif 6.5 <= groups[0] < 7.0:
+#             m65.append(groups)
+#         elif 7.0 <= groups[0] < 7.5:
+#             m7.append(groups)
+#         elif 7.5 <= groups[0] <= 8.0:
+#             m75.append(groups)
 
-    # sort each new list by pcc
-    m6_sorted = sorted(m6, key=lambda x:x[1], reverse=True)
-    m65_sorted = sorted(m65, key=lambda x:x[1], reverse=True)
-    m7_sorted = sorted(m7, key=lambda x:x[1], reverse=True)
-    m75_sorted = sorted(m75, key=lambda x:x[1], reverse=True)
+#     # sort each new list by pcc
+#     m6_sorted = sorted(m6, key=lambda x:x[1], reverse=True)
+#     m65_sorted = sorted(m65, key=lambda x:x[1], reverse=True)
+#     m7_sorted = sorted(m7, key=lambda x:x[1], reverse=True)
+#     m75_sorted = sorted(m75, key=lambda x:x[1], reverse=True)
 
-    plot_ev_lons,plot_ev_lats,plot_mags,plot_depths = [],[],[],[]
-    for sorty in [m6_sorted,m65_sorted,m7_sorted,m75_sorted]:
-        for top in range(0,10,1):
-            plot_mags.append(sorty[top][0])
-            plot_ev_lats.append(sorty[top][4])
-            plot_ev_lons.append(sorty[top][5])
-            plot_depths.append(sorty[top][6])
+#     plot_ev_lons,plot_ev_lats,plot_mags,plot_depths = [],[],[],[]
+#     for sorty in [m6_sorted,m65_sorted,m7_sorted,m75_sorted]:
+#         for top in range(0,10,1):
+#             plot_mags.append(sorty[top][0])
+#             plot_ev_lats.append(sorty[top][4])
+#             plot_ev_lons.append(sorty[top][5])
+#             plot_depths.append(sorty[top][6])
 
-    plot_map(plot_ev_lons,plot_ev_lats,plot_mags,plot_depths)
-    sys.exit()
+#     plot_map(plot_ev_lons,plot_ev_lats,plot_mags,plot_depths)
+#     sys.exit()
 
 # ============================== PLOT ==========================================
 # plot Attributes and hacked up color choice
-# f = plt.figure(1,dpi=150,figsize=(11,7))
+f = plt.figure(1,dpi=150,figsize=(11,7))
 f = plt.figure(1)
 ax = plt.subplot(111)
 major_ticks = np.arange(0, 170, 10)                                              
 minor_ticks = np.arange(0, 170, 5)  
-# colorhack = ['0','1','2','b','y','g','r','c','m']
 colorhack = ['0','1','2','g','r','g','r','c','m','k']
 
 # scatter by magnitude value
-for MAG in uniq_mags:
-    color = '#{:06x}'.format(random.randint(0,256**3))
-    ax.scatter(0,0,c=color,label='M{}'.format(MAG))
-    for D,P,M in zip(ds,psurf,mags):
-        if M == MAG:
-            ax.scatter(D,P,c=color,marker='o',s=15,zorder=12)
+if sta == 'specfem':
+    for i,MAG in enumerate(uniq_mags):
+        color = give_distinct_color(i)
+        ax.scatter(0,0,c=color,label='M{}'.format(round(MAG,2)))
+        for D,P,M,I in zip(ds,psurf,mags,ID):
+            if M == MAG:
+                ax.scatter(D,P,c=color,marker='o',s=15,zorder=12)
+                if event_list_choice != 'all':
+                    ax.annotate(I,xy=(D,P),xytext=(D,P),fontsize=6)
 
 
-# ============================== OLD SCATTERPLOTS ==============================
+# ============================== WET SCATTERPLOTS ==============================
 # scatter plot points
-# delta=[];ps_scale=[];mag_filt=[]
-# MS = 40
-# for ix in range(len(psurf)):
-#     # if ID[ix] in manual_reject:
-#     #     continue
-#     if 3.0 <= mags[ix] < 4.0:
-#         ax.scatter(ds[ix],psurf[ix],c='#329932',marker='o',s=MS,zorder=10)
-#     elif 4.0 <= mags[ix] < 5.0:
-#         ax.scatter(ds[ix],psurf[ix],c='#ff0000',marker='o',s=MS,zorder=10)
-#     elif 5.0 <= mags[ix] < 6.0:
-#         ax.scatter(ds[ix],psurf[ix],c='#00ffff',marker='o',s=MS,zorder=10)
-#     elif 6.0 <= mags[ix] < 6.5:
-#         ax.scatter(ds[ix],psurf[ix],c='#ff0000',marker='o',s=MS,zorder=10)
-#     elif 6.5 <= mags[ix] < 7.0:
-#         ax.scatter(ds[ix],psurf[ix],c='#ff0000',marker='o',s=MS,zorder=10)
-#     elif 7.0 <= mags[ix] < 7.5:
-#         ax.scatter(ds[ix],psurf[ix],c='#00ffff',marker='o',s=MS,zorder=10)
-#     elif 7.5 <= mags[ix] <= 8.0:
-#         ax.scatter(ds[ix],psurf[ix],c='#00ffff',marker='o',s=MS,zorder=10)
-#     elif 8.0 <= mags[ix] <= 8.5:
-#         ax.scatter(ds[ix],psurf[ix],c='m',marker='o',s=MS,zorder=10)
-    # plt.annotate(xy=(ds[ix]+.5,psurf[ix]),s='{}'.format(ID[ix]),
-    #                 fontsize=7.5,zorder=10)
-    # print('{} : {} , {}'.format(i,delta[ix],ps_scale[ix]))
-# ============================== OLD SCATTERPLOTS ==============================
+if sta == 'wet':
+    delta=[];ps_scale=[];mag_filt=[]
+    MS = 40
+    ax.scatter(0,0,c='#ff0000',label='6.0 <= M < 6.5')
+    ax.scatter(0,0,c='#ffa500',label='6.5 <= M < 7.0')
+    ax.scatter(0,0,c='#00ffff',label='7.0 <= M < 7.5')
+    ax.scatter(0,0,c='#0000ff',label='7.5 <= M < 8.0')
+    for ix in range(len(psurf)):
+        # if ID[ix] in manual_reject:
+        #     continue
+        if 3.0 <= mags[ix] < 4.0:
+            ax.scatter(ds[ix],psurf[ix],c='#329932',marker='o',s=MS,zorder=10)
+        elif 4.0 <= mags[ix] < 5.0:
+            ax.scatter(ds[ix],psurf[ix],c='#ff0000',marker='o',s=MS,zorder=10)
+        elif 5.0 <= mags[ix] < 6.0:
+            ax.scatter(ds[ix],psurf[ix],c='#00ffff',marker='o',s=MS,zorder=10)
+        elif 6.0 <= mags[ix] < 6.5: # red
+            ax.scatter(ds[ix],psurf[ix],c='#ff0000',marker='o',s=MS,zorder=10)
+        elif 6.5 <= mags[ix] < 7.0: # orange
+            ax.scatter(ds[ix],psurf[ix],c='#ffa500',marker='o',s=MS,zorder=10)
+        elif 7.0 <= mags[ix] < 7.5: # cyan
+            ax.scatter(ds[ix],psurf[ix],c='#00ffff',marker='o',s=MS,zorder=10)
+        elif 7.5 <= mags[ix] <= 8.0:
+            ax.scatter(ds[ix],psurf[ix],c='#0000ff',marker='o',s=MS,zorder=10)
+        elif 8.0 <= mags[ix] <= 8.5:
+            ax.scatter(ds[ix],psurf[ix],c='m',marker='o',s=MS,zorder=10)
+
+        # print('{} : {} , {}'.format(i,delta[ix],ps_scale[ix]))
 
 # plot least squares, confidence intervals, magnitude lines
 ax.fill_between(x,y(x,m0n,m1n,mag),y(x,m0p,m1p,mag),
@@ -524,38 +608,57 @@ for i in range(5,10):
     ax.plot(x,y(x,m0,m1,i),zorder=5,linewidth=2.5,label='M{}'.format(i),
                                                     color=colorhack[i])
 
-# create magnitude equation and annotate
-mag_eq_ano = 'M = log(V$_{max}$/2$\pi$) + '+\
-                '({} $\pm$ {}) log($\Delta$) + ({} $\pm$ {})'.format(
-                round(m0,3),round(m0-m0n,3),round(m1,3),round(m1-m1n,3))
-mag_eq = 'M_{} = log(V/2pi) + ({} +/- {}) log(D) + ({} +/- {})'.format(
-                pick,round(m0,3),round(m0-m0n,3),round(m1,3),round(m1-m1n,3))
-
-
 # set figure parameters
-plt.legend(prop={'size':10})
+# l1 = plt.legend(prop={'size':8.5})
+plt.legend(prop={'size':7.5},loc="upper right",ncol=5)
 ax.grid(which='both')   
-ax.set_title(' Magnitude Scale | N = {} \n{}'.format(len(ds),mag_eq_ano))
-ax.set_yscale("log", nonposx='clip')
+if event_list_choice != 'all':
+    ax.set_title('{} {} Magnitude Scale | N = {} \n{}'.format(
+                      event_list[event_list_choice],label,len(ds),mag_eq_ano))
+else:
+    ax.set_title('{} {} Magnitude Scale | N = {} \n{}'.format(
+                                   sta.capitalize(),label,len(ds),mag_eq_ano))
+# ax.set_yscale("log", nonposx='clip')
 ax.set_ylabel('Peak {} ({})'.format(label,units))
 ax.set_xlabel('Epicentral Distance ($^{\circ}$)')
 if log == 'loglog': 
     ax.set_xscale("log", nonposx='clip')
-    ax.set_xlim([9,165])
+    xlower = 9
+    xupper = 165
 else:   
-    ax.set_xlim([1.1,165])
+    xlower = 1.1
+    xupper = 165
   
+# set y limits based on x limits and magnitude lines
+ylower = y(xupper,m0,m1,5)
+yupper = y(xlower,m0,m1,9)
+ax.set_ylim([ylower,yupper])
+ax.set_xlim([xlower,xupper])
 
 # make a histogram behind to show number of events
 ax2 = ax.twinx()
 ax2.set_ylabel('Number of Events')
 plt.hist(ds,bins=16,color='k',alpha=0.1,range=(0,160),zorder=1)
-ax2.set_xlim(([1.1,165]))
+ax2.set_xlim(([xlower,xupper]))
 
 
 # f.set_tight_layout(True)
-print(mag_eq)
-plt.savefig('./figures/{}/{}_{}.png'.format(sta,sta,pick),
-                                                    dpi=600,figsize=(11,7))
+# set figurenames for automatic saving
+if sta == 'specfem':
+    figpick = 'all'
+    if event_list_choice != 'all':
+        figpick = event_list[event_list_choice]
+    figurename = os.path.join('./figures',sta,'{}_{}'.format(pick,figpick))
+elif sta == 'wet':
+    figurename = os.path.join('./figures',sta,pick)
+
+# plt.savefig(figurename,dpi=600,figsize=(11,7))
 plt.show()
+
+
+
+
+
+
+
 

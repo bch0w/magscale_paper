@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  2 NOV 2017 16:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  20 JAN 2018 17:26
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -124,19 +124,13 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
  [1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
-]
-Underfull \hbox (badness 1014) in paragraph at lines 98--101
-\OT1/ptm/m/n/9 re-la-tion-ships be-tween max-i-mum trace am-pli-tudes and sourc
-e-
- []
-
-[2] [3]
+] [2] [3]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 181.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 187.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 181.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 187.
 
-Overfull \hbox (12.8758pt too wide) in paragraph at lines 180--193
+Overfull \hbox (12.8758pt too wide) in paragraph at lines 186--199
  [] 
  []
 
@@ -144,10 +138,10 @@ Overfull \hbox (12.8758pt too wide) in paragraph at lines 180--193
 
 ] [6] (./magnitudescale.aux) ) 
 Here is how much of TeX's memory you used:
- 1112 strings out of 493089
- 11910 string characters out of 6134842
- 91144 words of memory out of 5000000
- 4628 multiletter control sequences out of 15000+600000
+ 1114 strings out of 493089
+ 11936 string characters out of 6134842
+ 92738 words of memory out of 5000000
+ 4630 multiletter control sequences out of 15000+600000
  34104 words of font info for 67 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  31i,15n,20p,1380b,375s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -170,7 +164,7 @@ al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
 exlive/2015/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/201
 5/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/texmf-di
 st/fonts/type1/urw/times/utmri8a.pfb>
-Output written on magnitudescale.pdf (6 pages, 203289 bytes).
+Output written on magnitudescale.pdf (6 pages, 203545 bytes).
 PDF statistics:
  96 PDF objects out of 1000 (max. 8388607)
  69 compressed objects within 1 object stream
