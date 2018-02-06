@@ -1,18 +1,18 @@
-"""25.09.17 PAPER VERSION LMU 
+"""25.09.17 PAPER VERSION LMU
 
 Script for WETTZELL
 Waveform comparison code used to determine magnitude scales from rotational and
 translation motion, outputs all processed information into JSON, XML and PNG's.
 Files tagged as the event information and magnitudes
 
-+variable 'ac' refers only to translation components, used to be acceleration 
++variable 'ac' refers only to translation components, used to be acceleration
 and too much work to change all variable names
 + spaces not tabs
 + added an error log
 + removed correlation coefficients
 + add time of max amplitude
-+ 25.09.17 output rotation (integration of rotation rate) - 
-    and plot, comment out other plots and create new figure, 
++ 25.09.17 output rotation (integration of rotation rate) -
+    and plot, comment out other plots and create new figure,
     overwrite .json in output folder
 """
 
@@ -71,20 +71,20 @@ def download_data(origin_time, net, sta, loc, chan, source):
     # arclink is deprecated, but call is kept for posterity? rip
     # try:
     #     c = arclinkClient(user='test@obspy.org')
-    #     st = c.get_waveforms(network=net, station=sta, location='', 
+    #     st = c.get_waveforms(network=net, station=sta, location='',
     #                          channel=chan,
     #                          starttime=origin_time-190,
     #                          endtime=origin_time+3*3600+10)
-    
+
     # check paths to see if running on FFB, LMU or neither
 
     st = None
     dataDir_get = '/bay200/mseed_online/archive/' #FFB
     if not os.path.exists(dataDir_get):
-        dataDir_get = '/import/netapp-m-02-bay200/mseed_online/archive/'#LMU            
+        dataDir_get = '/import/netapp-m-02-bay200/mseed_online/archive/'#LMU
     if not os.path.exists(dataDir_get):
         dataDir_get = None
-    
+
     # if data path exists, read in data from file
     if dataDir_get:
         print("Fetching {} data from file".format(net))
@@ -102,8 +102,8 @@ def download_data(origin_time, net, sta, loc, chan, source):
                 st = Stream()
                 st.extend(read(filePath, starttime = origin_time - 180,
                       endtime = origin_time + 3 * 3600))
-                st.extend(read(filePath2, 
-                      starttime = UTCDateTime(o_time2.year, 
+                st.extend(read(filePath2,
+                      starttime = UTCDateTime(o_time2.year,
                                         o_time2.month, o_time2.day, 0, 0),
                       endtime = origin_time + 3 * 3600))
                 st.merge(method=-1)
@@ -112,23 +112,23 @@ def download_data(origin_time, net, sta, loc, chan, source):
                       endtime = origin_time + 3 * 3600)
             data_source = 'Archive'
         else:
-            print("\tFile not found: \n\t %s \n" % filePath)    
-    
+            print("\tFile not found: \n\t %s \n" % filePath)
+
     # if data/path does not exist, try querying FDSN webservices
     elif (not dataDir_get) or (not st):
         for S in source:
             try:
                 print("Fetching {} data from FDSN ({})".format(net,S))
                 c = fdsnClient(S)
-                st = c.get_waveforms(network=net, station=sta, location=loc, 
+                st = c.get_waveforms(network=net, station=sta, location=loc,
                                     channel=chan, starttime=origin_time-190,
                                     endtime=origin_time+3*3600+10)
                 break
             except:
                 print("\tFailed")
                 pass
-        data_source = S 
-    
+        data_source = S
+
     if not st:
         sys.exit('Data not available for this event')
 
@@ -136,7 +136,7 @@ def download_data(origin_time, net, sta, loc, chan, source):
     print("\tDownload of {!s} {!s} data successful".format(
               st[0].stats.station, st[0].stats.channel))
 
-    
+
     return st, data_source
 
 
@@ -170,7 +170,7 @@ def event_info_data(event, station):
     :rtype ac: :class: `~obspy.core.stream.Stream`
     :return ac: Three component broadband station signal.
     :rtype baz: tuple
-    :return baz: [0] great circle distance in m, 
+    :return baz: [0] great circle distance in m,
                  [1] theoretical azimuth,
                  [2] theoretical backazimuth.
     """
@@ -179,13 +179,13 @@ def event_info_data(event, station):
     lonter = origin.longitude
     startev = origin.time
     depth = origin.depth * 0.001  # Depth in km
-    
+
 
     if station == 'RLAS':
-        source = ['http://eida.bgr.de', 
+        source = ['http://eida.bgr.de',
                   'http://erde.geophysik.uni-muenchen.de']
         net_r = 'BW'
-        net_s = 'GR' 
+        net_s = 'GR'
         sta_r = 'RLAS'
         sta_s = 'WET'
         loc_r = ''
@@ -193,7 +193,7 @@ def event_info_data(event, station):
         # RLAS channel code was changed after 16.4.2010
         if origin.time < UTCDateTime(2010, 4, 16):
             chan1 = 'BAZ'
-        else: 
+        else:
             chan1 = 'BJZ'
         chan2 = 'BHE'
         chan3 = 'BHN'
@@ -316,23 +316,23 @@ def remove_instr_resp(rt, ac, station, startev):
     :return rt: Detrended and trimmed rotational signal from ringlaser.
     :rtype ac: :class: `~obspy.core.stream.Stream`
     :return ac: Detrended and trimmed three component broadband station signal.
-    """    
+    """
 
     if station == 'RLAS':
         rt[0].data = rt[0].data * 1. / 6.3191 * 1e-3  # Rotation rate in nrad/s
-        
+
         ac.detrend(type='linear')
         rt.detrend(type='linear')
         ac.taper(max_percentage=0.05)
         rt.taper(max_percentage=0.05)
-        
+
         paz_sts2_vel = {'poles': [(-0.0367429 + 0.036754j),
                                 (-0.0367429 - 0.036754j)],
-                        'sensitivity': 0.944019640, 
-                        'zeros': [0j,0j], 
+                        'sensitivity': 0.944019640,
+                        'zeros': [0j,0j],
                         'gain': 1.0}
 
-        ac.simulate(paz_remove=paz_sts2_vel, remove_sensitivity=True)  
+        ac.simulate(paz_remove=paz_sts2_vel, remove_sensitivity=True)
 
     else:
         print('Incorrect station call')
@@ -365,7 +365,7 @@ def ps_arrival_times(distance, depth, init_sec):
     :return arriv_p: Arrival time of the first P-wave.
     :rtype arriv_s: float
     :return arriv_s: Arrival time of the first S-wave.
-    
+
     """
 
     # use taup to get the theoretical arrival times for P & S
@@ -505,7 +505,7 @@ def time_windows(baz, arriv_p, arriv_s, init_sec, is_local):
     return min_pw, max_pw, min_sw, max_sw, min_lwi, max_lwi, min_lwf, max_lwf
 
 def peak_correlation(ac_ori,rt,sec,station):
-   
+
     """find trace cross correlations
     :type ac_ori: :class: `~obspy.core.stream.Stream`
     :param ac_ori: Stream object, horizontal velocities
@@ -535,10 +535,10 @@ def peak_correlation(ac_ori,rt,sec,station):
 def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
                                                 output_path,tag_name,event_ID):
     """
-    Filter traces for 10s to 60s bandpass, rotate translation components to 
-    radial/transverse coordinate system, determine max peak-to-trough trace 
+    Filter traces for 10s to 60s bandpass, rotate translation components to
+    radial/transverse coordinate system, determine max peak-to-trough trace
     amplitudes and quickplot to assess waveform quality
-    + Amplitude is given as 1/2 maximum peak to adjacent trough 
+    + Amplitude is given as 1/2 maximum peak to adjacent trough
     + Associated period is 2x time interval seperating peak and adjacent trough
     *be careful with the copy statement
 
@@ -565,10 +565,10 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
     :rtype periods: list of floats
     :return periods: associated periods for peak2trough deflections
     :rtype zero_crossings_abs: list of floats
-    :return zero_crossing_abs: associated arrival times of max amplitudes in 
+    :return zero_crossing_abs: associated arrival times of max amplitudes in
                                 seconds from trace start
     """
-    
+
     # set sampling rate and copy traces for filtering, rotate to NEZ->TRZ
     sampling_rate = int(rt[0].stats.sampling_rate)
     velocity_nez = ac.copy()
@@ -591,7 +591,7 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
         traces.filter('bandpass', freqmin=f_start, freqmax=f_end, corners=3,
                   zerophase=True)
 
-    # seperate streams into traces and create list for ease of processing 
+    # seperate streams into traces and create list for ease of processing
     z_vel = velocity_nez.select(component='Z')
     n_vel = velocity_nez.select(component='N')
     e_vel = velocity_nez.select(component='E')
@@ -625,8 +625,8 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
         # determine peak-to-trough values
         p2at = peak - adj_trough
         ap2t = adj_peak - trough
-        
-        # 1) choose largest p2t, take 0.5*max deflection, 
+
+        # 1) choose largest p2t, take 0.5*max deflection,
         # 2) find associated period
         # 3) find zero crossing for arrival time
         # * case by case basis depending on which maximum we take
@@ -637,7 +637,7 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
             if peak_ind < adj_trough_ind:
                 peak_to_peak = AT.data[peak_ind:adj_trough_ind]
                 zero_ind = np.where(np.diff(np.signbit(peak_to_peak)))[0][0]
-                zero_crossings.append(peak_ind + zero_ind) 
+                zero_crossings.append(peak_ind + zero_ind)
             else:
                 peak_to_peak = AT.data[adj_trough_ind:peak_ind]
                 zero_ind = np.where(np.diff(np.signbit(peak_to_peak)))[0][0]
@@ -648,12 +648,12 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
             if adj_peak_ind < trough_ind:
                 peak_to_peak = AT.data[adj_peak_ind:trough_ind]
                 zero_ind = np.where(np.diff(np.signbit(peak_to_peak)))[0][0]
-                zero_crossings.append(adj_peak_ind + zero_ind) 
+                zero_crossings.append(adj_peak_ind + zero_ind)
             else:
                 peak_to_peak = AT.data[trough_ind:adj_peak_ind]
                 zero_ind = np.where(np.diff(np.signbit(peak_to_peak)))[0][0]
-                zero_crossings.append(trough_ind + zero_ind) 
-        
+                zero_crossings.append(trough_ind + zero_ind)
+
         # append parameters to use in plotting all traces together
         plot_params = [peak_ind,peak,adj_trough_ind,adj_trough,adj_peak_ind,
                         adj_peak,trough_ind,trough,channel,p2at,ap2t]
@@ -681,16 +681,16 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
                                                             troughS[j],'ro')
         axes[i][0].plot(zero_crossings[j],0,'bo',zorder=8)
 
-        axes[i][0].annotate(p2atS[j], xy=(peak_indS[j],peakS[j]), 
+        axes[i][0].annotate(p2atS[j], xy=(peak_indS[j],peakS[j]),
             xytext=(peak_indS[j],peakS[j]),zorder=10,color='g')
-        axes[i][0].annotate(ap2tS[j], xy=(trough_indS[j],troughS[j]), 
+        axes[i][0].annotate(ap2tS[j], xy=(trough_indS[j],troughS[j]),
             xytext=(trough_indS[j],troughS[j]),zorder=10,color='r')
         axes[i][0].grid()
         # if channelS[j] == 'BJZ' or channelS[j] == 'BAZ':
         #     axes[i][0].set_ylabel('rot. rate(nrad/s)'.format(channelS[j]))
         # else:
         #     axes[i][0].set_ylabel('{} vel.(nm/s)'.format(channelS[j]))
-        
+
         # hacky ylabels
         if i == 0:
             axes[i][0].set_ylabel('rot. rate (nrad/s)')
@@ -707,9 +707,9 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
         axes[i][1].plot(adj_peak_indS[j],adj_peakS[j],'ro',trough_indS[j],
                                                             troughS[j],'ro')
         axes[i][1].plot(zero_crossings[j],0,'bo',zorder=8)
-        axes[i][1].annotate(p2atS[j], xy=(peak_indS[j],peakS[j]), 
+        axes[i][1].annotate(p2atS[j], xy=(peak_indS[j],peakS[j]),
             xytext=(peak_indS[j],peakS[j]),zorder=10,color='g')
-        axes[i][1].annotate(ap2tS[j], xy=(trough_indS[j],troughS[j]), 
+        axes[i][1].annotate(ap2tS[j], xy=(trough_indS[j],troughS[j]),
             xytext=(trough_indS[j],troughS[j]),zorder=10,color='r')
         axes[i][1].grid()
 
@@ -734,12 +734,12 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
     return peak2troughs,periods,zero_crossings_abs
 
 
-def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs, 
+def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
                     periods, zero_crossings_abs, station, startev, event,
                     event_source, depth, PCC):
     """
     Generates a human readable .json file that stores data for each event,
-    like peak values (acceleration, rotation rate, signal-to-noise ratio, 
+    like peak values (acceleration, rotation rate, signal-to-noise ratio,
     backazimuths.
 
     :type folder_name/tag_name/event_ID: str
@@ -757,7 +757,7 @@ def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
     :type periods: list of floats
     :param periods: associated periods for peak2trough deflections
     :type zero_crossings_abs: list of floats
-    :param zero_crossing_abs: associated arrival times of max amplitudes in 
+    :param zero_crossing_abs: associated arrival times of max amplitudes in
                                 seconds from trace start
     :type station: str
     :param station: Station from which data are fetched ('WET' or 'PFO').
@@ -766,7 +766,7 @@ def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
     rr_per, rt_per, zv_per, tv_per, nv_per, ev_per, rv_per = periods[:]
     rr_zca, rt_zca, zv_zca, tv_zca, nv_zca, ev_zca, rv_zca \
                                                         = zero_crossings_abs[:]
-    
+
     sampl_rate = rt[0].stats.sampling_rate
     TBA = baz[2]  # Theoretical backazimuth [deg]
     distance = 0.001*baz[0]
@@ -784,8 +784,8 @@ def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
             ('epicentral_distance_in_km', distance),
             ('theoretical_backazimuth', TBA),
             ('peak_correlation_coefficient', PCC),
-            ('zero_crossing_unit','sec. from trace start'),           
-            ('vertical_rotation_rate', 
+            ('zero_crossing_unit','sec. from trace start'),
+            ('vertical_rotation_rate',
                 OrderedDict([
                 ('peak_amplitude',rr_max),
                 ('dominant_period',rr_per),
@@ -793,7 +793,7 @@ def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
                 ('unit','nrad/s')
                 ])
             ),
-            ('vertical_rotation', 
+            ('vertical_rotation',
                 OrderedDict([
                 ('peak_amplitude',rt_max),
                 ('dominant_period',rt_per),
@@ -801,7 +801,7 @@ def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
                 ('unit','nrad')
                 ])
             ),
-            ('vertical_velocity', 
+            ('vertical_velocity',
                 OrderedDict([
                 ('peak_amplitude',zv_max),
                 ('dominant_period',zv_per),
@@ -809,7 +809,7 @@ def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
                 ('unit','nm/s')
                 ])
             ),
-            ('transverse_velocity', 
+            ('transverse_velocity',
                 OrderedDict([
                 ('peak_amplitude',tv_max),
                 ('dominant_period',tv_per),
@@ -817,7 +817,7 @@ def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
                 ('unit','nm/s')
                 ])
             ),
-            ('radial_velocity', 
+            ('radial_velocity',
                 OrderedDict([
                 ('peak_amplitude',rv_max),
                 ('dominant_period',rv_per),
@@ -825,7 +825,7 @@ def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
                 ('unit','nm/s')
                 ])
             ),
-            ('north_velocity', 
+            ('north_velocity',
                 OrderedDict([
                 ('peak_amplitude',nv_max),
                 ('dominant_period',nv_per),
@@ -833,7 +833,7 @@ def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
                 ('unit','nm/s')
                 ])
             ),
-            ('east_velocity', 
+            ('east_velocity',
                 OrderedDict([
                 ('peak_amplitude',nv_max),
                 ('dominant_period',nv_per),
@@ -932,14 +932,14 @@ for event in cat:
         # if os.path.exists(xml_tag):
         #     print('Already Processed')
         #     continue
-        
+
         # run processing function
         # import pdb;pdb.set_trace()
         try:
             latter, lonter, depth, startev, rt, ac, baz, net_r, net_s,\
             chan1, chan2, chan3, chan4, sta_r, sta_s, loc_r, loc_s, srcRT, srcTR = \
                                                    event_info_data(event, station)
-            
+
             rt,ac,sec,cutoff, = resample(is_local(baz),baz,rt,ac)
 
             rt,ac = remove_instr_resp(rt,ac,station,startev)
@@ -948,7 +948,7 @@ for event in cat:
             # outpath = './output/mseeds/'
             # outname = os.path.join(outpath,tag_name+'.mseed')
             # st = rt + ac
-            # st.write(outname,format='MSEED')   
+            # st.write(outname,format='MSEED')
             # a=1/0
 
             print("Getting arrival times...")
@@ -958,12 +958,12 @@ for event in cat:
 
             min_pw,max_pw,min_sw,max_sw,min_lwi,max_lwi,min_lwf,max_lwf =\
                             time_windows(baz,arriv_p,arriv_s,init_sec,is_local(baz))
-            
+
             print("Finding peak correlations...")
             PCC = peak_correlation(ac,rt,sec,station)
 
             print("Processing data and saving figures...")
-            event_ID = event.resource_id.id[-7:] 
+            event_ID = event.resource_id.id[-7:]
             peak2troughs,periods,zero_crossings_abs = process_save(
                                                 ac,rt,baz,cutoff,station,
                                                 is_local(baz),min_lwi,max_lwf,
@@ -974,15 +974,15 @@ for event in cat:
                             periods,zero_crossings_abs,station,startev,event,
                             event_source,depth,PCC)
             event.write(xml_tag,format='QUAKEML')
-            
+
             success_counter += 1
-                
+
         # if any error
         except Exception as e:
             fail_counter += 1
             print(e)
             error_list.append(tag_name)
-       
+
         # if keyboard interrupt, quit
         except KeyboardInterrupt:
             fail_counter += 1
@@ -993,7 +993,7 @@ for event in cat:
         fail_counter += 1
         print(e)
         error_list.append(tag_name)
-   
+
     # if keyboard interrupt, quit
     except KeyboardInterrupt:
         fail_counter += 1
@@ -1005,9 +1005,9 @@ print("Catalog complete, no more events to show")
 print("From a total of %i event(s):\n %i was/were successfully processed"
       "\n %i could not be processed \n %i already processed\n" % (
           len(cat), success_counter, fail_counter, already_processed))
- 
+
 
 #  # write error log to see events failed, named by search timeframe
 if len(error_list) > 0:
-  for i in error_list:  
+  for i in error_list:
         print(error_list)
