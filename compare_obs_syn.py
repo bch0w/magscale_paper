@@ -90,7 +90,7 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
 
     # filter values
     t_start = 10
-    t_end = 60
+    t_end = 30
     f_start = 1/t_end
     f_end = 1/t_start
 
@@ -159,12 +159,12 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
         units = 'nrad/s'
         choice = 'Rotation Rate'
 
-    # ======================= OBSERVATIONS =======================
     # convert to time
     obs_SR = obs_rot_rateZ[0].stats.sampling_rate
     obs_maxtime = len(obs_data)/obs_SR
     obs_time = np.linspace(0,obs_maxtime,len(obs_data))
 
+    # ======================= OBSERVATIONS =======================
     # grab peak value
     obs_peak = max(obs_data)
     obs_peak_ind = np.where(obs_data == obs_peak)[0][0]/obs_SR
@@ -183,8 +183,8 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
 
     ax1.set_title('{} / Event: {} / Event-Station Distance: {} deg'.format(
                                             choice,event,round(ds_list[i],2)))
-
-    # ======================= SYNTHETICS =======================
+    #
+    # # ======================= SYNTHETICS =======================
     syn_SR = syn_rot_rateZ[0].stats.sampling_rate
     syn_maxtime = len(syn_data)/syn_SR
     syn_time = np.linspace(0,syn_maxtime,len(syn_data))
@@ -209,13 +209,15 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
 
     figurename = os.path.join('./figures','waveforms',event+'.png')
     # plt.savefig(figurename,dpi=600,figsize=(11,7))
-    # plt.show()
+    plt.show()
 
     # append to list of peak value differences
     peak_differences.append(syn_peak/obs_peak)
 
     # ==================== PHASE VELOCITY/CORRELATION ====================
-    f2,(ax3,ax4) = plt.subplots(2,sharex=True)
+    # f2,(ax3,ax4) = plt.subplots(2,sharex=True)
+    f2 = plt.figure(1)
+    ax3 = plt.subplot(111)
     # rotation rate vs transverse acceleration - observations
     obs_TAdata = obs_accelT[0].data
     obs_RRdata = obs_rot_rateZ[0].data
@@ -226,8 +228,8 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
     obs_c = oTA_max/(2*oRR_max)
     obs_TAdata_scaled = [_/obs_c for _ in obs_TAdata]
 
-    ax3.plot(obs_time,obs_TAdata_scaled,'k')
-    ax3.plot(obs_time,obs_RRdata,'r')
+    ax3.plot(obs_time,obs_TAdata_scaled,'k',label='Transverse Acceleration')
+    ax3.plot(obs_time,obs_RRdata,'r',label='Rotation Rate')
     ax3.set_xlabel('Time (sec)')
     ax3.set_ylabel('Rotation rate (rad/s) and scaled Transverse Acceleration')
     ax3.set_title('Observations, RR vs. TA | c = {}'.format(obs_c))
@@ -244,21 +246,21 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
     syn_c = sTA_max/(2*sRR_max)
     syn_TAdata_scaled = [_/syn_c for _ in syn_TAdata]
 
-    ax4.plot(syn_time,syn_TAdata_scaled,'k')
-    ax4.plot(syn_time,syn_RRdata,'r')
-    ax4.set_xlabel('Time (sec)')
-    ax4.set_ylabel('Rotation rate (rad/s) and scaled Transverse Acceleration')
-    ax4.set_title('Synthetics, RR vs. TA | c = {}'.format(syn_c))
-    ax4.grid(True)
-    ax4.set_axisbelow(True)
+    # ax4.plot(syn_time,syn_TAdata_scaled,'k')
+    # ax4.plot(syn_time,syn_RRdata,'r')
+    # ax4.set_xlabel('Time (sec)')
+    # ax4.set_ylabel('Rotation rate (rad/s) and scaled Transverse Acceleration')
+    # ax4.set_title('Synthetics, RR vs. TA | c = {}'.format(syn_c))
+    # ax4.grid(True)
+    # ax4.set_axisbelow(True)
 
-
-    # plt.show()
-plt.close()
-f3 = plt.figure()
-plt.scatter(ds_list,peak_differences,c='r',marker='x')
-plt.yscale('log')
-plt.xlabel('Distance (deg)')
-plt.ylabel('Observed Peak/Synthetic Peak (%)')
-plt.title('Peak Differences')
-plt.show()
+    plt.legend()
+    plt.show()
+# plt.close()
+# f3 = plt.figure()
+# plt.scatter(ds_list,peak_differences,c='r',marker='x')
+# plt.yscale('log')
+# plt.xlabel('Distance (deg)')
+# plt.ylabel('Observed Peak/Synthetic Peak (%)')
+# plt.title('Peak Differences')
+# plt.show()

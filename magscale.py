@@ -59,7 +59,7 @@ def epidist(lat1, lon1, lat2, lon2):
     :rtype: np.array of floats
     :return: epicentral distance in degrees
     """
-    delta=[]        
+    delta=[]
     if type(lat1) == float:
         delta = locations2degrees(lat1,lon1,lat2,lon2)
     else:
@@ -120,7 +120,7 @@ def hold_filter(num_fil,parms,vmin,vmax,vhold,holdnum):
 def loglog_misfit(dist,amps,magnis,check_ll):
     """Plots power law fitted lines for the given data, requires distance,
     amplitudes and magnitudes
-    :type magnis: float 
+    :type magnis: float
     :param magnis: list of magnitudes to check_ll
     :type check_ll: integer
     :param check_ll: choose rotation rate w/ 0 or vertical displacement w/ 1
@@ -137,12 +137,12 @@ def loglog_misfit(dist,amps,magnis,check_ll):
                 mf_del.append(dist[j])
                 mf_surf.append(amps[j]*10**(-3))
         if not mf_del:
-            continue    
+            continue
         log_del = np.log10(mf_del)
         log_surf = np.log10(mf_surf)
-        polly = np.polyfit(log_del,log_surf,1) 
+        polly = np.polyfit(log_del,log_surf,1)
         if polly[0] > 0: continue
-        y = (10**polly[1]) * (log_x**polly[0]) 
+        y = (10**polly[1]) * (log_x**polly[0])
         # plt.plot(log_x,y,'k--',linewidth=2.0)
         # plt.annotate(xy=(log_x[13],y[13]),s='M{}'.format(ms))
 
@@ -150,12 +150,12 @@ def loglog_misfit(dist,amps,magnis,check_ll):
 
 
 def leasquares(amplitudes,distances,magnitudes):
-    """ numpy matrices are confusing so to get into the correct order we need to 
-    initially transpose, at initialization G and d are Nx2 and 1x2 matrices, 
+    """ numpy matrices are confusing so to get into the correct order we need to
+    initially transpose, at initialization G and d are Nx2 and 1x2 matrices,
     resp. We need to solve the equation m = (GTG)^-1GTd where GT is G tranpose
 
     For the equation Mr = log(A) + Blog(D) + C => (B,C) = (m[0],m[1])
-    
+
     :type amplitudes: array
     :param amplitudes: amplitude values for mag scale
     :type distances: array
@@ -166,12 +166,12 @@ def leasquares(amplitudes,distances,magnitudes):
     :param m: coefficients in magnitude equation
     """
     G = [np.log10(ds),np.ones(len(distances))]
-    G = (np.asmatrix(G)).transpose() 
+    G = (np.asmatrix(G)).transpose()
 
     d_hold = []
     for i4 in range(0,len(magnitudes)):
         d_hold.append(magnitudes[i4]-np.log10(amplitudes[i4]))
-    d = (np.asmatrix(d_hold)).transpose() 
+    d = (np.asmatrix(d_hold)).transpose()
 
     GTG = np.dot(G.transpose(),G)
     GTGi = inv(GTG)
@@ -183,9 +183,9 @@ def leasquares(amplitudes,distances,magnitudes):
 
 def confidence(data,mags,dists,GTGi,nxp,m0,m1):
     """calculate the confidence interval for the least squares regression.
-    an estimator for the confidence interval is given for estimator m, and 
+    an estimator for the confidence interval is given for estimator m, and
     for an n x p matrix G. We use a c value of 1.96 for 95 percent confidence.
-    need to check as our sample size is quite small 
+    need to check as our sample size is quite small
 
             (GTG)^-1 * (sum(residuals))/(n-p)
     """
@@ -234,7 +234,7 @@ def plot_magnitude_lines(magnitude):
     ax.set_xlabel('Distance ($\Delta$)')
     ax.set_ylabel('Peak Velocity (nm/s)')
     ax.set_title('M7 Velocity Scale Comparison')
-    ax.grid(which='both')   
+    ax.grid(which='both')
 
     plt.legend()
     plt.show()
@@ -261,7 +261,7 @@ def plot_histograms():
     for be in range(len(hist)):
       plt.annotate(xy=(bin_edge[be]+width/2,hist[be]),s=hist[be],fontsize=10)
 
-    ax.set_rmax(max(hist))    
+    ax.set_rmax(max(hist))
     ax.set_yticklabels([])
     # ax.set_rlabel_position(118)
     ax.set_title('{} Events, BAZ histogram'.format(len(baz)))
@@ -270,7 +270,7 @@ def plot_histograms():
     plt.show()
 
 def plot_map(lons,lats,mags,depths):
-    """plot events on a map, no shooting 
+    """plot events on a map, no shooting
     """
     # draw base map
     plt.figure(figsize=(18, 9))
@@ -281,7 +281,7 @@ def plot_map(lons,lats,mags,depths):
     map.drawcountries(linewidth=0.25)
     map.fillcontinents(color='coral', lake_color='lightblue')
     map.drawmapboundary(fill_color='lightblue')
-    
+
     # event lat and lon in map x y
     lat_coo,lon_coo = [],[]
     for i in range(0,len(lats)):
@@ -295,12 +295,12 @@ def plot_map(lons,lats,mags,depths):
                         edgecolor="k", zorder=100)
 
     # use magnitudes for size
-    for i in range(0,len(mags)): 
+    for i in range(0,len(mags)):
         mags[i] = (mags[i]**5)/50
 
     sct = map.scatter(lon_coo, lat_coo, s=mags, c=depths, marker=".",
                         edgecolor="k", zorder=100, cmap='viridis')
-    
+
     cbar = map.colorbar(sct,location='bottom',pad="5%")
 
     # plot markers to show relative event size
@@ -331,10 +331,22 @@ def give_distinct_color(i):
     else:
         return distinct_colors[i]
 
+def amplitude_values(B,C,M):
+    """returns amplitude values for magnitude scale
+    """
+    distance = range(2,161,2)
+    y = lambda x,B,C,Mr: x**(-B) * 10**(Mr-C)
+    amp = []
+    for d in distance:
+        amp.append(round(y(d,B,C,M),2))
+
+    return distance,amp
+
+
 # =================================== MAIN ====================================
 parser = argparse.ArgumentParser(description='Magscale script.')
 parser.add_argument('--scale',help='scale choice: rotation [rt], \
-rotation rate [rr], vertical velocity [zv], transverse velocity [tv]', 
+rotation rate [rr], vertical velocity [zv], transverse velocity [tv]',
 type=str, default=None)
 parser.add_argument('--sta',help='station choice: wettzell [wet], \
 fuerstenfeldbruck [fur], italy [ita], specfem [spec]', type=str, default='wet')
@@ -348,7 +360,7 @@ parser.add_argument('--event',help='event list choice (default: "all"',
 # parse out arguments
 args = parser.parse_args()
 pick = args.scale
-if not pick: 
+if not pick:
     parser.print_help()
     sys.exit()
 sta = args.sta.lower()
@@ -368,7 +380,7 @@ mags,Z_vel_max,T_vel_max,Z_rr_max,Z_rt_max,ds,moments = [[] for _ in range(16)]
 # load in data as numpy arrays, convert to lists of floats, calculate distance
 if sta == 'wet':
     path = './output/processed_events/jsons/'
-    filenames = glob.glob(path + '*')    
+    filenames = glob.glob(path + '*')
 
     for file in filenames:
         with open(file) as f:
@@ -457,7 +469,7 @@ elif sta == 'specfem':
             Z_rt_max.append(data['vertical_rotation']['peak_amplitude'])
 
         # distances calculated per event
-        ev_lat = data['event_latitude'] 
+        ev_lat = data['event_latitude']
         ev_lon = data['event_longitude']
         ds_temp = epidist(sta_lats,sta_lons,lat2=ev_lat,lon2=ev_lon)
         ds += ds_temp
@@ -473,7 +485,7 @@ elif sta == 'specfem':
     Z_rt_max = [_*(10**9) for _ in Z_rt_max]
     Z_rr_max = [_*(10**9) for _ in Z_rr_max]
 
-# pick amplitudes and divide by 2pi for mag equation, amplitudes should be 
+# pick amplitudes and divide by 2pi for mag equation, amplitudes should be
 # in units of nano by here
 if pick == 'rr':
     label = 'Rotation Rate'
@@ -494,7 +506,7 @@ elif pick == 'tv':
 
 # determine least squares and confidence intervals
 x = np.linspace(1,200,201)
-y = lambda x,B,C,Mr: x**(-B) * 10**(Mr-C) 
+y = lambda x,B,C,Mr: x**(-B) * 10**(Mr-C)
 m0,m1,GTGi,nxp = leasquares(psurf,ds,mags)
 m0n,m0p,m1n,m1p,residuals,resi_sq = confidence(psurf,mags,ds,GTGi,nxp,m0,m1)
 
@@ -551,8 +563,8 @@ sys.exit()
 f = plt.figure(1,dpi=150,figsize=(11,7))
 f = plt.figure(1)
 ax = plt.subplot(111)
-major_ticks = np.arange(0, 170, 10)                                              
-minor_ticks = np.arange(0, 170, 5)  
+major_ticks = np.arange(0, 170, 10)
+minor_ticks = np.arange(0, 170, 5)
 colorhack = ['0','1','2','g','r','g','r','c','m','k']
 
 # scatter by magnitude value
@@ -611,7 +623,7 @@ for i in range(5,10):
 # set figure parameters
 # l1 = plt.legend(prop={'size':8.5})
 plt.legend(prop={'size':7.5},loc="upper right",ncol=5)
-ax.grid(which='both')   
+ax.grid(which='both')
 if event_list_choice != 'all':
     ax.set_title('{} {} Magnitude Scale | N = {} \n{}'.format(
                       event_list[event_list_choice],label,len(ds),mag_eq_ano))
@@ -621,14 +633,14 @@ else:
 # ax.set_yscale("log", nonposx='clip')
 ax.set_ylabel('Peak {} ({})'.format(label,units))
 ax.set_xlabel('Epicentral Distance ($^{\circ}$)')
-if log == 'loglog': 
+if log == 'loglog':
     ax.set_xscale("log", nonposx='clip')
     xlower = 9
     xupper = 165
-else:   
+else:
     xlower = 1.1
     xupper = 165
-  
+
 # set y limits based on x limits and magnitude lines
 ylower = y(xupper,m0,m1,5)
 yupper = y(xlower,m0,m1,9)
@@ -654,11 +666,3 @@ elif sta == 'wet':
 
 # plt.savefig(figurename,dpi=600,figsize=(11,7))
 plt.show()
-
-
-
-
-
-
-
-
