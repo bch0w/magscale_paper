@@ -246,7 +246,13 @@ Table \ref{tab:scales} shows that the value of B covers a large range of values,
 
 \begin{figure}
 \centerline{\includegraphics[width=.5\textwidth]{scale_compare}}
-\caption{A comparison of velocity based scales for stations WET and FUR with the IASPEI scale used as reference. Peak amplitudes given in units of nanometers/s}
+\caption{A comparison of velocity based scales for stations WET, FUR and synthetic scales, with the IASPEI scale used as reference. Peak amplitudes given in units of nanometers/s}
+\label{fig:scale_comp}
+\end{figure}
+
+\begin{figure}
+\centerline{\includegraphics[width=.5\textwidth]{rr_scales_compare}}
+\caption{A comparison of rotation based scales for station WET and synthetic scales. Peak amplitudes given in units of nanoradians/s}
 \label{fig:scale_comp}
 \end{figure}
 
@@ -261,7 +267,12 @@ It should be noted that the magnitude scale is heavily controlled by the end poi
 
 %Discussion: comparing regional view vs an averaging
 \subsection{Observed and synthetic waveforms}
-For each of the 10 chosen events, synthetic seismograms were generated for all synthetic stations, as well as a 3$^\circ$ circle surrounding the event location, for very close observations. These results are left out of this study, however, as many of these synthetic stations would have been in the ocean, which presented a non-realistic scenario with which to compare our observations. Waveforms for station WET were compared for all components of translation and rotation to determine the accuracy of the simulation and 3D model. In most cases, P-wave arrivals matched exactly. Phases and amplitudes in the surface wave train, however, were not in agreement. Even for narrow pass filters, as in Figure \ref{fig:both}, observation and synthetic seismograms did not exhibit high correlations. Considerations should be made towards using point sources with no source time functions, % in discussion? 
+For each of the simulated events, synthetic seismograms were generated for all synthetic stations mentioned earlier, as well as a 3$^\circ$ circle surrounding the event location, for very close observations; these results are left out of  as many of these synthetic stations were located in the ocean, which presented a non-realistic observation scenario. Waveforms for station WET were compared for all possible components of translation and rotation. In one event (2010-07-18), a foreshock in the observations, which went unnoticed before choosing events for simulation, obscured the arrival times of body waves. In many other cases, P-wave and S-wave arrivals matched well. Later arrivals are not in agreement, however, with very different dispersive behavior exhibited by arriving surface waves. In many cases, there is much more energy present in the observed waveforms, which are large enough to obscure arrivals and to present a resonance after the arrival of surface aves. In most of the observations, noise levels are high enough that determining body wave arrivals is difficult compared to the synthetic models. Even for narrow pass filters, as in Figure \ref{fig:both}, observation and synthetic seismograms do not exhibit high correlations. 
+
+Comparisons of transverse acceleration and rotation rate provide solid phase matching throughout the waveform, with the strongest correlation during the surface wave train, even for relatively wide bandpass filters (i.e. 10 to 60 seconds). This is true for both observations and synthetics, and also allows for the calculation of phase velocities. Because this is not the goal of this paper, we do not delve too far into the analysis of phase velocities, however taking peak value amplitude ratios for broad bandpass filter ranges (which would average the horizontal phase velocities of each dominant period contained), we recover values ranging from 3 to 5 km/s. 
+
+
+Considerations should be made towards using point sources with no source time functions, % in discussion? 
 and the rather broad range of frequencies included in the observations. Local site and source effects also may not have been taken into captured by the synthetic model used. Unfortunately due to limited computational resources, the synthetic traces only extend one hour, and do not capture the full extent of the waveform represented in the observations. Comparison of the waveforms, however, suggest that all of the surface wave energy has been captured in the one hour of simulation time. % perhaps compare waveforms for a smaller frequency band - t=20s?
 
 \begin{figure}
@@ -271,11 +282,11 @@ and the rather broad range of frequencies included in the observations. Local si
 \end{figure}
 
 \subsection{Synthetic magnitude scales}
-The derived magnitude scales for synthetic results differ drastically from the observed results. The synthetic results  do not reflect the same discrepancies that are present in the values given in Table \ref{tab:scales}.
+The derived magnitude scales for synthetic results are given in Table \ref{tab:scales}, with a figure showing the synthetic rotation rate magnitude scale in Figure \ref{fig:syn_scale}. Looking at Table \ref{tab:scales}, the synthetic results vary quite dramatically from the observed results; the synthetic results do not reflect the same discrepancies that are present in the values given in Table \ref{tab:scales}.
 
-Looking at Figure [SYN MAG SCALE FIG], the distribution of points on the magnitude scales is much more uniform. This can be attributed to the increased number of recordings for a single event due to the large number of synthetic stations. With so many station receiver pairs over a range of epicentral distances, it is possible for the receiver to track the earthquake. This was unfortunately not possible in the observations, and gives rise to some discrepancy in the appearance of the different magnitude scales. 
+Looking at Figure \ref{fig:syn_scale}, the distribution of points on the magnitude scales is much more uniform. This can be attributed to the increased number of recordings for a single event due to the large number of synthetic stations. With so many station receiver pairs over a range of epicentral distances, the synthetic magnitude scale simulates the much more common method of determining magnitude. The number of events is roughly six times more than in observations, although the number of events at very close distances is also quite low, due to geographic considerations. The 95\% confidence intervals provide a much narrower band than seen in observations, due to the larger number of events and the synthetic nature of this scale; single events providing data points over the entire distance range puts a strong constraint on the fitted decay constants.
 
-The synthetic magnitude scales all exhibit very similar values for the decay constant B. The large variation in decay as seen in the observations is not at all captured here. The largest discrepancy between two scales is X!. Even between rotation and rotation rate, as well as the values of velocity.
+The synthetic magnitude scales all exhibit very similar values for the decay constant B. The large variation in decay as seen in the observations is not captured here. Compared to the IASPEI magnitude scale, all the synthetic scales fall much lower in their value of B. Synthetic rotation rate gives the largest, or steepest decay constant at 1.215, however not by a large margin. TRansverse velocity falls in with the smallest value. Looking at the values of C, expected amplitudes are all also quite low, except for rotation rate. Vertical velocity exhibits a n
 
 \begin{figure*}
 \centerline{\includegraphics[width=0.8\textwidth]{rr_syn}}
@@ -321,19 +332,16 @@ The synthetic magnitude scales all exhibit very similar values for the decay con
 \end{table*}
 
 
-
 \subsection{Expected rotation amplitudes}
-One useful aspect of magnitude scales is to provide an expected amplitude value for a given magnitude event at certain distance. This is quite helpful in areas such as seismic hazard, where one can estimate the order of magnitude of ground motion at a location some distance away from an event, given a certain event size, though this is also dependent on site effects, travel paths, and amplitude modulation due to attenuation, focusing etc. This has largely been replaced by the concept of ground motion prediction equations, however in the emerging field of rotational seismology, it provides a useful insight.% something about GMPA
+One useful aspect of magnitude scales is to provide an expected amplitude value for a given magnitude event at certain distance. This is quite helpful in areas such as seismic hazard, where one can estimate the order of magnitude of ground motion at a location some distance away from an event, given a certain event size, though this is also dependent on many factors, such as site effects, travel paths, and amplitude modulation due to attenuation, focusing etc. This has largely been replaced by the concept of ground motion prediction equations, however it still provides a useful insight.% something about GMPA
 
-One concern in rotational seismology arises from whether or not newly developed field deployable rotation sensors will have the sensitivity necessary to capture the rotational motion amplitudes excited by regional or distant seismic events. With the rotational magnitude scale we derived here, we are able to create a list of expected rotational amplitudes for tele-seismic events. At the time of writing, the field deployable rotation sensor BlueSeis from the company iXBlue, has a noise floor of about (???) [Cite ???], which measures gradient information (rotation rate). Referring to the values given in Table \ref{tab:scales}, the maximum distance the sensor can be to detect a M$_w$ event would be X$^\circ$. Other considerations must be taken into account before these values can be used for field deployment decisions, however it provides a jumping off point for a new area of field research.
+One concern in rotational seismology arises from whether or not newly developed field deployable rotation sensors can reach the sensitivity necessary to capture the rotational motion amplitudes excited by regional or tele- seismic events. With the rotational magnitude scale derived here, we are able to create a list of observation based expected amplitudes. At the time of writing, the field deployable rotation sensor BlueSeis from the company iXBlue, has a noise floor of roughly 1 nrad/s/$\sqrt{Hz}$ [Cite iXBlue]. Referring to the values of B and C for rotation rate given in Table \ref{tab:scales}, the maximum distance the sensor can be placed to detect a M$_w$5 event would be 21$^\circ$ epicentral distance, roughly 2000 km. This distance range would mean current day sensors could detect regional >M5 earthquakes. Other considerations must be taken into account before these values can be used for field deployment decisions, however it provides a jumping off point for this new area of field research.
 
 
 \section{Discussions and conclusions}
-Long term continuous recordings of collocated rotation and translation now provides an extensive catalog of seismic events usable in comparisons of direct translation and spatial gradient measurements. Comparisons of phase information have been, and continue to be, explored in the context of seismology, but the measure of amplitudes has largely been ignored. Understandably, amplitude information is heavily dependent on a number of factors, including local site effects and even instrument characteristics, and does not provide as stable a measurement as phase information. However, by sampling a catalog of large, high quality seismic events with good spatial and temporal variability, as well as addressing the amplitude information via a log scale, which minimizes the impact of variations to order of magnitude differences, we hope to suppress the inherent instability of amplitude observations in order to make some quantitative statements on surface wave behaviors.
+Long term continuous recordings of collocated rotation and translation now provides an extensive catalog of seismic events usable in comparisons of direct translation and spatial gradient measurements. Comparisons of phase information have been, and continue to be, explored in the context of seismology, but the measure of amplitudes has largely been ignored. Understandably, amplitude information is heavily dependent on a number of site specific factors, including local site effects and even instrument characteristics, and does not provide as stable a measurement as phase information. However, by sampling a catalog of large, high quality seismic events with good spatial and temporal variability, as well as addressing the amplitude information via a log scale, which minimizes the impact of variations to order of magnitude differences, we hope to suppress the inherent instability of amplitude observations in order to make some quantitative statements on surface wave behaviors.
 
-The results of this work, presented in Section \ref{sec:results}, provide a very interesting and unexpected picture, which we hope to address in this section.
-
- The results at face value show that observed rotations for the event catalog used decay faster than observed translations for the same events, and that rotation rate decays faster than the rotation, though this is to be excepted as we are simply looking at time derivative information. What is most interesting is how the rotation and rotation rate decays match much closer to the globally averaged surface wave magnitude as compared to the translation measurements which it is based off. Understandably a global average should be taken to give a more reasonable value for the decay. It should be pointed out, however, that even without global averaging, it is exciting to see the characteristics of this new observable, and by taking comparisons of direct measurements, we are gaining more understanding of the behaviors of this observable.
+The results of this work, presented in Section \ref{sec:results}, provide a very interesting and unexpected picture. The results at face value show that observed rotations for the event catalog used decay faster than observed translations for the same events, and that rotation rate decays faster than the rotation, though this is to be excepted as we are simply looking at time derivative information. What is most interesting is how the rotation and rotation rate decays match much closer to the globally averaged surface wave magnitude as compared to the translation measurements which it is based off. Understandably a global average should be taken to give a more reasonable value for the decay. It should be pointed out, however, that even without global averaging, it is exciting to see the characteristics of this new observable, and by taking comparisons of direct measurements, we are gaining more understanding of the behaviors of this observable.
 
 In this setup, multiple stations were used to record synthetic waveforms from single events, and as a result it is possible to see the amplitude decay of a single event over distance. 
 
@@ -350,6 +358,15 @@ to add:
 -averaging of earth structure not done here
 -considerations towards using the correct backazimuth
 -confidence interval
+-because of the logarithmic nature of magnitude scales, even differences in the decay constant don't make that much of an impact on the resulting expected amplitudes that one sees 
+-using the same value of c for all rotation, at 80 degrees you get an order of magnitude difference in expected amplitude for synthetic and observed scales
+
++ considerations for observations and synthetics - geographical, data, frequency wise
++ observation results by themselves
++ synthetic results by themselves
++ comparisons of observations and synthetics
++ questions that arose from the processing
++ further work
 
 \label{lastpage}
 

@@ -216,24 +216,36 @@ def confidence(data,mags,dists,GTGi,nxp,m0,m1):
 def plot_magnitude_lines(magnitude):
     """plot comparisons of different magnitude values
     """
-    ax.plot(x,y(x,1.66,0.3,magnitude),'k',zorder=5,linewidth=2.5,
-                      label='$M_{S}^{BB}$',color='k')
-    # ax.plot(x,y(x,1.823,1.0,M),'k',zorder=5,linewidth=2.5,
-    #                     label='$M_{R}^{WET}$',color='r')
-    ax.plot(x,y(x,1.084,1.093,magnitude),'k',zorder=5,linewidth=2.5,
-                      label='$M^{WET}_{Z}$',color='g')
-    ax.plot(x,y(x,1.095,1.09,magnitude),'k',zorder=5,linewidth=2.5,
-                      label='$M_{Z}^{FUR}$',color='b')
-    ax.plot(x,y(x,1.45,0.527,magnitude),'k',zorder=5,linewidth=2.5,
-                      label='$M_{T}^{WET}$',color='m')
-    ax.plot(x,y(x,1.442,0.447,magnitude),'k',zorder=5,linewidth=2.5,
-                      label='$M_{T}^{FUR}$',color='c')
+    f = plt.figure(1)
+    ax = plt.subplot(111)
+
+    x = range(2,161,2)
+    y = lambda x,B,C,Mr: x**(-B) * 10**(Mr-C)
+    # B_list = [1.66,1.084,1.095,1.45,1.442,1.094,1.2060]
+    # C_list = [0.3,1.093,1.09,0.527,0.447,0.146,-0.011]
+    # label_list = ['$M_{S}^{BB}$','$M^{WET}_{Z}$','$M_{Z}^{FUR}$',
+    #                 '$M_{T}^{WET}$','$M_{T}^{FUR}$','$M^{SYN}_{Z}$',
+    #                 '$M_{Z}^{SYN}$']
+    B_list = [1.557,1.823,1.204,1.215]
+    # C_list = [4.186,4.113,3.841,4.007]
+    C_list = [4,4,4,4]
+    label_list = ['$M_{RT}^{RLAS}$','$M^{RLAS}_{RR}$','$M_{RT}^{SYN}$','$M_{RR}^{SYN}$']
+    color_list = ['g','b','g','b']
+    for i,(B,C,L) in enumerate(zip(B_list,C_list,label_list)):
+        if i <= 1:
+            linestyle = '-'
+        else:
+            linestyle = '--'
+        amp = [y(_,B,C,magnitude) for _ in x]
+        ax.plot(x,amp,linewidth=2.5,label=L,color=color_list[i%len(color_list)],
+                linestyle=linestyle)
+
     ax.set_xlim([0,160])
     ax.set_ylim([10,10**7])
-    ax.set_yscale("log", nonposx='clip')
+    ax.set_yscale("log")
     ax.set_xlabel('Distance ($\Delta$)')
     ax.set_ylabel('Peak Velocity (nm/s)')
-    ax.set_title('M7 Velocity Scale Comparison')
+    ax.set_title('M{} Velocity Scale Comparison'.format(magnitude))
     ax.grid(which='both')
 
     plt.legend()
@@ -341,6 +353,7 @@ def amplitude_values(B,C,M):
         amp.append(round(y(d,B,C,M),2))
 
     return distance,amp
+
 
 
 # =================================== MAIN ====================================

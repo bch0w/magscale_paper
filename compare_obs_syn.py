@@ -90,7 +90,7 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
 
     # filter values
     t_start = 10
-    t_end = 30
+    t_end = 60
     f_start = 1/t_end
     f_end = 1/t_start
 
@@ -209,13 +209,13 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
 
     figurename = os.path.join('./figures','waveforms',event+'.png')
     # plt.savefig(figurename,dpi=600,figsize=(11,7))
-    plt.show()
+    # plt.show()
 
     # append to list of peak value differences
     peak_differences.append(syn_peak/obs_peak)
 
     # ==================== PHASE VELOCITY/CORRELATION ====================
-    # f2,(ax3,ax4) = plt.subplots(2,sharex=True)
+    f2,(ax3,ax4) = plt.subplots(2,sharex=True)
     f2 = plt.figure(1)
     ax3 = plt.subplot(111)
     # rotation rate vs transverse acceleration - observations
@@ -246,16 +246,18 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
     syn_c = sTA_max/(2*sRR_max)
     syn_TAdata_scaled = [_/syn_c for _ in syn_TAdata]
 
-    # ax4.plot(syn_time,syn_TAdata_scaled,'k')
-    # ax4.plot(syn_time,syn_RRdata,'r')
-    # ax4.set_xlabel('Time (sec)')
-    # ax4.set_ylabel('Rotation rate (rad/s) and scaled Transverse Acceleration')
-    # ax4.set_title('Synthetics, RR vs. TA | c = {}'.format(syn_c))
-    # ax4.grid(True)
-    # ax4.set_axisbelow(True)
+    ax4.plot(syn_time,syn_TAdata_scaled,'k')
+    ax4.plot(syn_time,syn_RRdata,'r')
+    ax4.set_xlabel('Time (sec)')
+    ax4.set_ylabel('Rotation rate (rad/s) and scaled Transverse Acceleration')
+    ax4.set_title('Synthetics, RR vs. TA | c = {}'.format(syn_c))
+    ax4.grid(True)
+    ax4.set_axisbelow(True)
 
     plt.legend()
-    plt.show()
+    # plt.show()
+    print(obs_c,syn_c)
+
 # plt.close()
 # f3 = plt.figure()
 # plt.scatter(ds_list,peak_differences,c='r',marker='x')
