@@ -23,7 +23,7 @@ from obspy.geodetics.base import locations2degrees
 
 # ignoring polyval rank warning - look into
 warnings.simplefilter('ignore', np.RankWarning)
-matplotlib.rcParams.update({'font.size': 11})
+matplotlib.rcParams.update({'font.size': 15})
 
 # for matplotlib font change
 # matplotlib.rcParams.update({'font.size': 25})
@@ -221,24 +221,29 @@ def plot_magnitude_lines(magnitude):
 
     x = range(2,161,2)
     y = lambda x,B,C,Mr: x**(-B) * 10**(Mr-C)
-    # B_list = [1.66,1.084,1.095,1.45,1.442,1.094,1.2060]
-    # C_list = [0.3,1.093,1.09,0.527,0.447,0.146,-0.011]
-    # label_list = ['$M_{S}^{BB}$','$M^{WET}_{Z}$','$M_{Z}^{FUR}$',
-    #                 '$M_{T}^{WET}$','$M_{T}^{FUR}$','$M^{SYN}_{Z}$',
-    #                 '$M_{Z}^{SYN}$']
-    B_list = [1.557,1.823,1.204,1.215]
+    # translations
+    B_list = [1.66,1.094,0.947,1.084,1.095,1.45,1.442,1.094,1.2060]
+    C_list = [0.3,1.429,1.77,1.093,1.09,0.527,0.447,0.146,-0.011]
+    label_list = ['$M_{S}^{BB}$','$M_{S}^{HH}$','$M_{S}^{AF}$',
+                    '$M^{WET}_{Z}$','$M_{Z}^{FUR}$',
+                    '$M_{T}^{WET}$','$M_{T}^{FUR}$',
+                    '$M^{SYN}_{T}$','$M_{Z}^{SYN}$']
+
+    # rotations
+    # B_list = [1.557,1.823,1.204,1.215]
     # C_list = [4.186,4.113,3.841,4.007]
-    C_list = [4,4,4,4]
-    label_list = ['$M_{RT}^{RLAS}$','$M^{RLAS}_{RR}$','$M_{RT}^{SYN}$','$M_{RR}^{SYN}$']
-    color_list = ['g','b','g','b']
+    # C_list = [4,4,4,4]
+    # label_list = ['$M_{RT}^{RLAS}$','$M^{RLAS}_{RR}$','$M_{RT}^{SYN}$','$M_{RR}^{SYN}$']
+
+    color_list = ['k','k','k','b','b','g','g','b','g']
+    line_style = ['-','--','-.','-','--','-','--','-.','-.']
     for i,(B,C,L) in enumerate(zip(B_list,C_list,label_list)):
-        if i <= 1:
-            linestyle = '-'
-        else:
-            linestyle = '--'
         amp = [y(_,B,C,magnitude) for _ in x]
-        ax.plot(x,amp,linewidth=2.5,label=L,color=color_list[i%len(color_list)],
-                linestyle=linestyle)
+        ax.plot(x,amp,
+                linewidth=2.5,
+                label=L,
+                color=color_list[i%len(color_list)],
+                linestyle=line_style[i%len(line_style)])
 
     ax.set_xlim([0,160])
     ax.set_ylim([10,10**7])
@@ -248,7 +253,7 @@ def plot_magnitude_lines(magnitude):
     ax.set_title('M{} Velocity Scale Comparison'.format(magnitude))
     ax.grid(which='both')
 
-    plt.legend()
+    plt.legend(ncol=3)
     plt.show()
 
 def plot_histograms():
