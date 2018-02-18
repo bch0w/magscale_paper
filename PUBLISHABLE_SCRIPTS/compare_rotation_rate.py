@@ -72,7 +72,6 @@ mag_list = [6.63,7.92,6.42,6.1,7.36,7.56,7.14,7.11,6.7,7.77]
 # iterate on tags
 peak_differences = []
 for i,(event,ident) in enumerate(zip(event_list,identifier)):
-    print(event)
     # if event in event_ignore:
     #     continue
 
@@ -225,7 +224,8 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
 
     # ==================== PHASE VELOCITY/CORRELATION ====================
     f2,(ax3,ax4) = plt.subplots(2,sharex=True)
-
+    f2 = plt.figure(1)
+    ax3 = plt.subplot(111)
     # rotation rate vs transverse acceleration - observations
     obs_TAdata = obs_accelT[0].data
     obs_RRdata = obs_rot_rateZ[0].data
@@ -238,9 +238,9 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
 
     ax3.plot(obs_time,obs_TAdata_scaled,'k',label='Transverse Acceleration')
     ax3.plot(obs_time,obs_RRdata,'r',label='Rotation Rate')
-    # ax3.set_xlabel('Time (sec)')
-    # ax3.set_ylabel('Rotation rate (rad/s) and scaled Transverse Acceleration')
-    # ax3.set_title('Observations, RR vs. TA | c = {}'.format(obs_c))
+    ax3.set_xlabel('Time (sec)')
+    ax3.set_ylabel('Rotation rate (rad/s) and scaled Transverse Acceleration')
+    ax3.set_title('Observations, RR vs. TA | c = {}'.format(obs_c))
     ax3.grid(True)
     ax3.set_axisbelow(True)
 
@@ -257,13 +257,12 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
     ax4.plot(syn_time,syn_TAdata_scaled,'k')
     ax4.plot(syn_time,syn_RRdata,'r')
     ax4.set_xlabel('Time (sec)')
-    # ax4.set_ylabel('Rotation rate (rad/s)\n Scaled Transverse Acceleration')
-    # ax4.set_title('Synthetics, RR vs. TA | c = {}'.format(syn_c))
+    ax4.set_ylabel('Rotation rate (rad/s) and scaled Transverse Acceleration')
+    ax4.set_title('Synthetics, RR vs. TA | c = {}'.format(syn_c))
     ax4.grid(True)
     ax4.set_axisbelow(True)
 
     # plt.legend()
-    plt.subplots_adjust(hspace=0)
     plt.show()
     print(obs_c,syn_c)
 

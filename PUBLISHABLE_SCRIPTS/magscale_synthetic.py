@@ -657,7 +657,7 @@ for i in range(5,10):
 
 # set figure parameters
 # l1 = plt.legend(prop={'size':8.5})
-plt.legend(prop={'size':11},loc="upper right",ncol=2)
+plt.legend(prop={'size':11},loc="upper right",ncol=3)
 ax.grid(which='both')
 # if event_list_choice != 'all':
 #     # ax.set_title('{} {} Magnitude Scale | N = {} \n{}'.format(
@@ -668,7 +668,7 @@ ax.grid(which='both')
 #                                    sta.capitalize(),label,len(ds),mag_eq_ano))
 
 
-ax.set_title('Rotation (WET) Magnitude Scale\n{}'.format(mag_eq_ano))
+ax.set_title('Rotation Rate (SYNTHETIC) Magnitude Scale\n{}'.format(mag_eq_ano))
 ax.set_yscale("log")#, nonposx='clip')
 ax.set_ylabel('Peak {} ({})'.format(label,units))
 ax.set_xlabel('Epicentral Distance ($^{\circ}$)')
@@ -682,7 +682,7 @@ else:
 
 # set y limits based on x limits and magnitude lines
 ylower = y(xupper,m0,m1,5)
-yupper = y(xlower,m0,m1,7.5)
+yupper = y(xlower,m0,m1,9)
 ax.set_ylim([ylower,yupper])
 ax.set_xlim([xlower,xupper])
 
@@ -697,6 +697,6 @@ ax2.set_xlim(([xlower,xupper]))
 
 ax.set_zorder(ax2.get_zorder()+1) # put ax in front of ax2
 ax.patch.set_visible(False) # hide the 'canvas'
-figurename = './paper/paper_figures/publishable/RT_WET.png'
+figurename = './paper/paper_figures/publishable/RR_SYN.png'
 plt.savefig(figurename,dpi=500,figsize=(11,7))
 plt.show()

@@ -2,6 +2,7 @@
 Used for plotting the rotation rate magnitude scale
 Also does linear regression for a subset of events filtered to get a
 magnitude scale equation, plots events, equation and projected lines
+python magscale.py --scale rr --sta wet
 """
 import os
 import sys
@@ -342,16 +343,6 @@ def give_distinct_color(i):
                         '#008080','#e6beff','#aa6e28','#fffac8','#800000',
                         '#aaffc3','#808000','#ffd8b1','#000080','#808080',
                         '#FFFFFF','#000000']
-    distinct_colors = ['#ff0000', #red
-                        '#ff0080', #pink
-                        '#ffa500', #orange
-                        '#ffff00', #yellow
-                        '#0000ff', #blue
-                        '#0000b3', #darkblue
-                        '#00ffff', #cyan
-                        '#00b3b3', #darkcyan
-                        '#800080', #purple
-                        '#340034'] #darkpurple
     if i > len(distinct_colors):
         print('out of bounds')
         return
@@ -377,7 +368,7 @@ parser.add_argument('--scale',help='scale choice: rotation [rt], \
 rotation rate [rr], vertical velocity [zv], transverse velocity [tv]',
 type=str, default=None)
 parser.add_argument('--sta',help='station choice: wettzell [wet], \
-fuerstenfeldbruck [fur], italy [ita], specfem [specfem]', type=str, default='wet')
+fuerstenfeldbruck [fur], italy [ita], specfem [spec]', type=str, default='wet')
 parser.add_argument('--log',help='log or loglog plot (default: log)',type=str,
     default='log')
 parser.add_argument('--mag',help='magnitude choice for CI (default: 6)',
@@ -506,7 +497,6 @@ elif sta == 'specfem':
     # convert seismic moment to moment magnitude
     mags = [2/3 * np.log10(M*10**7) - 10.7 for M in moments]
     uniq_mags = list(set(mags))
-    uniq_mags.sort()
 
     # convert to units of nano radians or nm/s
     Z_vel_max = [_*(10**9) for _ in Z_vel_max]
@@ -595,20 +585,14 @@ major_ticks = np.arange(0, 170, 10)
 minor_ticks = np.arange(0, 170, 5)
 colorhack = ['0','1','2','g','r','g','r','c','m','k']
 
-# ========================= SPECFEM SCATTERPLOTS ===============================
 # scatter by magnitude value
 if sta == 'specfem':
-    markerhack = ['o','v','^','d']
     for i,MAG in enumerate(uniq_mags):
         color = give_distinct_color(i)
-        ax.scatter(0,0,marker=markerhack[i%len(markerhack)],
-                        c=color,
-                        edgecolor='k',
-                        label='M{}'.format(round(MAG,2)))
+        ax.scatter(0,0,c=color,label='M{}'.format(round(MAG,2)))
         for D,P,M,I in zip(ds,psurf,mags,ID):
             if M == MAG:
-                ax.scatter(D,P,marker=markerhack[i%len(markerhack)],
-                                c=color,s=15,zorder=12,edgecolor='k')
+                ax.scatter(D,P,c=color,marker='o',s=15,zorder=12)
                 if event_list_choice != 'all':
                     ax.annotate(I,xy=(D,P),xytext=(D,P),fontsize=6)
 
@@ -617,7 +601,7 @@ if sta == 'specfem':
 # scatter plot points
 if sta == 'wet':
     delta=[];ps_scale=[];mag_filt=[]
-    MS = 30
+    MS = 40
     ax.scatter(0,0,c='#ff0000',edgecolor='k',label='6.0 $\leq$ M$_w$ < 6.5')
     ax.scatter(0,0,c='#ffa500',edgecolor='k',label='6.5 $\leq$ M$_w$ < 7.0')
     ax.scatter(0,0,c='#00ffff',edgecolor='k',label='7.0 $\leq$ M$_w$ < 7.5')
@@ -625,7 +609,7 @@ if sta == 'wet':
     for ix in range(len(psurf)):
         # if ID[ix] in manual_reject:
         #     continue
-        # plt.text(ds[ix],psurf[ix],event_IDs[ix],fontsize=7,zorder=2000,color='g')
+        # plt.text(ds[ix],psurf[ix],event_IDs[ix],fontsize=6,zorder=2000,color='c')
         if 3.0 <= mags[ix] < 4.0:
             ax.scatter(ds[ix],psurf[ix],c='#329932',marker='o',s=MS,zorder=10,edgecolor='k')
         elif 4.0 <= mags[ix] < 5.0:
@@ -668,7 +652,7 @@ ax.grid(which='both')
 #                                    sta.capitalize(),label,len(ds),mag_eq_ano))
 
 
-ax.set_title('Rotation (WET) Magnitude Scale\n{}'.format(mag_eq_ano))
+ax.set_title('Rotation Rate (WET) Magnitude Scale\n{}'.format(mag_eq_ano))
 ax.set_yscale("log")#, nonposx='clip')
 ax.set_ylabel('Peak {} ({})'.format(label,units))
 ax.set_xlabel('Epicentral Distance ($^{\circ}$)')
@@ -682,7 +666,7 @@ else:
 
 # set y limits based on x limits and magnitude lines
 ylower = y(xupper,m0,m1,5)
-yupper = y(xlower,m0,m1,7.5)
+yupper = y(xlower,m0,m1,7)
 ax.set_ylim([ylower,yupper])
 ax.set_xlim([xlower,xupper])
 
@@ -697,6 +681,6 @@ ax2.set_xlim(([xlower,xupper]))
 
 ax.set_zorder(ax2.get_zorder()+1) # put ax in front of ax2
 ax.patch.set_visible(False) # hide the 'canvas'
-figurename = './paper/paper_figures/publishable/RT_WET.png'
+figurename = './paper/paper_figures/publishable/RR_WET_with_text.png'
 plt.savefig(figurename,dpi=500,figsize=(11,7))
 plt.show()
