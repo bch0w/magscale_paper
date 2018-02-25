@@ -14,6 +14,8 @@ and too much work to change all variable names
 + 25.09.17 output rotation (integration of rotation rate) -
     and plot, comment out other plots and create new figure,
     overwrite .json in output folder
+
+python determag.py --min_magnitude 6.85 --max_magnitude 6.95 --min_datetime 2009-08-02 --max_datetime 2009-08-04 --mode IRIS
 """
 
 from __future__ import division
@@ -43,7 +45,9 @@ from obspy.geodetics.base import gps2dist_azimuth, locations2degrees
 from xml.dom.minidom import parseString
 from collections import OrderedDict
 
-mpl.rcParams.update({'font.size': 6.5})
+mpl.rcParams.update({'font.size': 12})
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
 
 def download_data(origin_time, net, sta, loc, chan, source):
     """
@@ -328,7 +332,7 @@ def remove_instr_resp(rt, ac, station, startev):
 
         paz_sts2_vel = {'poles': [(-0.0367429 + 0.036754j),
                                 (-0.0367429 - 0.036754j)],
-                        'sensitivity': 0.944019640,
+                        'sensitivity': 944.019640,
                         'zeros': [0j,0j],
                         'gain': 1.0}
 
@@ -673,18 +677,20 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
     f,axes = plt.subplots(nrows=axrow,ncols=2,sharex='col',sharey='row')
     j = 0
     for i in range(axrow):
+        endtime = len(alltraces[j])/sampling_rate
+        t = np.linspace(0,endtime,len(alltraces[j]))
         # trace overviews
-        axes[i][0].plot(alltraces[j].data,'k')
-        axes[i][0].plot(peak_indS[j],peakS[j],'go',adj_trough_indS[j],
-                                                        adj_troughS[j],'go')
-        axes[i][0].plot(adj_peak_indS[j],adj_peakS[j],'ro',trough_indS[j],
-                                                            troughS[j],'ro')
-        axes[i][0].plot(zero_crossings[j],0,'bo',zorder=8)
+        axes[i][0].plot(t,alltraces[j].data,'k')
+        axes[i][0].plot(t[peak_indS[j]],peakS[j],'go',
+                        t[adj_trough_indS[j]],adj_troughS[j],'go')
+        axes[i][0].plot(t[adj_peak_indS[j]],adj_peakS[j],'ro',
+                        t[trough_indS[j]],troughS[j],'ro')
+        axes[i][0].plot(t[zero_crossings[j]],0,'bo',zorder=8)
 
-        axes[i][0].annotate(p2atS[j], xy=(peak_indS[j],peakS[j]),
-            xytext=(peak_indS[j],peakS[j]),zorder=10,color='g')
-        axes[i][0].annotate(ap2tS[j], xy=(trough_indS[j],troughS[j]),
-            xytext=(trough_indS[j],troughS[j]),zorder=10,color='r')
+        # axes[i][0].annotate(round(p2atS[j],2), xy=(peak_indS[j],peakS[j]),
+        #     xytext=(peak_indS[j],peakS[j]),zorder=10,color='g')
+        # axes[i][0].annotate(round(ap2tS[j],2), xy=(trough_indS[j],troughS[j]),
+            # xytext=(trough_indS[j],troughS[j]),zorder=10,color='r')
         axes[i][0].grid()
         # if channelS[j] == 'BJZ' or channelS[j] == 'BAZ':
         #     axes[i][0].set_ylabel('rot. rate(nrad/s)'.format(channelS[j]))
@@ -697,35 +703,40 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
         elif i == 1:
             axes[i][0].set_ylabel('rotation (nrad)')
         else:
-            axes[i][0].set_ylabel('{} vel.(nm/s)'.format(channelS[j]))
-
+            axes[i][0].set_ylabel('{} vel.($\mu$m/s)'.format(channelS[j][-1]))
 
         # zoomed in plot
-        axes[i][1].plot(alltraces[j].data,'k')
-        axes[i][1].plot(peak_indS[j],peakS[j],'go',adj_trough_indS[j],
-                                                        adj_troughS[j],'go')
-        axes[i][1].plot(adj_peak_indS[j],adj_peakS[j],'ro',trough_indS[j],
-                                                            troughS[j],'ro')
-        axes[i][1].plot(zero_crossings[j],0,'bo',zorder=8)
-        axes[i][1].annotate(p2atS[j], xy=(peak_indS[j],peakS[j]),
-            xytext=(peak_indS[j],peakS[j]),zorder=10,color='g')
-        axes[i][1].annotate(ap2tS[j], xy=(trough_indS[j],troughS[j]),
-            xytext=(trough_indS[j],troughS[j]),zorder=10,color='r')
+        axes[i][1].plot(t,alltraces[j].data,'k')
+        axes[i][1].plot(t[peak_indS[j]],peakS[j],'go',
+                        t[adj_trough_indS[j]],adj_troughS[j],'go')
+        axes[i][1].plot(t[adj_peak_indS[j]],adj_peakS[j],'ro',
+                        t[trough_indS[j]],troughS[j],'ro')
+        axes[i][1].plot(t[zero_crossings[j]],0,'bo',zorder=8)
+        # axes[i][1].annotate(p2atS[j], xy=(peak_indS[j],peakS[j]),
+        #     xytext=(peak_indS[j],peakS[j]),zorder=10,color='g')
+        # axes[i][1].annotate(ap2tS[j], xy=(trough_indS[j],troughS[j]),
+            # xyt=(trough_indS[j],troughS[j]),zorder=10,color='r')
         axes[i][1].grid()
 
         # only label specific axes
         if j == 0:
-            axes[i][0].set_title(tag_name)
-            axes[i][1].set_title(event_ID)
+            axes[i][0].set_xlim([t[0],t[-1]])
+            # axes[i][0].set_title(tag_name)
+            # axes[i][1].set_title(event_ID)
         elif j == axrow-1:
-            axes[i][0].set_xlabel('sample')
-            axes[i][1].set_xlabel('sample')
-            axes[i][1].set_xlim([min(zero_crossings)-2000,
-                                                max(zero_crossings)+2000])
+            axes[i][0].set_xlabel('Time (sec)')
+            axes[i][1].set_xlabel('Time (sec)')
+            axes[i][1].set_xlim([
+                            int(
+                                t[min(zero_crossings)-2000]
+                                ),
+                            int(
+                                t[max(zero_crossings)+2000]
+                                )])
+
         j+=1
 
-    f.subplots_adjust(hspace=0.1)
-    f.subplots_adjust(wspace=0.1)
+    plt.tight_layout()
 
     filename_png = os.path.join(output_path,'imgs',tag_name+'.png')
     plt.savefig(filename_png,dpi=150)
