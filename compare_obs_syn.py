@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from obspy import read, read_events
 from obspy.geodetics.base import gps2dist_azimuth
 
+plt.rc('text', usetex=True)
 mpl.rcParams['lines.linewidth']=1
 mpl.rcParams.update({'font.size': 22.5})
 

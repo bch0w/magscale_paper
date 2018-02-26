@@ -216,50 +216,77 @@ def confidence(data,mags,dists,GTGi,nxp,m0,m1):
 def plot_magnitude_lines(magnitude):
     """plot comparisons of different magnitude values
     """
-    f = plt.figure(1)
-    ax = plt.subplot(111)
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+magnitude = 7
+mpl.rcParams.update({'font.size': 15})
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
 
-    x = range(2,161,2)
-    y = lambda x,B,C,Mr: x**(-B) * 10**(Mr-C)
-    # translations
-    B_list = [1.66,1.094,0.947,1.084,1.095,1.45,1.442,1.094,1.2060]
-    C_list = [0.3,1.429,1.77,1.093,1.09,0.527,0.447,0.146,-0.011]
-    label_list = ['$M_{S}^{BB}$','$M_{S}^{HH}$','$M_{S}^{AF}$',
-                    '$M^{WET}_{Z}$','$M_{Z}^{FUR}$',
-                    '$M_{T}^{WET}$','$M_{T}^{FUR}$',
-                    '$M^{SYN}_{T}$','$M_{Z}^{SYN}$']
+f = plt.figure(1,dpi=150)
+ax = plt.subplot(111)
 
-    # rotations
-    # B_list = [1.557,1.823,1.204,1.215]
-    # C_list = [4.186,4.113,3.841,4.007]
-    # C_list = [4,4,4,4]
-    # label_list = ['$M_{RT}^{RLAS}$','$M^{RLAS}_{RR}$','$M_{RT}^{SYN}$','$M_{RR}^{SYN}$']
+x = range(2,161,2)
+y = lambda x,B,C,Mr: x**(-B) * 10**(Mr-C)
+# translations
+# B_list = [1.66,1.094,0.947,1.084,1.095,1.45,1.442,1.2060,1.094]
+# C_list = [0.3,1.429,1.77,1.093,1.09,0.527,0.447,-0.011,0.146]
+# label_list = ['$M_{S}^{BB}$','$M_{S}^{HH}$','$M_{S}^{AF}$',
+#                 '$M^{WET}_{Z}$','$M_{Z}^{FUR}$',
+#                 '$M_{T}^{WET}$','$M_{T}^{FUR}$',
+#                 '$M^{SYN}_{Z}$','$M_{T}^{SYN}$']
+# color_list = ['k','k','k','b','b','g','g','b','g']
+# line_style = ['-','--',':','-','--','-','--',':',':']
+# ncol=3
 
-    color_list = ['k','k','k','b','b','g','g','b','g']
-    line_style = ['-','--','-.','-','--','-','--','-.','-.']
-    for i,(B,C,L) in enumerate(zip(B_list,C_list,label_list)):
-        amp = [y(_,B,C,magnitude) for _ in x]
-        ax.plot(x,amp,
-                linewidth=2.5,
-                label=L,
-                color=color_list[i%len(color_list)],
-                linestyle=line_style[i%len(line_style)])
+# rotations
+B_list = [1.557,1.823,1.204,1.215]
+C_list = [4.186,4.113,3.841,4.007]
+# C_list = [4,4,4,4]
+label_list = ['$M_{RT}^{RLAS}$','$M^{RLAS}_{RR}$','$M_{RT}^{SYN}$','$M_{RR}^{SYN}$']
+color_list = ['r','r','k','k']
+line_style = ['-','--']
+ncol=2
 
-    ax.set_xlim([0,160])
-    ax.set_ylim([10,10**7])
-    ax.set_yscale("log")
-    ax.set_xlabel('Distance ($\Delta$)')
-    ax.set_ylabel('Peak Velocity (nm/s)')
-    ax.set_title('M{} Velocity Scale Comparison'.format(magnitude))
-    ax.grid(which='both')
 
-    plt.legend(ncol=3)
-    plt.show()
+amp_list = []
+ax2=ax.twinx()
+for i,(B,C,L) in enumerate(zip(B_list,C_list,label_list)):
+    amp = [y(_,B,C,magnitude) for _ in x]
+    amp_list.append(amp)
+    ax.plot(x,amp,
+            linewidth=2.5,
+            label=L,
+            color=color_list[i%len(color_list)],
+            linestyle=line_style[i%len(line_style)])
+    ax2.plot(x,amp,
+            linewidth=2.5,
+            label=L,
+            color=color_list[i%len(color_list)],
+            linestyle=line_style[i%len(line_style)])
+
+maxamp = max([max(_) for _ in amp_list])
+minamp = min([min(_) for _ in amp_list])
+ax.set_xlim([2,160])
+ax.set_ylim([minamp,maxamp])
+ax.set_yscale("log")
+ax.set_xlabel('Distance ($\Delta$)')
+ax.set_ylabel('Peak Rotation Rate (nrad/s)')
+ax.set_title('M{} Velocity Scale Comparison'.format(magnitude))
+ax.grid(which='both')
+ax2.set_ylabel('Peak Rotation (nrad)')
+ax2.set_yscale('log')
+ax2.set_ylim([minamp,maxamp])
+
+
+plt.legend(ncol=ncol)
+plt.savefig("/Users/Chow/Documents/Geophysik/post-grad/magscale_paper/paper/paper_figures/publishable/rrscales.png",dpi=300)
+plt.show()
 
 def plot_histograms():
     """make histograms of data
     """
-    baz
     f = plt.figure()
     ax = plt.subplot(111,polar=True)
     ax.set_theta_zero_location('N')

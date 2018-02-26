@@ -45,7 +45,7 @@ from obspy.geodetics.base import gps2dist_azimuth, locations2degrees
 from xml.dom.minidom import parseString
 from collections import OrderedDict
 
-mpl.rcParams.update({'font.size': 12})
+mpl.rcParams.update({'font.size': 10})
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif')
 
@@ -736,7 +736,7 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
 
         j+=1
 
-    plt.tight_layout()
+    plt.tight_layout(True)
 
     filename_png = os.path.join(output_path,'imgs',tag_name+'.png')
     plt.savefig(filename_png,dpi=150)
