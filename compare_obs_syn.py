@@ -25,6 +25,13 @@ def align_yaxis(ax1, v1, ax2, v2):
     miny, maxy = ax2.get_ylim()
     ax2.set_ylim(miny+dy, maxy+dy)
 
+def change_baz():
+    from math import cos, sin, radians
+    for ba in range(80,110,1):
+        BAz = radians(ba)
+        t = - e * cos(baz) + n * sin(baz)
+        print(ba,t)
+
 # zv or rr
 pick = sys.argv[1]
 
@@ -120,11 +127,22 @@ for i,(event,ident) in enumerate(zip(event_list,identifier)):
                             lat2=station_lat,lon2=station_lon)
     for tr in obs:
         tr.stats.back_azimuth = BAz[2]
+
+    obs_velocityN = obs.select(id='GR.WET..BHN')
+    obs_velocityE = obs.select(id='GR.WET..BHE')
+    print('N: ',obs_velocityN[0].data.max())
+    print('E: ',obs_velocityE[0].data.max())
+
     obs.rotate(method='NE->RT')
 
     # divy up traces - observations
     obs_velocityZ = obs.select(id='GR.WET..BHZ')
     obs_rot_rateZ = obs.select(id='BW.RLAS..BJZ')
+    obs_velocityT = obs.select(id='GR.WET..BHT')
+    print('Z: ',obs_velocityZ[0].data.max())
+    print('T: ',obs_velocityT[0].data.max())
+
+    continue
     obs_accelT = obs.select(id='GR.WET..BHT').differentiate(method='gradient')
 
     # synthetics
