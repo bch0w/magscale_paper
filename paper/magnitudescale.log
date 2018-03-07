@@ -1,12 +1,11 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2018.1.23)  7 MAR 2018 18:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  7 MAR 2018 22:24
 entering extended mode
- restricted \write18 enabled.
+ \write18 enabled.
  %&-line parsing enabled.
 **magnitudescale.tex
 (./magnitudescale.tex
-LaTeX2e <2011/06/27>
-Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, lo
-aded.
+LaTeX2e <2015/01/01>
+Babel <3.9l> and hyphenation patterns for 79 languages loaded.
 (./gji.cls
 Document Class: gji 1995/11/30 v2.0 LaTeX2e document class
 Document Class `GJI' V2.0, released 1998 Nov
@@ -30,24 +29,25 @@ Document Class `GJI' V2.0, released 1998 Nov
 \mathindent=\dimen103
 ) (./timet.sty
 Package: timet 1997/01/23 6.0 Times PSNFSS2e package
-) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2013/01/14 v2.14 AMS math features
 \@mathmargin=\skip48
 
 For additional information on amsmath, use the `?' option.
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks14
 \ex@=\dimen104
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen105
 )
-(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count88
@@ -88,31 +88,31 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
 LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks19
 )
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/graphics.cfg
 File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: pdftex.def on input line 91.
+Package graphics Info: Driver file: pdftex.def on input line 94.
 
-(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
+(/usr/local/texlive/2015/texmf-dist/tex/latex/pdftex-def/pdftex.def
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/infwarerr.sty
 Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
 )
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
 Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count100
@@ -120,7 +120,25 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen113
 \Gin@req@width=\dimen114
 )
-\c@theorem=\count101
+(/usr/local/texlive/2015/texmf-dist/tex/latex/lineno/lineno.sty
+Package: lineno 2005/11/02 line numbers on paragraphs v4.41
+\linenopenalty=\count101
+\output=\toks20
+\linenoprevgraf=\count102
+\linenumbersep=\dimen115
+\linenumberwidth=\dimen116
+\c@linenumber=\count103
+\c@pagewiselinenumber=\count104
+\c@LN@truepage=\count105
+\c@internallinenumber=\count106
+\c@internallinenumbers=\count107
+\quotelinenumbersep=\dimen117
+\bframerule=\dimen118
+\bframesep=\dimen119
+\bframebox=\box28
+LaTeX Info: Redefining \\ on input line 3056.
+)
+\c@theorem=\count108
 
 (./magnitudescale.aux)
 \openout1 = `magnitudescale.aux'.
@@ -139,31 +157,31 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
 LaTeX Font Info:    ... okay on input line 46.
 LaTeX Font Info:    Try loading font information for OT1+ptm on input line 46.
 
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
-(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+(/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count102
-\scratchdimen=\dimen115
-\scratchbox=\box28
-\nofMPsegments=\count103
-\nofMParguments=\count104
-\everyMPshowfont=\toks20
-\MPscratchCnt=\count105
-\MPscratchDim=\dimen116
-\MPnumerator=\count106
-\makeMPintoPDFobject=\count107
-\everyMPtoPDFconversion=\toks21
-) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+\scratchcounter=\count109
+\scratchdimen=\dimen120
+\scratchbox=\box29
+\nofMPsegments=\count110
+\nofMParguments=\count111
+\everyMPshowfont=\toks21
+\MPscratchCnt=\count112
+\MPscratchDim=\dimen121
+\MPnumerator=\count113
+\makeMPintoPDFobject=\count114
+\everyMPtoPDFconversion=\toks22
+) (/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ifluatex.sty
 Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/ifpdf.sty
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
 Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
@@ -172,22 +190,22 @@ Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
 )
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/grfext.sty
 Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
 Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
 ))
-(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+(/usr/local/texlive/2015/texmf-dist/tex/latex/oberdiek/kvoptions.sty
 Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
 Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
 
-(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/etexcmds.sty
 Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
 Package etexcmds Info: Could not find \expanded.
 (etexcmds)             That can mean that you are not using pdfTeX 1.50 or
@@ -199,7 +217,7 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 452.
 
-(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+(/usr/local/texlive/2015/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
@@ -209,16 +227,20 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 52.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 56.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 60.
 
+(/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/ot1phv.fd
+File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
+)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 77.
- [1{/usr/share/texlive/texmf/fonts/map/pdftex/updmap/pdftex.map}
+ [1{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-<./paper_figures/publishable/rr_ta.png, id=13, 1156.32pt x 651.8754pt>
+<./paper_figures/publishable/rr_ta.png, id=14, 1156.32pt x 651.8754pt>
 File: ./paper_figures/publishable/rr_ta.png Graphic file (type png)
 
 <use ./paper_figures/publishable/rr_ta.png>
@@ -226,7 +248,7 @@ Package pdftex.def Info: ./paper_figures/publishable/rr_ta.png used on input li
 ne 107.
 (pdftex.def)             Requested size: 252.0pt x 142.06026pt.
  [2 <./paper_figures/publishable/rr_ta.png>]
-<./paper_figures/publishable/event_map.png, id=25, 914.2155pt x 471.2004pt>
+<./paper_figures/publishable/event_map.png, id=26, 914.2155pt x 471.2004pt>
 File: ./paper_figures/publishable/event_map.png Graphic file (type png)
 
 <use ./paper_figures/publishable/event_map.png>
@@ -234,7 +256,7 @@ Package pdftex.def Info: ./paper_figures/publishable/event_map.png used on inpu
 t line 153.
 (pdftex.def)             Requested size: 403.20154pt x 207.81772pt.
  [3]
-<./paper_figures/publishable/amp_picking.png, id=29, 578.16pt x 433.62pt>
+<./paper_figures/publishable/amp_picking.png, id=30, 578.16pt x 433.62pt>
 File: ./paper_figures/publishable/amp_picking.png Graphic file (type png)
 
 <use ./paper_figures/publishable/amp_picking.png>
@@ -252,7 +274,7 @@ Overfull \hbox (12.8758pt too wide) in paragraph at lines 218--231
  [] 
  []
 
-<./paper_figures/publishable/RR_WET.png, id=38, 794.97pt x 505.89pt>
+<./paper_figures/publishable/RR_WET.png, id=39, 794.97pt x 505.89pt>
 File: ./paper_figures/publishable/RR_WET.png Graphic file (type png)
 
 <use ./paper_figures/publishable/RR_WET.png>
@@ -260,7 +282,7 @@ Package pdftex.def Info: ./paper_figures/publishable/RR_WET.png used on input l
 ine 245.
 (pdftex.def)             Requested size: 403.20154pt x 256.58784pt.
 
-<./paper_figures/publishable/velocityscales.png, id=39, 578.16pt x 433.62pt>
+<./paper_figures/publishable/velocityscales.png, id=40, 578.16pt x 433.62pt>
 File: ./paper_figures/publishable/velocityscales.png Graphic file (type png)
 
 <use ./paper_figures/publishable/velocityscales.png>
@@ -268,14 +290,14 @@ Package pdftex.def Info: ./paper_figures/publishable/velocityscales.png used on
  input line 258.
 (pdftex.def)             Requested size: 252.0pt x 189.00032pt.
 
-<./paper_figures/publishable/rrscales.png, id=40, 578.16pt x 433.62pt>
+<./paper_figures/publishable/rrscales.png, id=41, 578.16pt x 433.62pt>
 File: ./paper_figures/publishable/rrscales.png Graphic file (type png)
 
 <use ./paper_figures/publishable/rrscales.png>
 Package pdftex.def Info: ./paper_figures/publishable/rrscales.png used on input
  line 264.
 (pdftex.def)             Requested size: 252.0pt x 189.00032pt.
- [5 <./paper_figures/publishable/velocityscales.png>]
+ [5]
 <./paper_figures/publishable/C201304191958A_10-60_rotationrate_compare.png, id=
 45, 1384.6932pt x 724.1454pt>
 File: ./paper_figures/publishable/C201304191958A_10-60_rotationrate_compare.png
@@ -285,24 +307,25 @@ File: ./paper_figures/publishable/C201304191958A_10-60_rotationrate_compare.png
 Package pdftex.def Info: ./paper_figures/publishable/C201304191958A_10-60_rotat
 ionrate_compare.png used on input line 283.
 (pdftex.def)             Requested size: 252.0pt x 131.77698pt.
-[6 <./paper_figures/publishable/rrscales.png> <./paper_figures/publishable/C201
-304191958A_10-60_rotationrate_compare.png>]
-<./paper_figures/publishable/RR_SYN.png, id=52, 794.97pt x 505.89pt>
+<./paper_figures/publishable/RR_SYN.png, id=46, 794.97pt x 505.89pt>
 File: ./paper_figures/publishable/RR_SYN.png Graphic file (type png)
 
 <use ./paper_figures/publishable/RR_SYN.png>
 Package pdftex.def Info: ./paper_figures/publishable/RR_SYN.png used on input l
 ine 298.
 (pdftex.def)             Requested size: 403.20154pt x 256.58784pt.
- [7 <./paper_figures/publishable/RR_WET.png>] [8 <./paper_figures/publishable/R
-R_SYN.png>]
+ [6] [7 <./paper_figures/publishable/RR_WET.png>]
 Underfull \vbox (badness 6380) has occurred while \output is active []
+
+ [8 <./paper_figures/publishable/velocityscales.png> <./paper_figures/publishab
+le/rrscales.png> <./paper_figures/publishable/C201304191958A_10-60_rotationrate
+_compare.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [9]
-(./magnitudescale.bbl
+ [9 <./paper_figures/publishable/RR_SYN.png>] (./magnitudescale.bbl
 Underfull \hbox (badness 4205) in paragraph at lines 49--53
 []\OT1/ptm/m/n/8 V Karnik, NV Kon-dorskaya, Ju V Riznitchenko, EF Savaren-sky,
  []
@@ -316,37 +339,41 @@ Underfull \hbox (badness 3758) in paragraph at lines 86--92
 nd
  []
 
-) [10] (./magnitudescale.aux) ) 
+) [10
+
+] (./magnitudescale.aux) ) 
 Here is how much of TeX's memory you used:
- 2441 strings out of 495063
- 32793 string characters out of 3182201
- 104738 words of memory out of 3000000
- 5579 multiletter control sequences out of 15000+200000
- 34652 words of font info for 68 fonts, out of 3000000 for 9000
- 14 hyphenation exceptions out of 8191
- 37i,15n,23p,3028b,375s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/b
-ase/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf
--dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-urw/times/utmri8a.pfb>
-Output written on magnitudescale.pdf (10 pages, 3976305 bytes).
+ 2694 strings out of 493089
+ 36867 string characters out of 6134842
+ 123882 words of memory out of 5000000
+ 6125 multiletter control sequences out of 15000+600000
+ 36412 words of font info for 70 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 38i,15n,23p,3028b,381s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/b
+ase/8r.enc}</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mbx9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cmextr
+a/cmex9.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmmi10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi5.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i6.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8
+.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.p
+fb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
+></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></
+usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr
+/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/lo
+cal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local
+/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/t
+exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
+live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texli
+ve/2015/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2015
+/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2015/texmf-dis
+t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
+pe1/urw/times/utmri8a.pfb>
+Output written on magnitudescale.pdf (10 pages, 3982973 bytes).
 PDF statistics:
- 127 PDF objects out of 1000 (max. 8388607)
- 80 compressed objects within 1 object stream
+ 131 PDF objects out of 1000 (max. 8388607)
+ 83 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
