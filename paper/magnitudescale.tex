@@ -3,7 +3,7 @@
 % V2.1 released 2003 October 7 -- Gregor Hutton, updated the web address for the style files.
 
 \documentclass{gji}
-\usepackage{timet}
+%\usepackage{timet}
 \usepackage{amsmath}
 \usepackage{graphicx}
 
@@ -18,12 +18,12 @@
 \title[Comparisons of surface wave amplitude decay]
   {Comparisons of surface wave amplitude decay \\for colocated rotation and translation measurements}
 \author[Bryant Chow]
-  {Bryant Chow,$^1$\thanks{Now at Victoria University of Wellington, School of Geography, Environment and Earth Sciences, Kelburn Parade, Wellington, New Zealand 6012} 
-  Heiner Igel,$^1$ 
+  {Bryant Chow,$^1$\thanks{Now at Victoria University of Wellington, School of Geography, Environment and Earth Sciences, Cotton Building, Gate 7 Kelburn Parade, Wellington, New Zealand 6012} 
   Joachim Wassermann,$^1$
   Bernhard Schuberth,$^1$  \vspace{2mm}\\
-  \LARGE{{\normalfont C\' eline Hadziiannou,$^{1,2}$ and
-  Stefanie Donner$^{1,3}$}}\vspace{2mm}\\
+  \LARGE{{\normalfont C\' eline Hadziiannou,$^{1,2}$ 
+  Stefanie Donner$^{1,3}$ and
+   Heiner Igel$^1$}}\vspace{2mm}  \\
   $^1$ Department of Earth and Environmental Sciences, Ludwig-Maximilians-University Munich, Theresienstra\ss e 41, D-80333 Munich, Germany.\\
   $^2$ Department of Earth Science, University of Hamburg, Bundesstra\ss e 55, D-20146 Hamburg, Germany\\
   $^3$ Federal Institute for Geosciences and Natural Resources, Stilleweg 2, D-30655 Hannover, Germany \\E-mail: bryant.chow@vuw.ac.nz
@@ -50,11 +50,11 @@
 \maketitle
 
 \begin{summary}
-The broad-band surface wave magnitude equation assigns magnitude based on station-receiver distance and peak surface wave amplitude. It is standard practice to use the vertical component of peak ground velocity, so that only contributions from the vertical component of Rayleigh waves are present in the surface wave train. With the advent of rotational ground motion data from instruments such as ring laser gyroscopes and fiber-optic gyroscopes, it is possible to consistently measure peak amplitudes of rotations about the vertical axis for transient seismic waves. In the surface wave train, these observations are theoretically only sensitive to the transverse nature of Love waves, unaffected by either component of Rayleigh waves. We use this concept to study the amplitude decay of rotations versus translations, and determine the necessity of separate surface wave magnitude equations for Love and Rayleigh waves. Utilizing a large database of recorded seismic events of colocated translations and rotations, collected in Wettzell, Germany, we empirically define new magnitude scales for multiple measured observables: rotation rate, rotation, vertical velocity and transverse velocity. Results indicate that rotation amplitudes decay faster over distance compared to velocity amplitudes, and that the current surface wave magnitude equation is insufficient for predicting the amplitudes of either observable. Synthetic seismograms were produced using Specfem3D Globe on a full scale 3D global model with realistic crustal structuring to compare against observations. Findings suggest that the current global models available for forward simulation are inadequate for accurately predicting amplitudes, and recreating the observed amplitude decay of both translations and rotations.
+The broad-band surface wave magnitude equation assigns magnitude based on station-receiver distance and peak surface wave amplitude. It is standard practice to use the vertical component of peak ground velocity, so that only contributions from the vertical component of Rayleigh waves are present in the surface wave train. With the advent of rotational ground motion data from instruments such as ring laser gyroscopes and fiber-optic gyroscopes, it is possible to consistently measure peak amplitudes of rotations about three orthogonal axes for transient seismic waves. In the surface wave train, observations of vertical rotations are theoretically only sensitive to the transverse nature of Love waves, unaffected by either component of Rayleigh waves. We use this concept to study the amplitude decay of rotations versus translations, and determine the necessity of separate surface wave magnitude equations for Love and Rayleigh waves. Utilizing a large database of recorded seismic events of colocated translations and rotations, collected in Wettzell, Germany, we empirically define new magnitude scales for multiple measured observables: rotation rate, rotation, vertical velocity and transverse velocity. Results indicate that rotation amplitudes decay faster over distance compared to velocity amplitudes, and that the current surface wave magnitude equation is insufficient for predicting the amplitudes of either observable. Synthetic seismograms were produced using Specfem3D Globe on a full scale 3D global model with realistic crustal structuring to compare against observations. Findings suggest that the current global models available for forward simulation are inadequate for accurately predicting amplitudes, and recreating the observed amplitude decay of both translations and rotations.
 \end{summary}
 
 \begin{keywords}
-magnitude, rotational motions, seismic instrumentation, amplitude decay, surface waves, rotational seismology [more or less key words?]
+magnitude, rotational motions, amplitude decay, surface waves
 \end{keywords}
 
 \section{Introduction} 
@@ -72,8 +72,12 @@ Much of this preceding work however, focuses on single events, or collections of
 %ging over hundreds of instruments like is common
 In this paper, we aim to characterize and understand the differences in amplitude decay behavior of rotational and translational ground motion for a large number of seismic events. To do this, we make use of a sizeable catalog of earthquake data, as measured by an observatory based ring laser gyroscope, and colocated broadband translation sensor. By processing rotation and translation observations in a near identical manner, we hope to directly compare results over a large set of event magnitudes, epicentral distances and  azimuths. We additionally seek to use this information to better understand decay characteristics of Love and Rayleigh waves.
 
-This paper builds on work previously addressed by Igel et al. \shortcite{igel2007broad}, 
-where the question was posed: whether observed peak rotation amplitudes matched with expected values given by the surface wave magnitude equation. At the time, a limited number of recorded events lead to a small sample size. With a much larger number of events now currently available, we attempt to readdress this question, while also approaching the problem from the unique perspective of deriving magnitude scales to quantify and compare the decay characteristics of rotations and translations. Due to the uniqueness of our instrumental setup, we are restricted to single station observations. In order to provide comparisons to our observations, global 3D synthetic simulations were run with the wave propagation code Specfem 3D Globe [citation needed?]. Real seismic event locations, source parameters, and station locations are used, in order to provide the most comparable synthetic setup to observations. 
+This paper builds on results previously shown by Igel et al. \shortcite{igel2007broad}, 
+where the question was posed: whether observed peak rotation amplitudes matched with expected values given by the surface wave magnitude equation. 
+% new
+As a relatively new observable, rotational ground motion does not share the historical robustness that translations have, for example there exist no empirical relationships such as magnitude equations, which are constantly referred to in seismology. It is therefore important to re-establish these relationships, and in doing so determine whether divergence is required, or if the new observable behaves similarly.
+%new
+At the time of Igel et al. \shortcite{igel2007broad}, a limited number of recorded events lead to a small sample size. With a much larger number of events now currently available, we attempt to readdress this question, while also approaching the problem from the unique perspective of deriving magnitude scales to quantify and compare the decay characteristics of rotations and translations. Due to the uniqueness of our instrumental setup, we are restricted to single station observations. In order to provide comparisons to our observations, global 3D synthetic simulations were run with the wave propagation code Specfem 3D Globe [cite Komatitsch and Tromp 2002 a,b]. Real seismic event locations, source parameters, and station locations are used, in order to provide the most comparable synthetic setup to observations. 
 
 With these observations, we aim to make quantitative statements on surface wave amplitude decay, as well as to provide magnitude scale equations that may prove useful in determining expected rotation amplitudes from seismic events.
 
