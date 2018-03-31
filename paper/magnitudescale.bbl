@@ -45,6 +45,15 @@ Heiner Igel, Ulrich Schreiber, Asher Flaws, Bernhard Schuberth, Alex
   september 25, 2003.
 \newblock {\em Geophysical research letters}, 32(8), 2005.
 
+<<<<<<< HEAD
+=======
+\bibitem{karnik1962standardization}
+V~Karnik, NV~Kondorskaya, Ju~V Riznitchenko, EF~Savarensky, SL~Soloviev,
+  NV~Shebalin, J~Vanek, and A~Zatopek.
+\newblock Standardization of the earthquake magnitude scale.
+\newblock {\em Studia Geophysica et Geodaetica}, 6(1):41--48, 1962.
+
+>>>>>>> 6cdc9e9bf4d86b81a91b759c14b0bce0e19db074
 \bibitem{mcleod1998comparison}
 DP~McLeod, GE~Stedman, TH~Webb, and U~Schreiber.
 \newblock Comparison of standard and ring laser rotational seismograms.

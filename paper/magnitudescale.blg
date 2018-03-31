@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: magnitudescale.aux
@@ -44,3 +45,51 @@ warning$ -- 0
 while$ -- 57
 width$ -- 17
 write$ -- 168
+=======
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: magnitudescale.aux
+The style file: plain.bst
+Database file #1: biblio.bib.bib
+You've used 16 entries,
+            2118 wiz_defined-function locations,
+            606 strings with 7849 characters,
+and the built_in function-call counts, 6842 in all, are:
+= -- 653
+> -- 441
+< -- 2
++ -- 178
+- -- 158
+* -- 582
+:= -- 1167
+add.period$ -- 50
+call.type$ -- 16
+change.case$ -- 126
+chr.to.int$ -- 0
+cite$ -- 16
+duplicate$ -- 202
+empty$ -- 441
+format.name$ -- 158
+if$ -- 1360
+int.to.chr$ -- 0
+int.to.str$ -- 16
+missing$ -- 17
+newline$ -- 83
+num.names$ -- 32
+pop$ -- 111
+preamble$ -- 1
+purify$ -- 111
+quote$ -- 0
+skip$ -- 136
+stack$ -- 0
+substring$ -- 429
+swap$ -- 34
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 62
+warning$ -- 0
+while$ -- 61
+width$ -- 18
+write$ -- 179
+>>>>>>> 6cdc9e9bf4d86b81a91b759c14b0bce0e19db074
