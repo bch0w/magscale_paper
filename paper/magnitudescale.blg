@@ -1,95 +1,49 @@
-<<<<<<< HEAD
 This is BibTeX, Version 0.99d (TeX Live 2017)
 Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: magnitudescale.aux
-The style file: plain.bst
+The style file: apalike.bst
 Database file #1: biblio.bib.bib
-You've used 15 entries,
-            2118 wiz_defined-function locations,
-            600 strings with 7601 characters,
-and the built_in function-call counts, 6341 in all, are:
-= -- 608
-> -- 398
-< -- 2
-+ -- 161
-- -- 142
-* -- 533
-:= -- 1078
-add.period$ -- 47
-call.type$ -- 15
-change.case$ -- 115
-chr.to.int$ -- 0
-cite$ -- 15
-duplicate$ -- 191
-empty$ -- 416
-format.name$ -- 142
-if$ -- 1266
-int.to.chr$ -- 0
-int.to.str$ -- 15
-missing$ -- 16
-newline$ -- 78
-num.names$ -- 30
-pop$ -- 102
+Warning--empty publisher in aki2002quantitative
+Warning--empty year in Ritsema2011
+You've used 25 entries,
+            1935 wiz_defined-function locations,
+            630 strings with 9318 characters,
+and the built_in function-call counts, 11724 in all, are:
+= -- 1107
+> -- 648
+< -- 11
++ -- 244
+- -- 230
+* -- 1097
+:= -- 2050
+add.period$ -- 77
+call.type$ -- 25
+change.case$ -- 237
+chr.to.int$ -- 23
+cite$ -- 27
+duplicate$ -- 374
+empty$ -- 728
+format.name$ -- 269
+if$ -- 2233
+int.to.chr$ -- 3
+int.to.str$ -- 0
+missing$ -- 28
+newline$ -- 128
+num.names$ -- 75
+pop$ -- 210
 preamble$ -- 1
-purify$ -- 101
+purify$ -- 240
 quote$ -- 0
-skip$ -- 129
+skip$ -- 276
 stack$ -- 0
-substring$ -- 405
-swap$ -- 33
+substring$ -- 780
+swap$ -- 43
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 58
-warning$ -- 0
-while$ -- 57
-width$ -- 17
-write$ -- 168
-=======
-This is BibTeX, Version 0.99d (TeX Live 2013)
-Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
-The top-level auxiliary file: magnitudescale.aux
-The style file: plain.bst
-Database file #1: biblio.bib.bib
-You've used 16 entries,
-            2118 wiz_defined-function locations,
-            606 strings with 7849 characters,
-and the built_in function-call counts, 6842 in all, are:
-= -- 653
-> -- 441
-< -- 2
-+ -- 178
-- -- 158
-* -- 582
-:= -- 1167
-add.period$ -- 50
-call.type$ -- 16
-change.case$ -- 126
-chr.to.int$ -- 0
-cite$ -- 16
-duplicate$ -- 202
-empty$ -- 441
-format.name$ -- 158
-if$ -- 1360
-int.to.chr$ -- 0
-int.to.str$ -- 16
-missing$ -- 17
-newline$ -- 83
-num.names$ -- 32
-pop$ -- 111
-preamble$ -- 1
-purify$ -- 111
-quote$ -- 0
-skip$ -- 136
-stack$ -- 0
-substring$ -- 429
-swap$ -- 34
-text.length$ -- 2
-text.prefix$ -- 0
-top$ -- 0
-type$ -- 62
-warning$ -- 0
-while$ -- 61
-width$ -- 18
-write$ -- 179
->>>>>>> 6cdc9e9bf4d86b81a91b759c14b0bce0e19db074
+type$ -- 144
+warning$ -- 2
+while$ -- 88
+width$ -- 0
+write$ -- 324
+(There were 2 warnings)

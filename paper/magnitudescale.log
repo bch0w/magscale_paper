@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.2.13)  31 MAR 2018 18:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.2.13)  22 APR 2018 17:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -117,9 +117,29 @@ Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
 \Gin@req@height=\dimen113
 \Gin@req@width=\dimen114
 )
-\c@theorem=\count101
+(/usr/local/texlive/2017/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
 
-(./magnitudescale.aux)
+
+! LaTeX Error: Command \bibhang already defined.
+               Or name \end... illegal, see p.192 of the manual.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.637 \newlength{\bibhang}
+                          
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+\bibsep=\skip51
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count101
+)
+\c@theorem=\count102
+ (./magnitudescale.aux)
 \openout1 = `magnitudescale.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
@@ -137,16 +157,16 @@ LaTeX Font Info:    ... okay on input line 46.
 
 (/usr/local/texlive/2017/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count102
+\scratchcounter=\count103
 \scratchdimen=\dimen115
 \scratchbox=\box28
-\nofMPsegments=\count103
-\nofMParguments=\count104
+\nofMPsegments=\count104
+\nofMParguments=\count105
 \everyMPshowfont=\toks20
-\MPscratchCnt=\count105
+\MPscratchCnt=\count106
 \MPscratchDim=\dimen116
-\MPnumerator=\count106
-\makeMPintoPDFobject=\count107
+\MPnumerator=\count107
+\makeMPintoPDFobject=\count108
 \everyMPtoPDFconversion=\toks21
 ) (/usr/local/texlive/2017/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2017/03/19 v0.25 Utility functions of pdfTeX for LuaTeX (HO
@@ -219,15 +239,15 @@ File: ./paper_figures/publishable/rr_ta.png Graphic file (type png)
 Package pdftex.def Info: ./paper_figures/publishable/rr_ta.png used on input li
 ne 111.
 (pdftex.def)             Requested size: 252.0pt x 142.06026pt.
- [2 <./paper_figures/publishable/rr_ta.png>]
-<./paper_figures/publishable/event_map.png, id=30, 914.2155pt x 471.2004pt>
+ [2] [3 <./paper_figures/publishable/rr_ta.png>]
+<./paper_figures/publishable/event_map.png, id=33, 914.2155pt x 471.2004pt>
 File: ./paper_figures/publishable/event_map.png Graphic file (type png)
 
 <use ./paper_figures/publishable/event_map.png>
 Package pdftex.def Info: ./paper_figures/publishable/event_map.png used on inpu
 t line 157.
 (pdftex.def)             Requested size: 403.20154pt x 207.81772pt.
- [3]
+
 <./paper_figures/publishable/amp_picking.png, id=34, 578.16pt x 433.62pt>
 File: ./paper_figures/publishable/amp_picking.png Graphic file (type png)
 
@@ -235,11 +255,8 @@ File: ./paper_figures/publishable/amp_picking.png Graphic file (type png)
 Package pdftex.def Info: ./paper_figures/publishable/amp_picking.png used on in
 put line 175.
 (pdftex.def)             Requested size: 252.0pt x 189.00032pt.
-
-Underfull \vbox (badness 1199) has occurred while \output is active []
-
  [4]
-Overfull \hbox (85.1628pt too wide) in paragraph at lines 222--235
+Overfull \hbox (85.1628pt too wide) in paragraph at lines 221--234
  [] 
  []
 
@@ -248,7 +265,7 @@ File: ./paper_figures/publishable/RR_WET.png Graphic file (type png)
 
 <use ./paper_figures/publishable/RR_WET.png>
 Package pdftex.def Info: ./paper_figures/publishable/RR_WET.png used on input l
-ine 249.
+ine 248.
 (pdftex.def)             Requested size: 403.20154pt x 256.58784pt.
  [5 <./paper_figures/publishable/event_map.png> <./paper_figures/publishable/am
 p_picking.png>]
@@ -257,7 +274,7 @@ File: ./paper_figures/publishable/velocityscales.png Graphic file (type png)
 
 <use ./paper_figures/publishable/velocityscales.png>
 Package pdftex.def Info: ./paper_figures/publishable/velocityscales.png used on
- input line 262.
+ input line 261.
 (pdftex.def)             Requested size: 252.0pt x 189.00032pt.
 
 <./paper_figures/publishable/rrscales.png, id=48, 578.16pt x 433.62pt>
@@ -265,11 +282,8 @@ File: ./paper_figures/publishable/rrscales.png Graphic file (type png)
 
 <use ./paper_figures/publishable/rrscales.png>
 Package pdftex.def Info: ./paper_figures/publishable/rrscales.png used on input
- line 268.
+ line 267.
 (pdftex.def)             Requested size: 252.0pt x 189.00032pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 
 <./paper_figures/publishable/C201304191958A_10-60_rotationrate_compare.png, id=
 49, 1384.6932pt x 724.1454pt>
@@ -278,68 +292,106 @@ File: ./paper_figures/publishable/C201304191958A_10-60_rotationrate_compare.png
 
 <use ./paper_figures/publishable/C201304191958A_10-60_rotationrate_compare.png>
 Package pdftex.def Info: ./paper_figures/publishable/C201304191958A_10-60_rotat
-ionrate_compare.png used on input line 287.
+ionrate_compare.png used on input line 284.
 (pdftex.def)             Requested size: 252.0pt x 131.77698pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [6]
-[7 <./paper_figures/publishable/RR_WET.png> <./paper_figures/publishable/veloci
-tyscales.png> <./paper_figures/publishable/rrscales.png>]
-<./paper_figures/publishable/RR_SYN.png, id=61, 794.97pt x 505.89pt>
+[6] <./paper_figures/publishable/RR_SYN.png, id=54, 794.97pt x 505.89pt>
 File: ./paper_figures/publishable/RR_SYN.png Graphic file (type png)
 
 <use ./paper_figures/publishable/RR_SYN.png>
 Package pdftex.def Info: ./paper_figures/publishable/RR_SYN.png used on input l
-ine 302.
+ine 299.
 (pdftex.def)             Requested size: 403.20154pt x 256.58784pt.
 
-Overfull \hbox (10.05309pt too wide) in paragraph at lines 310--322
+Overfull \hbox (10.05309pt too wide) in paragraph at lines 307--319
  [] 
  []
 
 
-Overfull \hbox (6.7205pt too wide) in paragraph at lines 332--339
+Overfull \hbox (6.7205pt too wide) in paragraph at lines 329--336
  [] 
  []
+
+[7 <./paper_figures/publishable/RR_WET.png> <./paper_figures/publishable/veloci
+tyscales.png> <./paper_figures/publishable/rrscales.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8 <./paper_figures/publishable/C201304191958A_10-60_rotationrate_compare.png>
+]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [8 <./paper_figures/publishable/C201304191958A_10-60_rotationrate_compare.png>
-] [9 <./paper_figures/publishable/RR_SYN.png>]
+ [9 <./paper_figures/publishable/RR_SYN.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 (./magnitudescale.bbl
-Underfull \hbox (badness 3557) in paragraph at lines 35--40
-[]\OT1/cmr/m/n/8 Heiner Igel, Alain Cochard, Joachim Wasser-mann, Asher
+
+! LaTeX Error: \newblock undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1 \begin{thebibliography}{}
+                             
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Underfull \hbox (badness 3260) in paragraph at lines 52--57
+[]\OT1/cmr/m/n/9 Igel, H., Cochard, A., Wasser-mann, J., Flaws, A.,
  []
 
 [10]
-Missing character: There is no â in font cmr8!
-Missing character: There is no € in font cmr8!
-Missing character: There is no ” in font cmr8!
-
-Underfull \hbox (badness 1430) in paragraph at lines 77--82
-\OT1/cmr/m/n/8 likoselt-sev, Asher Flaws, Bern-hard Schu-berth, Wolf-gang
+Underfull \hbox (badness 1436) in paragraph at lines 90--93
+[]\OT1/cmr/m/n/9 Rial, J. A., Saltz-man, N. G., and Ling, H. (1992).
  []
 
+
+Underfull \hbox (badness 1231) in paragraph at lines 90--93
+\OT1/cmr/m/n/9 Earthquake-induced res-o-nance in sed-i-men-tary basins.
+ []
+
+Missing character: There is no â in font cmr9!
+Missing character: There is no € in font cmr9!
+Missing character: There is no ” in font cmr9!
 ) [11
 
-] (./magnitudescale.aux)
+] (./magnitudescale.aux
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+
+! Package natbib Error: Bibliography not compatible with author-year citations.
+
+(natbib)                Press <return> to continue in numerical citation style.
+
+
+See the natbib package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.125 ...and\NAT@force@numbers{}\NAT@force@numbers
+                                                  
+Check the bibliography entries for non-compliant syntax,
+or select author-year BibTeX style, e.g. plainnat
+
+)
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 2383 strings out of 492995
- 32440 string characters out of 6132704
- 113651 words of memory out of 5000000
- 5908 multiletter control sequences out of 15000+600000
+ 2775 strings out of 492995
+ 38052 string characters out of 6132704
+ 117933 words of memory out of 5000000
+ 6296 multiletter control sequences out of 15000+600000
  12482 words of font info for 44 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,15n,25p,3028b,330s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,15n,25p,2645b,330s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></
@@ -363,7 +415,7 @@ ist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2017/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2017/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2017/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on magnitudescale.pdf (11 pages, 4026647 bytes).
+Output written on magnitudescale.pdf (11 pages, 4030365 bytes).
 PDF statistics:
  149 PDF objects out of 1000 (max. 8388607)
  96 compressed objects within 1 object stream

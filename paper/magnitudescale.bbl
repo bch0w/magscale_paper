@@ -1,109 +1,159 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{}
 
-\bibitem{ambraseys1997surface}
-Nicholas~Nicholas Ambraseys and MW~Free.
+\bibitem[Aki and Richards, 2002]{aki2002quantitative}
+Aki, K. and Richards, P.~G. (2002).
+\newblock {\em Quantitative seismology}.
+
+\bibitem[Ambraseys and Free, 1997]{ambraseys1997surface}
+Ambraseys, N. and Free, M. (1997).
 \newblock Surface-wave magnitude calibration for european region earthquakes.
-\newblock {\em Journal of Earthquake Engineering}, 1(01):1--22, 1997.
+\newblock {\em Journal of Earthquake Engineering}, 1(01):1--22.
 
-\bibitem{bormann2000new}
-Peter Bormann and Eric Bergman.
+\bibitem[Bassin et~al., 2000]{Bassin2000}
+Bassin, C., Laske, G., and Masters, G. (2000).
+\newblock The current limits of resolution for surface wave tomography in
+  {N}orth {A}merica.
+\newblock {\em EOS Trans. Am. Geophys. Union}, 81(48):F897.
+\newblock Fall Meet. Suppl., Abstract S12A-03.
+
+\bibitem[Bernauer et~al., 2018]{bernauer2018blueseis3a}
+Bernauer, F., Wassermann, J., Guattari, F., Frenois, A., Bigueur, A., Gaillot,
+  A., de~Toldi, E., Ponceau, D., Schreiber, U., and Igel, H. (2018).
+\newblock Blueseis3a: Full characterization of a 3c broadband rotational
+  seismometer.
+\newblock {\em Seismological Research Letters}.
+
+\bibitem[Bormann and Bergman, 2000]{bormann2000new}
+Bormann, P. and Bergman, E. (2000).
 \newblock The new iaspei manual of seismological observatory practice.
-\newblock {\em Seismological Research Letters}, 71(5):510--518, 2000.
+\newblock {\em Seismological Research Letters}, 71(5):510--518.
 
-\bibitem{donner2017comparing}
-Stefanie Donner, Chin-Jen Lin, C{\'e}line Hadziioannou, Andr{\'e} Gebauer,
-  Frank Vernon, Duncan~Carr Agnew, Heiner Igel, Ulrich Schreiber, and Joachim
-  Wassermann.
+\bibitem[Donner et~al., 2017]{donner2017comparing}
+Donner, S., Lin, C.-J., Hadziioannou, C., Gebauer, A., Vernon, F., Agnew,
+  D.~C., Igel, H., Schreiber, U., and Wassermann, J. (2017).
 \newblock Comparing direct observation of strain, rotation, and displacement
   with array estimates at pi{\~n}on flat observatory, california.
-\newblock {\em Seismological Research Letters}, 88(4):1107--1116, 2017.
+\newblock {\em Seismological Research Letters}, 88(4):1107--1116.
 
-\bibitem{ekstrom2012global}
-G~Ekstr{\"o}m, M~Nettles, and AM~Dziewo{\'n}ski.
+\bibitem[Ekstr{\"o}m et~al., 2012]{ekstrom2012global}
+Ekstr{\"o}m, G., Nettles, M., and Dziewo{\'n}ski, A. (2012).
 \newblock The global cmt project 2004--2010: Centroid-moment tensors for 13,017
   earthquakes.
-\newblock {\em Physics of the Earth and Planetary Interiors}, 200:1--9, 2012.
+\newblock {\em Physics of the Earth and Planetary Interiors}, 200:1--9.
 
-\bibitem{herak1993distance}
-Marijan Herak and Davorka Herak.
+\bibitem[Herak and Herak, 1993]{herak1993distance}
+Herak, M. and Herak, D. (1993).
 \newblock Distance dependence of ms and calibrating function for 20 second
   rayleigh waves.
 \newblock {\em Bulletin of the Seismological Society of America},
-  83(6):1881--1892, 1993.
+  83(6):1881--1892.
 
-\bibitem{igel2007broad}
-Heiner Igel, Alain Cochard, Joachim Wassermann, Asher Flaws, Ulrich Schreiber,
-  Alex Velikoseltsev, and Nguyen Pham~Dinh.
+\bibitem[Igel et~al., 2007]{igel2007broad}
+Igel, H., Cochard, A., Wassermann, J., Flaws, A., Schreiber, U., Velikoseltsev,
+  A., and Pham~Dinh, N. (2007).
 \newblock Broad-band observations of earthquake-induced rotational ground
   motions.
-\newblock {\em Geophysical Journal International}, 168(1):182--196, 2007.
+\newblock {\em Geophysical Journal International}, 168(1):182--196.
 
-\bibitem{igel2005rotational}
-Heiner Igel, Ulrich Schreiber, Asher Flaws, Bernhard Schuberth, Alex
-  Velikoseltsev, and Alain Cochard.
+\bibitem[Igel et~al., 2005]{igel2005rotational}
+Igel, H., Schreiber, U., Flaws, A., Schuberth, B., Velikoseltsev, A., and
+  Cochard, A. (2005).
 \newblock Rotational motions induced by the m8. 1 tokachi-oki earthquake,
   september 25, 2003.
-\newblock {\em Geophysical research letters}, 32(8), 2005.
+\newblock {\em Geophysical research letters}, 32(8).
 
-<<<<<<< HEAD
-=======
-\bibitem{karnik1962standardization}
-V~Karnik, NV~Kondorskaya, Ju~V Riznitchenko, EF~Savarensky, SL~Soloviev,
-  NV~Shebalin, J~Vanek, and A~Zatopek.
+\bibitem[Karnik et~al., 1962]{karnik1962standardization}
+Karnik, V., Kondorskaya, N., Riznitchenko, J.~V., Savarensky, E., Soloviev, S.,
+  Shebalin, N., Vanek, J., and Zatopek, A. (1962).
 \newblock Standardization of the earthquake magnitude scale.
-\newblock {\em Studia Geophysica et Geodaetica}, 6(1):41--48, 1962.
+\newblock {\em Studia Geophysica et Geodaetica}, 6(1):41--48.
 
->>>>>>> 6cdc9e9bf4d86b81a91b759c14b0bce0e19db074
-\bibitem{mcleod1998comparison}
-DP~McLeod, GE~Stedman, TH~Webb, and U~Schreiber.
+\bibitem[Komatitsch and Tromp, 2002a]{komatitsch2002spectrala}
+Komatitsch, D. and Tromp, J. (2002a).
+\newblock Spectral-element simulations of global seismic wave propagation?i.
+  validation.
+\newblock {\em Geophysical Journal International}, 149(2):390--412.
+
+\bibitem[Komatitsch and Tromp, 2002b]{komatitsch2002spectralb}
+Komatitsch, D. and Tromp, J. (2002b).
+\newblock Spectral-element simulations of global seismic wave propagation?ii.
+  three-dimensional models, oceans, rotation and self-gravitation.
+\newblock {\em Geophysical Journal International}, 150(1):303--318.
+
+\bibitem[McLeod et~al., 1998]{mcleod1998comparison}
+McLeod, D., Stedman, G., Webb, T., and Schreiber, U. (1998).
 \newblock Comparison of standard and ring laser rotational seismograms.
 \newblock {\em Bulletin of the Seismological Society of America},
-  88(6):1495--1503, 1998.
+  88(6):1495--1503.
 
-\bibitem{salvermoser2017event}
-Johannes Salvermoser, C{\'e}line Hadziioannou, Sarah Hable, Lion Krischer,
-  Bryant Chow, Catalina Ramos, Joachim Wassermann, Ulrich Schreiber, Andr{\'e}
-  Gebauer, and Heiner Igel.
+\bibitem[Rial et~al., 1992]{rial1992earthquake}
+Rial, J.~A., Saltzman, N.~G., and Ling, H. (1992).
+\newblock Earthquake-induced resonance in sedimentary basins.
+\newblock {\em American Scientist}, 80(6):566--578.
+
+\bibitem[Ritsema et~al., ]{Ritsema2011}
+Ritsema, J., Deuss, A., van Heijst, H.~J., and Woodhouse, J.~H.
+\newblock S40rts: a degree?40 shear?velocity model for the mantle from new
+  rayleigh wave dispersion, teleseismic traveltime and normal?mode splitting
+  function measurements.
+\newblock {\em Geophysical Journal International}, 184(3):1223--1236.
+
+\bibitem[Salvermoser et~al., 2017]{salvermoser2017event}
+Salvermoser, J., Hadziioannou, C., Hable, S., Krischer, L., Chow, B., Ramos,
+  C., Wassermann, J., Schreiber, U., Gebauer, A., and Igel, H. (2017).
 \newblock An event database for rotational seismology.
-\newblock {\em Seismological Research Letters}, 88(3):935--941, 2017.
+\newblock {\em Seismological Research Letters}, 88(3):935--941.
 
-\bibitem{schreiber2006ring}
-K~Ulrich Schreiber, Geoffrey~E Stedman, Heiner Igel, and Asher Flaws.
+\bibitem[Sbaa et~al., 2017]{sbaa2017analysis}
+Sbaa, S., Hollender, F., Perron, V., Imtiaz, A., Bard, P.-Y., Mariscal, A.,
+  Cochard, A., and Dujardin, A. (2017).
+\newblock Analysis of rotation sensor data from the sinaps@ kefalonia (greece)
+  post-seismic experiment?link to surface geology and wavefield
+  characteristics.
+\newblock {\em Earth, Planets and Space}, 69(1):124.
+
+\bibitem[Schreiber et~al., 2006a]{schreiber2006ring}
+Schreiber, K.~U., Stedman, G.~E., Igel, H., and Flaws, A. (2006a).
 \newblock Ring laser gyroscopes as rotation sensors for seismic wave studies.
 \newblock In {\em Earthquake source asymmetry, structural media and rotation
-  effects}, pages 377--390. Springer, 2006.
+  effects}, pages 377--390. Springer.
 
-\bibitem{schreiber2006geosensor}
-Ulrich Schreiber, Heiner Igel, Alain Cochard, Alexander Velikoseltsev, Asher
-  Flaws, Bernhard Schuberth, Wolfgang Drewitz, and Frieder M{\"u}ller.
+\bibitem[Schreiber et~al., 2006b]{schreiber2006geosensor}
+Schreiber, U., Igel, H., Cochard, A., Velikoseltsev, A., Flaws, A., Schuberth,
+  B., Drewitz, W., and M{\"u}ller, F. (2006b).
 \newblock The geosensor project: rotations—a new observable for seismology.
 \newblock In {\em Observation of the Earth System from Space}, pages 427--443.
-  Springer, 2006.
+  Springer.
 
-\bibitem{shearer2009introduction}
-Peter~M Shearer.
+\bibitem[Shearer, 2009]{shearer2009introduction}
+Shearer, P.~M. (2009).
 \newblock {\em Introduction to seismology}.
-\newblock Cambridge University Press, 2009.
+\newblock Cambridge University Press.
 
-\bibitem{spudich1995transient}
-Paul Spudich, Lee~K Steck, Margaret Hellweg, JB~Fletcher, and Lawrence~M Baker.
+\bibitem[Spudich et~al., 1995]{spudich1995transient}
+Spudich, P., Steck, L.~K., Hellweg, M., Fletcher, J., and Baker, L.~M. (1995).
 \newblock Transient stresses at parkfield, california, produced by the m 7.4
   landers earthquake of june 28, 1992: Observations from the upsar dense
   seismograph array.
-\newblock {\em Journal of Geophysical Research: Solid Earth}, 100(B1):675--690,
-  1995.
+\newblock {\em Journal of Geophysical Research: Solid Earth}, 100(B1):675--690.
 
-\bibitem{stedman1997ring}
-GE~Stedman.
+\bibitem[Stedman, 1997]{stedman1997ring}
+Stedman, G. (1997).
 \newblock Ring-laser tests of fundamental physics and geophysics.
-\newblock {\em Reports on progress in physics}, 60(6):615, 1997.
+\newblock {\em Reports on progress in physics}, 60(6):615.
 
-\bibitem{tanimoto2016seasonal}
-Toshiro Tanimoto, C{\'e}line Hadziioannou, Heiner Igel, Joachim Wassermann,
-  Ulrich Schreiber, Andr{\'e} Gebauer, and Bryant Chow.
+\bibitem[Stein and Wysession, 2009]{stein2009introduction}
+Stein, S. and Wysession, M. (2009).
+\newblock {\em An introduction to seismology, earthquakes, and earth
+  structure}.
+\newblock John Wiley \& Sons.
+
+\bibitem[Tanimoto et~al., 2016]{tanimoto2016seasonal}
+Tanimoto, T., Hadziioannou, C., Igel, H., Wassermann, J., Schreiber, U.,
+  Gebauer, A., and Chow, B. (2016).
 \newblock Seasonal variations in the rayleigh-to-love wave ratio in the
   secondary microseism from colocated ring laser and seismograph.
 \newblock {\em Journal of Geophysical Research: Solid Earth},
-  121(4):2447--2459, 2016.
+  121(4):2447--2459.
 
 \end{thebibliography}
