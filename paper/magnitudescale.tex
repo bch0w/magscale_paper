@@ -97,7 +97,7 @@ It is important to note that given stable instrument geometry and lasing, change
 \subsubsection{Phase velocity relation}\label{phasevel}
 It has been shown that for a simple plane wave, the amplitudes of vertical rotation rate $\Omega_z$  and transverse acceleration $\ddot{u}_t$ can be related through the equation 
 
-\begin{equation}\label{phasevelocity}
+\begin{equation}\label{eq:phasevelocity}
 	\frac{\ddot{u}_t}{\Omega_z} = -2c,
 \end{equation}
 
@@ -107,8 +107,8 @@ It has been shown that for a simple plane wave, the amplitudes of vertical rotat
 
 
 \begin{figure}
-\centerline{\includegraphics[width=0.5\textwidth]{rr_ta}}
-\caption{Teleseismic event for observations (top) and synthetics (bottom) filtered at dominant period 20s. Red traces show rotation, black traces show velocity, amplitudes normalized to emphasize phases. calculation of horizontal phase velocity using Equation \ref{phasevelocity} give c=3.81 km/s.}
+\centerline{\includegraphics[width=0.5\textwidth]{C201109161926A_phmatch}}
+\caption{Comparisons of rotation and translation. Observation (top) and synthetic (bottom) seismograms for an M$_w$ 6.67 event near Japan (see Table \ref{tab:syn_events}) . Waveforms filtered at 5 to 60 seconds. Red traces show rotation rate, black traces show transverse acceleration, amplitudes normalized from zero to one. Calculating for horizontal phase velocity with peak amplitudes using Equation \ref{eq:phasevelocity} gives c$_{obs}$ = 3.52 and c$_{syn}$ = 3.95 for observations and synthetics, respectively.}
 \label{fig:rr_ta}
 \end{figure}
 
@@ -123,7 +123,7 @@ Amplitude based magnitude scales provide empirically derived relationships betwe
 The International Association of Planets Seismology and Earths Interior (IASPEI) Working Group on Magnitudes proposed a modified version of the original surface wave magnitude equation (Prague formula), proposed by \cite{karnik1962standardization}.
 This broad band surface wave magnitude equation is compatible for use with modern day broadband seismic instruments \cite{bormann2000new}.
 
-In this work, we adhere strictly to the standard procedures provided by IASPEI (outlined in the folllowing section) as an stencil for defining our own empirical magnitude scales. In turn, we use these derived scales as a tool for quantifying amplitude decay for different measured observables.
+In this work, we adhere strictly to the standard procedures provided by IASPEI (outlined in the folllowing section) as a stencil for defining our own empirical magnitude scales. In turn, we use these derived scales as a tool for quantifying amplitude decay for different measured observables.
 
 \subsubsection{Standard Procedures}\label{standproc}
 The Working Group on Magnitudes' standard procedures gives the revised surface wave magnitude equation for broad-band instruments as,
@@ -280,8 +280,8 @@ For each of the simulated events, synthetic seismograms were generated for all s
 Comparisons of transverse acceleration and rotation rate provide solid phase matching throughout the waveform, with the strongest correlation during the surface wave train, even for relatively wide bandpass filters (i.e. 10 to 60 seconds). This is true for both observations and synthetics, and also allows for the calculation of phase velocities. Because this is not the goal of this paper, we do not delve too far into the analysis of phase velocities, however taking peak value amplitude ratios for broad bandpass filter ranges (which would average the horizontal phase velocities of each dominant period contained), we recover values ranging from 3 to 5 km/s. 
 
 \begin{figure}
-\centerline{\includegraphics[width=0.5\textwidth]{C201304191958A_10-60_rotationrate_compare}}
-\caption{A comparison of synthetic and observed waveforms for an M6.1 event, East of Kuril Islands. Waveforms filtered at dominant period 20s.}
+\centerline{\includegraphics[width=0.5\textwidth]{C201301050858A_compareBJZ}}
+\caption{Direct comparison of observed (black) and synthetic (red) rotation seismograms for an M$_w$ 7.53 in Alaska. Note the similarities in waveform, contrasted by the order of magnitude difference in amplitudes.}
 \label{fig:both}
 \end{figure}
 
@@ -376,14 +376,12 @@ Measurements of rotations and spatial gradients has proven a very interesting th
 %-basin amplification of love vs rayleigh waves, transverse component shows on average higher amplitude
 %-synthetic stations
 %-high frequency attenutation of rotation rate compared to rotation
-%-herak and herak newly proposed magnitude scale
 %-averaging of earth structure not done here
-%-considerations towards using the correct backazimuth
 %-confidence interval
 %-because of the logarithmic nature of magnitude scales, even differences in the decay constant don't make that much of an impact on the resulting expected amplitudes that one sees 
 %-using the same value of c for all rotation, at 80 degrees you get an order of magnitude difference in expected amplitude for synthetic and observed scales
 %-because we use Mw and therefore Ms as a controlling parameter in our linear regression, it has a strong effect on the end result for our fitted line
-%-large earthquakes being approximated as point sources with boxcar-like source time functions - not capturing the effects of the rupture so we aren't matching wiggle by wiggle. Even then we are consistently over predicting amplitudes 
+%-dispersion on the synthetics is not as strong as in the observations, which leads to a 'bunching up' of surface waves and incorrect arrival times based on surface wave speed
 %
 %misc:
 %how to convert from old magnitude scales to new - just subtract 3 from C (rewriting of magnitude equation)

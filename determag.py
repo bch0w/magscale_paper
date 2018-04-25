@@ -305,7 +305,7 @@ def remove_instr_resp(rt, ac, station, startev):
     sensitivity controls order of magnitude of units
 
     NOTE:
-    + 9.44*10**8 gives m/s, 944.xxx gives um/s, 0.944xxx for nm/s (w/ 2 zeros)
+    + 9.44*10**8 gives m/s, 94.4xx gives um/s, 0.0944xxx for nm/s (w/ 2 zeros)
     + 2 zeros velocity, 1 zero acceleration, 3 zeroes displacement
 
     :type rt: :class: `~obspy.core.stream.Stream`
