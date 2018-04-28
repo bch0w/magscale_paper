@@ -29,7 +29,7 @@ import argparse
 import datetime
 import numpy as np
 import matplotlib as mpl
-mpl.use('Agg')
+# mpl.use('Agg')
 import matplotlib.pylab as plt
 from obspy.core import read
 from obspy.taup import TauPyModel
@@ -45,9 +45,44 @@ from obspy.geodetics.base import gps2dist_azimuth, locations2degrees
 from xml.dom.minidom import parseString
 from collections import OrderedDict
 
-mpl.rcParams.update({'font.size': 10})
-plt.rc('text', usetex=True)
-plt.rc('font', family='serif')
+mpl.rcParams['lines.linewidth']=1.2
+mpl.rcParams['lines.markersize']=7
+mpl.rcParams['lines.markeredgewidth']=1
+mpl.rcParams['axes.linewidth']=1.5
+mpl.rcParams.update({'font.size': 14 })
+# plt.rc('text', usetex=True)
+# plt.rc('font', family='serif')
+
+def __pretty_grids(input_ax):
+    """grid formatting
+    """
+    input_ax.set_axisbelow(True)
+    input_ax.tick_params(which='major',
+                         direction='in',
+                         top=True,
+                         right=True,
+                         width=1,
+                         length=3.5)
+    input_ax.tick_params(which='minor',
+                          direction='in',
+                          top=True,
+                          right=True,
+                          width=0.25,
+                          length=1)
+    input_ax.minorticks_on()
+    input_ax.grid(which='minor',
+                    linestyle=':',
+                    linewidth='0.5',
+                    color='k',
+                    alpha=0.25)
+    input_ax.grid(which='major',
+                    linestyle='-',
+                    linewidth='0.5',
+                    color='k',
+                    alpha=0.15)
+    # input_ax.ticklabel_format(style='sci',
+    #                         axis='y',
+    #                         scilimits=(0,0))
 
 def download_data(origin_time, net, sta, loc, chan, source):
     """
@@ -674,7 +709,8 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
     # PLOT data to see waveform quality and peak-trough behavior
     # CHANGED: only plotting rotations and Z and T, hacky ylabels
     axrow = 4
-    f,axes = plt.subplots(nrows=axrow,ncols=2,sharex='col',sharey='row')
+    f,axes = plt.subplots(nrows=axrow,ncols=2,sharex='col',sharey='row',
+                                    figsize=(11,8.5),dpi=200)
     j = 0
     for i in range(axrow):
         endtime = len(alltraces[j])/sampling_rate
@@ -682,10 +718,13 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
         # trace overviews
         axes[i][0].plot(t,alltraces[j].data,'k')
         axes[i][0].plot(t[peak_indS[j]],peakS[j],'go',
-                        t[adj_trough_indS[j]],adj_troughS[j],'go')
+                        t[adj_trough_indS[j]],adj_troughS[j],'go',
+                        markeredgecolor='k')
         axes[i][0].plot(t[adj_peak_indS[j]],adj_peakS[j],'ro',
-                        t[trough_indS[j]],troughS[j],'ro')
-        axes[i][0].plot(t[zero_crossings[j]],0,'bo',zorder=8)
+                        t[trough_indS[j]],troughS[j],'ro',
+                        markeredgecolor='k')
+        axes[i][0].plot(t[zero_crossings[j]],0,'bo',zorder=8,
+                                    markeredgecolor='k')
 
         # axes[i][0].annotate(round(p2atS[j],2), xy=(peak_indS[j],peakS[j]),
         #     xytext=(peak_indS[j],peakS[j]),zorder=10,color='g')
@@ -708,10 +747,13 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
         # zoomed in plot
         axes[i][1].plot(t,alltraces[j].data,'k')
         axes[i][1].plot(t[peak_indS[j]],peakS[j],'go',
-                        t[adj_trough_indS[j]],adj_troughS[j],'go')
+                        t[adj_trough_indS[j]],adj_troughS[j],'go',
+                        markeredgecolor='k')
         axes[i][1].plot(t[adj_peak_indS[j]],adj_peakS[j],'ro',
-                        t[trough_indS[j]],troughS[j],'ro')
-        axes[i][1].plot(t[zero_crossings[j]],0,'bo',zorder=8)
+                        t[trough_indS[j]],troughS[j],'ro',
+                        markeredgecolor='k')
+        axes[i][1].plot(t[zero_crossings[j]],0,'bo',zorder=8,
+                                    markeredgecolor='k')
         # axes[i][1].annotate(p2atS[j], xy=(peak_indS[j],peakS[j]),
         #     xytext=(peak_indS[j],peakS[j]),zorder=10,color='g')
         # axes[i][1].annotate(ap2tS[j], xy=(trough_indS[j],troughS[j]),
@@ -735,12 +777,15 @@ def process_save(ac,rt,baz,cutoff,station,is_local,min_lwi,max_lwf,
                                 )])
 
         j+=1
-
-    plt.tight_layout(True)
-
-    filename_png = os.path.join(output_path,'imgs',tag_name+'.png')
-    plt.savefig(filename_png,dpi=150)
-    plt.close()
+    
+    # formatting
+    for ax_row in axes:
+        for ax in ax_row:
+            __pretty_grids(ax)
+    plt.subplots_adjust(wspace=0.02)
+            
+    filename_png = os.path.join(output_path,'imgs_new',tag_name+'.png')
+    plt.savefig(filename_png,figsize=(11,8.5),dpi=200)
 
     return peak2troughs,periods,zero_crossings_abs
 
@@ -781,6 +826,7 @@ def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
     sampl_rate = rt[0].stats.sampling_rate
     TBA = baz[2]  # Theoretical backazimuth [deg]
     distance = 0.001*baz[0]
+    print(event.resource_id.id,distance/111.11)
     dic = OrderedDict([
             ('event_id', event.resource_id.id),
             ('event_source', event_source),
@@ -855,10 +901,10 @@ def store_info_json(tag_name, output_path, ac, rt, baz, peak2troughs,
             ])
 
     filename_json = os.path.join(output_path,'jsons',tag_name + '.json')
-    outfile = open(filename_json, 'wt')
-    json.dump(dic, outfile, indent=4)
+    # outfile = open(filename_json, 'wt')
+    # json.dump(dic, outfile, indent=4)
 
-    outfile.close()
+    # outfile.close()
 
 
 # MAIN

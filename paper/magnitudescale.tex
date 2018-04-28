@@ -171,8 +171,8 @@ Theoretical considerations were initially used to restrict search to the surface
 
 
 \begin{figure}
-\centerline{\includegraphics[width=0.5\textwidth]{amp_picking}}
-\caption{Left: Seismograms of [event information here]. From top to bottom: rotation rate, rotation, vertical velocity and transverse velocity. Red and green dots show largest peak to adjacent trough distance and largest trough to adjacent peak distance, respectively. Overlapping dots, as in subfigures 2 and 4, indicate these values are the same. Blue dot shows zero crossing for the chosen peak to peak amplitude. \newline Right: Zoomed in section of seismograms, showing the visible difference in arrival times of the Love wave (as seen on rotation and transverse components), and the later arriving Rayleigh wave (as seen on the vertical component). }
+\centerline{\includegraphics[width=0.5\textwidth]{amp_picking_update-2011-09-16}}
+\caption{Peak amplitude picking. Left column shows seismograms of the 2011 M$_w$ 6.67 event (See Table \ref{tab:syn_scales}). From top to bottom: rotation rate, rotation, vertical velocity, transverse velocity. Red dots show largest peak to peak. Blue dots shows zero crossing for the chosen peak to peak amplitude. \newline Right column shows zoomed in section of respective seismograms. Note the visible difference in amplitude picks of the Love wave and the later arriving Rayleigh wave.}
 \label{fig:obswav}
 \end{figure}
 
@@ -218,23 +218,45 @@ In each simulation, events were initiated as point sources. The simulation corne
 \begin{minipage}{150mm}
 	\begin{center}
 		\begin{tabular}{ |c|c|c|c|c|c|c|c| } 
-		\bf{Date} & \bf{Time (UTC)} & \bf{Lat($^\circ$)} & \bf{Lon($^\circ)$} & \bf{Depth(km)} & \bf{M$_{\text{wc}}$} &\bf{Flinn-Engdahl Region} &\bf{Peak Corr. Coeff.}\\ \hline
-	2010-07-18 & 13:34:59 & -5.93 & 150.59 & 35.0 & 7.32 & New Britain Region, P.N.G. & 0.98\\
-	2011-09-16 & 19:26:41 & 40.27 & 142.78 & 35.0 & 6.67 & Off East Coast Of Honshu, Japan & 0.99\\
-	2013-01-05 & 08:58:19 & 55.39 & -134.65 & 10.0 & 7.53 & Southeastern Alaska & 0.95\\
-	2013-04-16 & 10:44:20 & 28.03 & 62.0 & 80.0 & 7.74 & Southern Iran & 0.98\\
-	2013-04-19 & 19:58:40 & 49.97 & 157.65 & 15.0 & 6.06 & East Of Kuril Islands & 0.99\\
-	2015-02-13 & 18:59:12 & 52.65 & -31.9 & 16.7 & 7.07 & Reykjanes Ridge & 0.99\\
-	2015-04-25 & 06:11:26 & 28.15 & 84.71 & 15.0 & 7.88 & Nepal & 0.99\\
-	2015-09-13 & 08:14:12 & 25.14 & -109.43 & 10.0 & 6.6 & Gulf Of California & 0.98\\
-	2015-09-16 & 23:18:41 & -31.56 & -71.43 & 28.4 & 7.1 & Near Coast Of Central Chile & 0.99\\
-	2016-01-25 & 04:22:02 & 35.65 & -3.68 & 12.0 & 6.38 & Strait Of Gibraltar & 0.99\\
+		\bf{Date} & \bf{Time (UTC)} & \bf{Lat($^\circ$)} & \bf{Lon($^\circ)$} & \bf{Depth(km)} & \bf{$\Delta$ ($^\circ$)} & \bf{M$_{\text{wc}}$} &\bf{Flinn-Engdahl Region} \\ \hline
+	2010-07-18 & 13:34:59 & -5.93 & 150.59 & 35.0 & 124.3 & 7.32 & New Britain Region, P.N.G. \\
+	2011-09-16 & 19:26:41 & 40.27 & 142.78 & 35.0 & 80.8 &  6.67 & Off East Coast Of Honshu, Japan \\
+	2013-01-05 & 08:58:19 & 55.39 & -134.65 & 10.0 & 72.1 & 7.53 & Southeastern Alaska \\
+	2013-04-16 & 10:44:20 & 28.03 & 62.0 & 80.0 & 43.2 & 7.74 & Southern Iran \\
+	2013-04-19 & 19:58:40 & 49.97 & 157.65 & 15.0 &76.8 & 6.06 & East Of Kuril Islands \\
+	2015-02-13 & 18:59:12 & 52.65 & -31.9 & 16.7 & 28.6 & 7.07 & Reykjanes Ridge \\
+	2015-04-25 & 06:11:26 & 28.15 & 84.71 & 15.0 & 58.3 & 7.88 & Nepal \\
+	2015-09-13 & 08:14:12 & 25.14 & -109.43 & 10.0 & 90.1 & 6.6 & Gulf Of California \\
+	2015-09-16 & 23:18:41 & -31.56 & -71.43 & 28.4 & 110.3 & 7.1 & Near Coast Of Central Chile \\
+	2016-01-25 & 04:22:02 & 35.65 & -3.68 & 12.0 & 18.2 & 6.38 & Strait Of Gibraltar \\
 		\end{tabular}
-    		\caption{List of events used as synthetic sources in Specfem3D. Peak correlations are used as a measure of waveform quality, and only events with the highest values were used, in order to provide the best comparisons of synthetics with observations. Events were also chosen based on a diverse coverage of magnitudes and epicentral distances from the ring laser stationed in Wettzell, Germany. Event information taken from the GCMT catalog.}
+    		\caption{List of events used as synthetic sources in Specfem3D. Events were chosen based on a diverse coverage of magnitudes and epicentral distances ($\Delta$) from the ring laser stationed in Wettzell, Germany. Event information taken from the GCMT catalog.}
 		\label{tab:syn_events}
 	\end{center}
 	\end{minipage}
 \end{table*}
+
+%\begin{table*}
+%\begin{minipage}{150mm}
+%	\begin{center}
+%		\begin{tabular}{ |c|c|c|c|c|c|c|c|c| } 
+%		\bf{Date} & \bf{Time (UTC)} & \bf{Lat($^\circ$)} & \bf{Lon($^\circ)$} & \bf{Depth(km)} & \bf{$\Delta$ ($^\circ$)} & \bf{M$_{\text{wc}}$} &\bf{Flinn-Engdahl Region} &\bf{Peak Corr. Coeff.}\\ \hline
+%	2010-07-18 & 13:34:59 & -5.93 & 150.59 & 35.0 & 124.3 & 7.32 & New Britain Region, P.N.G. & 0.98\\
+%	2011-09-16 & 19:26:41 & 40.27 & 142.78 & 35.0 & 80.8 &  6.67 & Off East Coast Of Honshu, Japan & 0.99\\
+%	2013-01-05 & 08:58:19 & 55.39 & -134.65 & 10.0 & 72.1 & 7.53 & Southeastern Alaska & 0.95\\
+%	2013-04-16 & 10:44:20 & 28.03 & 62.0 & 80.0 & 43.2 & 7.74 & Southern Iran & 0.98\\
+%	2013-04-19 & 19:58:40 & 49.97 & 157.65 & 15.0 &76.8 & 6.06 & East Of Kuril Islands & 0.99\\
+%	2015-02-13 & 18:59:12 & 52.65 & -31.9 & 16.7 & 28.6 & 7.07 & Reykjanes Ridge & 0.99\\
+%	2015-04-25 & 06:11:26 & 28.15 & 84.71 & 15.0 & 58.3 & 7.88 & Nepal & 0.99\\
+%	2015-09-13 & 08:14:12 & 25.14 & -109.43 & 10.0 & 90.1 & 6.6 & Gulf Of California & 0.98\\
+%	2015-09-16 & 23:18:41 & -31.56 & -71.43 & 28.4 & 110.3 & 7.1 & Near Coast Of Central Chile & 0.99\\
+%	2016-01-25 & 04:22:02 & 35.65 & -3.68 & 12.0 & 18.2 & 6.38 & Strait Of Gibraltar & 0.99\\
+%		\end{tabular}
+%    		\caption{List of events used as synthetic sources in Specfem3D. Peak correlations are used as a measure of waveform quality, and only events with the highest values were used, in order to provide the best comparisons of synthetics with observations. Events were also chosen based on a diverse coverage of magnitudes and epicentral distances from the ring laser stationed in Wettzell, Germany. Event information taken from the GCMT catalog.}
+%		\label{tab:syn_events}
+%	\end{center}
+%	\end{minipage}
+%\end{table*}
 
 %The direct outputs of Specfem3D were adjusted to produce displacement (in units of meters) in the transverse, radial and vertical components, by rotation with respect to the theoretical backazimuth. Direct rotation (in units of radians) in the same coordinate system was also outputted. During processing, translation seismograms were differentiated to retrieve velocity waveforms, and rotation was differentiated to produce rotation rate waveforms. A work flow identical to that used for observations was employed to calculate peak trace amplitudes, and a magnitude equation was fit to the data for comparison.
 

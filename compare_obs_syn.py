@@ -11,6 +11,7 @@ from obspy.geodetics.base import gps2dist_azimuth
 # plt.rc('text', usetex=True)
 # plt.rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
 mpl.rcParams['lines.linewidth']=1
+mpl.rcParams['axes.linewidth']=2
 mpl.rcParams.update({'font.size': 16.5})
 from matplotlib.ticker import MaxNLocator
 
@@ -24,10 +25,18 @@ def __pretty_grids(input_ax):
     """grid formatting
     """
     input_ax.set_axisbelow(True)
-    input_ax.tick_params(which='both',
+    input_ax.tick_params(which='major',
                          direction='in',
                          top=True,
-                         right=True)
+                         right=True,
+                         width=1,
+                         length=5)
+    input_ax.tick_params(which='minor',
+                          direction='in',
+                          top=True,
+                          right=True,
+                          width=0.25,
+                          length=1)
     input_ax.minorticks_on()
     input_ax.grid(which='minor',
                     linestyle=':',
@@ -39,9 +48,9 @@ def __pretty_grids(input_ax):
                     linewidth='0.5',
                     color='k',
                     alpha=0.15)
-    input_ax.ticklabel_format(style='sci',
-                            axis='y',
-                            scilimits=(0,0))
+    # input_ax.ticklabel_format(style='sci',
+    #                         axis='y',
+    #                         scilimits=(0,0))
 
 def align_yaxis(ax1, v1, ax2, v2):
     """adjust ax2 ylimit so that v2 in ax2 is aligned to v1 in ax1"""
@@ -89,7 +98,7 @@ def collect_data():
                 'C201509130814A', #good
                 'S201509162318A', #good
                 'C201601250422A'] #great
-    event_list = ['C201301050858A']
+    event_list = ['C201109161926A']
 
     event_ignore = ['C201007181335A', #contains foreshock
                     'C201304161044A', #starts too early, foreshock?
@@ -238,17 +247,17 @@ def process_and_plot(t_start=5,t_end=60):
         # syn_peak = max(syn_rot_rateZ[0])
         # syn_peak_ind = np.where(syn_rot_rateZ[0] == syn_peak)[0][0]/syn_SR
         
-        plot_comparison(event=event,
-                        x_obs=obs_time,x_syn=syn_time,
-                        y_obs=obs_rot_rateZ[0],
-                        y_syn=syn_rot_rateZ[0],
-                        save=True)
-        
-        plot_comparison(event=event,
-                        x_obs=obs_time,x_syn=syn_time,
-                        y_obs=obs_velocityZ[0],
-                        y_syn=syn_velocityZ[0],
-                        save=True)
+        # plot_comparison(event=event,
+        #                 x_obs=obs_time,x_syn=syn_time,
+        #                 y_obs=obs_rot_rateZ[0],
+        #                 y_syn=syn_rot_rateZ[0],
+        #                 save=True)
+        # 
+        # plot_comparison(event=event,
+        #                 x_obs=obs_time,x_syn=syn_time,
+        #                 y_obs=obs_velocityZ[0],
+        #                 y_syn=syn_velocityZ[0],
+        #                 save=True)
         
         # rotation rate vs transverse acceleration
         obs_TAdata = obs_accelT[0].data
@@ -263,6 +272,7 @@ def process_and_plot(t_start=5,t_end=60):
         plot_phasematch(event,obs_time,syn_time,
                         obs_TAdata,obs_RRdata,
                         syn_TAdata,syn_RRdata,
+                        show=False,
                         save=True)
         
 # =============================== PLOTTING FUNCTIONS ==========================
@@ -317,7 +327,7 @@ def plot_comparison(event,x_obs,x_syn,y_obs,y_syn,
     __pretty_grids(ax2)
     # plt.xlim([0,obs_maxtime])
     
-    plt.title(event)
+    # plt.title(event)
     
     if save:
         figurename = os.path.join('./figures','waveforms',event+'_compare{}.png'.format(C_))
@@ -344,11 +354,11 @@ def plot_phasematch(event,x_obs,x_syn,y_TAobs,y_RRobs,y_TAsyn,y_RRsyn,
     for ax in [ax3,ax4]:
         __pretty_grids(ax)
         ax.set_ylim([-1.1,1.1])
-        ax.set_xlim([x_obs.min(),5000])
+        ax.set_xlim([500,x_syn.max()])
         # ax.legend(prop={"size":7.5})
         
     f2.text(0.04, 0.5, 'Normalized amplitude', va='center', rotation='vertical')
-    ax3.set_title(event)
+    # ax3.set_title(event)
     ax4.set_xlabel('Time (s)')
     plt.subplots_adjust(hspace=0)
     if save:
