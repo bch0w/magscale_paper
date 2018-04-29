@@ -11,8 +11,8 @@ import json
 import random
 import warnings
 import argparse
-import matplotlib
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 from scipy import optimize
 from numpy.linalg import inv
@@ -23,7 +23,11 @@ from obspy.geodetics.base import locations2degrees
 
 # ignoring polyval rank warning - look into
 warnings.simplefilter('ignore', np.RankWarning)
-matplotlib.rcParams.update({'font.size': 20})
+mpl.rcParams['lines.linewidth']=1
+mpl.rcParams['lines.markersize']=4
+
+mpl.rcParams['axes.linewidth']=2
+mpl.rcParams.update({'font.size': 17.5})
 
 # for matplotlib font change
 # matplotlib.rcParams.update({'font.size': 25})
@@ -33,6 +37,37 @@ matplotlib.rcParams.update({'font.size': 20})
 # del matplotlib.font_manager.weight_dict['roman']
 # matplotlib.font_manager._rebuild()
 
+
+def __pretty_grids(input_ax):
+    """grid formatting
+    """
+    input_ax.set_axisbelow(True)
+    input_ax.tick_params(which='major',
+                         direction='in',
+                         top=True,
+                         right=True,
+                         width=1,
+                         length=5)
+    input_ax.tick_params(which='minor',
+                          direction='in',
+                          top=True,
+                          right=True,
+                          width=0.25,
+                          length=1)
+    input_ax.minorticks_on()
+    input_ax.grid(which='minor',
+                    linestyle=':',
+                    linewidth='0.5',
+                    color='k',
+                    alpha=0.25)
+    input_ax.grid(which='major',
+                    linestyle='-',
+                    linewidth='0.5',
+                    color='k',
+                    alpha=0.15)
+    # input_ax.ticklabel_format(style='sci',
+    #                         axis='y',
+    #                         scilimits=(0,0))
 
 def normalize(list):
     """Normalize the amplitudes of a list
@@ -216,73 +251,73 @@ def confidence(data,mags,dists,GTGi,nxp,m0,m1):
 def plot_magnitude_lines(magnitude):
     """plot comparisons of different magnitude values
     """
-import numpy as np
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-magnitude = 7
-mpl.rcParams.update({'font.size': 15})
-plt.rc('text', usetex=True)
-plt.rc('font', family='serif')
+    import numpy as np
+    import matplotlib as mpl
+    import matplotlib.pyplot as plt
+    magnitude = 7
+    mpl.rcParams.update({'font.size': 15})
+    plt.rc('text', usetex=True)
+    plt.rc('font', family='serif')
 
-f = plt.figure(1,dpi=150)
-ax = plt.subplot(111)
+    f = plt.figure(1,dpi=150)
+    ax = plt.subplot(111)
 
-x = range(2,161,2)
-y = lambda x,B,C,Mr: x**(-B) * 10**(Mr-C)
-# translations
-# B_list = [1.66,1.094,0.947,1.084,1.095,1.45,1.442,1.2060,1.094]
-# C_list = [0.3,1.429,1.77,1.093,1.09,0.527,0.447,-0.011,0.146]
-# label_list = ['$M_{S}^{BB}$','$M_{S}^{HH}$','$M_{S}^{AF}$',
-#                 '$M^{WET}_{Z}$','$M_{Z}^{FUR}$',
-#                 '$M_{T}^{WET}$','$M_{T}^{FUR}$',
-#                 '$M^{SYN}_{Z}$','$M_{T}^{SYN}$']
-# color_list = ['k','k','k','b','b','g','g','b','g']
-# line_style = ['-','--',':','-','--','-','--',':',':']
-# ncol=3
+    x = range(2,161,2)
+    y = lambda x,B,C,Mr: x**(-B) * 10**(Mr-C)
+    # translations
+    # B_list = [1.66,1.094,0.947,1.084,1.095,1.45,1.442,1.2060,1.094]
+    # C_list = [0.3,1.429,1.77,1.093,1.09,0.527,0.447,-0.011,0.146]
+    # label_list = ['$M_{S}^{BB}$','$M_{S}^{HH}$','$M_{S}^{AF}$',
+    #                 '$M^{WET}_{Z}$','$M_{Z}^{FUR}$',
+    #                 '$M_{T}^{WET}$','$M_{T}^{FUR}$',
+    #                 '$M^{SYN}_{Z}$','$M_{T}^{SYN}$']
+    # color_list = ['k','k','k','b','b','g','g','b','g']
+    # line_style = ['-','--',':','-','--','-','--',':',':']
+    # ncol=3
 
-# rotations
-B_list = [1.557,1.823,1.204,1.215]
-C_list = [4.186,4.113,3.841,4.007]
-# C_list = [4,4,4,4]
-label_list = ['$M_{RT}^{RLAS}$','$M^{RLAS}_{RR}$','$M_{RT}^{SYN}$','$M_{RR}^{SYN}$']
-color_list = ['r','r','k','k']
-line_style = ['-','--']
-ncol=2
-
-
-amp_list = []
-ax2=ax.twinx()
-for i,(B,C,L) in enumerate(zip(B_list,C_list,label_list)):
-    amp = [y(_,B,C,magnitude) for _ in x]
-    amp_list.append(amp)
-    ax.plot(x,amp,
-            linewidth=2.5,
-            label=L,
-            color=color_list[i%len(color_list)],
-            linestyle=line_style[i%len(line_style)])
-    ax2.plot(x,amp,
-            linewidth=2.5,
-            label=L,
-            color=color_list[i%len(color_list)],
-            linestyle=line_style[i%len(line_style)])
-
-maxamp = max([max(_) for _ in amp_list])
-minamp = min([min(_) for _ in amp_list])
-ax.set_xlim([2,160])
-ax.set_ylim([minamp,maxamp])
-ax.set_yscale("log")
-ax.set_xlabel('Distance ($\Delta$)')
-ax.set_ylabel('Peak Rotation Rate (nrad/s)')
-ax.set_title('M{} Velocity Scale Comparison'.format(magnitude))
-ax.grid(which='both')
-ax2.set_ylabel('Peak Rotation (nrad)')
-ax2.set_yscale('log')
-ax2.set_ylim([minamp,maxamp])
+    # rotations
+    B_list = [1.557,1.823,1.204,1.215]
+    C_list = [4.186,4.113,3.841,4.007]
+    # C_list = [4,4,4,4]
+    label_list = ['$M_{RT}^{RLAS}$','$M^{RLAS}_{RR}$','$M_{RT}^{SYN}$','$M_{RR}^{SYN}$']
+    color_list = ['r','r','k','k']
+    line_style = ['-','--']
+    ncol=2
 
 
-plt.legend(ncol=ncol)
-plt.savefig("/Users/Chow/Documents/Geophysik/post-grad/magscale_paper/paper/paper_figures/publishable/rrscales.png",dpi=300)
-plt.show()
+    amp_list = []
+    ax2=ax.twinx()
+    for i,(B,C,L) in enumerate(zip(B_list,C_list,label_list)):
+        amp = [y(_,B,C,magnitude) for _ in x]
+        amp_list.append(amp)
+        ax.plot(x,amp,
+                linewidth=2.5,
+                label=L,
+                color=color_list[i%len(color_list)],
+                linestyle=line_style[i%len(line_style)])
+        ax2.plot(x,amp,
+                linewidth=2.5,
+                label=L,
+                color=color_list[i%len(color_list)],
+                linestyle=line_style[i%len(line_style)])
+
+    maxamp = max([max(_) for _ in amp_list])
+    minamp = min([min(_) for _ in amp_list])
+    ax.set_xlim([2,160])
+    ax.set_ylim([minamp,maxamp])
+    ax.set_yscale("log")
+    ax.set_xlabel('Distance ($\Delta$)')
+    ax.set_ylabel('Peak Rotation Rate (nrad/s)')
+    ax.set_title('M{} Velocity Scale Comparison'.format(magnitude))
+    ax.grid(which='both')
+    ax2.set_ylabel('Peak Rotation (nrad)')
+    ax2.set_yscale('log')
+    ax2.set_ylim([minamp,maxamp])
+
+
+    plt.legend(ncol=ncol)
+    plt.savefig("/Users/Chow/Documents/Geophysik/post-grad/magscale_paper/paper/paper_figures/publishable/rrscales.png",dpi=300)
+    plt.show()
 
 def plot_histograms():
     """make histograms of data
@@ -545,7 +580,7 @@ elif sta == 'specfem':
 # in units of nano by here
 if pick == 'rr':
     label = 'Rotation Rate'
-    units = 'nrad $\mathregular{s^{-1}}}$'
+    units = 'nrad ${s^{-1}}}$'
     psurf = [_/(2*np.pi) for _ in Z_rr_max]
 elif pick == 'rt':
     label = 'Rotation'
@@ -615,8 +650,7 @@ mag_eq_latex = '{} & {} $\pm$ {} & {} $\pm$ {}'.format(
 
 # ============================== PLOT ==========================================
 # plot Attributes and hacked up color choice
-f = plt.figure(1,dpi=150,figsize=(11,7))
-f = plt.figure(1)
+f = plt.figure(1,dpi=100,figsize=(11,8.5))
 ax = plt.subplot(111)
 major_ticks = np.arange(0, 170, 10)
 minor_ticks = np.arange(0, 170, 5)
@@ -644,7 +678,7 @@ if sta == 'specfem':
 # scatter plot points
 if sta == 'wet':
     delta=[];ps_scale=[];mag_filt=[]
-    MS = 30
+    MS = 35
     ax.scatter(0,0,c='#ff0000',edgecolor='k',label='6.0 $\leq$ M$_w$ < 6.5')
     ax.scatter(0,0,c='#ffa500',edgecolor='k',label='6.5 $\leq$ M$_w$ < 7.0')
     ax.scatter(0,0,c='#00ffff',edgecolor='k',label='7.0 $\leq$ M$_w$ < 7.5')
@@ -695,7 +729,7 @@ ax.grid(which='both')
 #                                    sta.capitalize(),label,len(ds),mag_eq_ano))
 
 
-ax.set_title('Rotation (WET) Magnitude Scale\n{}'.format(mag_eq_ano))
+# ax.set_title('Rotation (WET) Magnitude Scale\n{}'.format(mag_eq_ano))
 ax.set_yscale("log")#, nonposx='clip')
 ax.set_ylabel('Peak {} ({})'.format(label,units))
 ax.set_xlabel('Epicentral Distance ($^{\circ}$)')
@@ -715,15 +749,16 @@ ax.set_xlim([xlower,xupper])
 
 # make a histogram behind to show number of events
 ax2 = ax.twinx()
-ax2.set_ylabel('Number of Events')
+ax2.set_ylabel('Number of Events',rotation=-90,labelpad=20)
 plt.hist(ds,bins=16,color='k',alpha=0.1,range=(0,160),zorder=1)
 ax2.set_xlim(([xlower,xupper]))
 
-
+for AX_ in [ax]:#,ax2]:
+    __pretty_grids(AX_)
 
 
 ax.set_zorder(ax2.get_zorder()+1) # put ax in front of ax2
-ax.patch.set_visible(False) # hide the 'canvas'
+# ax.patch.set_visible(False) # hide the 'canvas'
 figurename = './paper/paper_figures/publishable/RT_WET.png'
 plt.savefig(figurename,dpi=500,figsize=(11,7))
 plt.show()
