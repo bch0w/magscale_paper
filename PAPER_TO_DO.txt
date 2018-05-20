@@ -1,0 +1,4 @@
+20.5.18
+-Standardize nanometers/second or micrometers/second, both appear in paper and codes
+-In discussion, talk about subsurface composition between FFB and WET
+-Better separate discussion and results

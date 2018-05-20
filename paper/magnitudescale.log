@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.2.13)  28 APR 2018 16:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2018.2.13)  20 MAY 2018 16:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -248,18 +248,21 @@ e (type png)
 Package pdftex.def Info: ./paper_figures/publishable/amp_picking_update-2011-09
 -16.png used on input line 174.
 (pdftex.def)             Requested size: 252.0pt x 194.72247pt.
+
+Underfull \vbox (badness 1297) has occurred while \output is active []
+
  [4]
 Overfull \hbox (32.12068pt too wide) in paragraph at lines 220--233
  [] 
  []
 
-<./paper_figures/publishable/RR_WET.png, id=41, 794.97pt x 505.89pt>
-File: ./paper_figures/publishable/RR_WET.png Graphic file (type png)
+<./paper_figures/publishable/RT_WET.png, id=41, 794.97pt x 614.295pt>
+File: ./paper_figures/publishable/RT_WET.png Graphic file (type png)
 
-<use ./paper_figures/publishable/RR_WET.png>
-Package pdftex.def Info: ./paper_figures/publishable/RR_WET.png used on input l
+<use ./paper_figures/publishable/RT_WET.png>
+Package pdftex.def Info: ./paper_figures/publishable/RT_WET.png used on input l
 ine 269.
-(pdftex.def)             Requested size: 403.20154pt x 256.58784pt.
+(pdftex.def)             Requested size: 504.0pt x 389.46371pt.
  [5 <./paper_figures/publishable/event_map.png> <./paper_figures/publishable/am
 p_picking_update-2011-09-16.png>]
 <./paper_figures/publishable/velocityscales.png, id=47, 578.16pt x 433.62pt>
@@ -280,44 +283,35 @@ Package pdftex.def Info: ./paper_figures/publishable/rrscales.png used on input
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-<./paper_figures/publishable/C201301050858A_compareBJZ.png, id=49, 844.8363pt x
- 597.6729pt>
-File: ./paper_figures/publishable/C201301050858A_compareBJZ.png Graphic file (t
-ype png)
- <use ./paper_figures/publishable/C201301050858A_compareBJZ.png>
-Package pdftex.def Info: ./paper_figures/publishable/C201301050858A_compareBJZ.
-png used on input line 305.
-(pdftex.def)             Requested size: 252.0pt x 178.27272pt.
-
-[6] [7 <./paper_figures/publishable/RR_WET.png> <./paper_figures/publishable/ve
-locityscales.png> <./paper_figures/publishable/rrscales.png>]
-<./paper_figures/publishable/RR_SYN.png, id=61, 794.97pt x 505.89pt>
+ [6]
+<./paper_figures/publishable/RR_SYN.png, id=53, 794.97pt x 505.89pt>
 File: ./paper_figures/publishable/RR_SYN.png Graphic file (type png)
 
 <use ./paper_figures/publishable/RR_SYN.png>
 Package pdftex.def Info: ./paper_figures/publishable/RR_SYN.png used on input l
-ine 320.
+ine 315.
 (pdftex.def)             Requested size: 403.20154pt x 256.58784pt.
 
-Overfull \hbox (10.05309pt too wide) in paragraph at lines 328--340
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (10.05309pt too wide) in paragraph at lines 323--336
  [] 
  []
 
 
-Overfull \hbox (6.7205pt too wide) in paragraph at lines 350--357
+Overfull \hbox (6.7205pt too wide) in paragraph at lines 346--353
  [] 
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [8 <./paper_figures/publishable/C201301050858A_compareBJZ.png>] [9 <./paper_fi
-gures/publishable/RR_SYN.png>]
+[7 <./paper_figures/publishable/RT_WET.png>] [8 <./paper_figures/publishable/ve
+locityscales.png> <./paper_figures/publishable/rrscales.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-(./magnitudescale.bbl [10]
+(./magnitudescale.bbl [9 <./paper_figures/publishable/RR_SYN.png>]
+Underfull \vbox (badness 3078) has occurred while \output is active []
+
 Missing character: There is no â in font cmr8!
 Missing character: There is no € in font cmr8!
 Missing character: There is no ” in font cmr8!
@@ -326,19 +320,22 @@ Underfull \hbox (badness 1107) in paragraph at lines 152--158
 []\OT1/cmr/m/n/8 Tanimoto, T., Hadzi-ioan-nou, C., Igel, H., Wasser-mann, J.,
  []
 
-) [11] (./magnitudescale.aux)
+) [10] (./magnitudescale.aux)
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 2393 strings out of 492995
- 32734 string characters out of 6132704
- 114183 words of memory out of 5000000
- 5918 multiletter control sequences out of 15000+600000
+ 2388 strings out of 492995
+ 32458 string characters out of 6132704
+ 112183 words of memory out of 5000000
+ 5914 multiletter control sequences out of 15000+600000
  12482 words of font info for 44 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,15n,25p,2645b,330s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,15n,25p,1796b,330s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></
@@ -362,10 +359,10 @@ ist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2017/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2017/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2017/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmti9.pfb>
-Output written on magnitudescale.pdf (11 pages, 4412737 bytes).
+Output written on magnitudescale.pdf (10 pages, 3729157 bytes).
 PDF statistics:
- 149 PDF objects out of 1000 (max. 8388607)
- 96 compressed objects within 1 object stream
+ 144 PDF objects out of 1000 (max. 8388607)
+ 94 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 
