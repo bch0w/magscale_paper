@@ -4,6 +4,8 @@ output/
 figures/
 paper/blank_template/
 .DS_Store
+neudetermag/WET
+neudetermag/PFO
 # ignore patterns
 misc/
 !misc/*.py

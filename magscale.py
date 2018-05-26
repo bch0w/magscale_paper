@@ -200,7 +200,7 @@ def leasquares(amplitudes,distances,magnitudes):
     :rtype m: float
     :param m: coefficients in magnitude equation
     """
-    G = [np.log10(ds),np.ones(len(distances))]
+    G = [np.log10(distances),np.ones(len(distances))]
     G = (np.asmatrix(G)).transpose()
 
     d_hold = []
@@ -750,15 +750,17 @@ ax.set_xlim([xlower,xupper])
 # make a histogram behind to show number of events
 ax2 = ax.twinx()
 ax2.set_ylabel('Number of Events',rotation=-90,labelpad=20)
-plt.hist(ds,bins=16,color='k',alpha=0.1,range=(0,160),zorder=1)
+ax2.hist(ds,bins=16,color='k',alpha=0.1,range=(0,160),zorder=1)
 ax2.set_xlim(([xlower,xupper]))
+
 
 for AX_ in [ax]:#,ax2]:
     __pretty_grids(AX_)
 
 
-ax.set_zorder(ax2.get_zorder()+1) # put ax in front of ax2
+
+# ax.set_zorder(ax2.get_zorder()+1) # put ax in front of ax2
 # ax.patch.set_visible(False) # hide the 'canvas'
 figurename = './paper/paper_figures/publishable/RT_WET.png'
-plt.savefig(figurename,dpi=500,figsize=(11,7))
+plt.savefig(figurename,dpi=300,figsize=(14,7))
 plt.show()

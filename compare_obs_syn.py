@@ -269,12 +269,12 @@ def process_and_plot(t_start=5,t_end=60):
         print("syn_c = {}".format(syn_TAdata.max()/(2*syn_RRdata.max())))
 
         
-        plot_phasematch(event,obs_time,syn_time,
-                        obs_TAdata,obs_RRdata,
-                        syn_TAdata,syn_RRdata,
-                        show=False,
-                        save=True)
-        
+        # plot_phasematch(event,obs_time,syn_time,
+        #                 obs_TAdata,obs_RRdata,
+        #                 syn_TAdata,syn_RRdata,
+        #                 show=False,
+        #                 save=True)
+        plot_phasematch_single(event,obs_time,obs_TAdata,obs_RRdata,save=False,show=True)        
 # =============================== PLOTTING FUNCTIONS ==========================
 def plot_comparison(event,x_obs,x_syn,y_obs,y_syn,
                                             twinax=True,save=False,show=True):
@@ -339,7 +339,6 @@ def plot_phasematch(event,x_obs,x_syn,y_TAobs,y_RRobs,y_TAsyn,y_RRsyn,
                                                         save=False,show=True):
     """comparison of transverse acceleration and rotation rate
     """
-    # f2,(ax3,ax4) = plt.subplots(2,sharex=True,figsize=(11.69,8.27),dpi=100)
     f2,(ax3,ax4) = plt.subplots(2,sharex=True,figsize=(11,8.5),dpi=200)
 
     # normalize
@@ -361,6 +360,30 @@ def plot_phasematch(event,x_obs,x_syn,y_TAobs,y_RRobs,y_TAsyn,y_RRsyn,
     # ax3.set_title(event)
     ax4.set_xlabel('Time (s)')
     plt.subplots_adjust(hspace=0)
+    if save:
+        figurename = os.path.join('./figures','waveforms',event+'_phmatch.png')
+        plt.savefig(figurename,dpi=200,figsize=(11,8.5))
+    if show:
+        plt.show()
+
+def plot_phasematch_single(event,x_obs,y_TAobs,y_RRobs,save=False,show=True):
+    """comparison of transverse acceleration and rotation rate
+    """
+    f2,(ax3) = plt.subplots(1,sharex=True,figsize=(11,8.5),dpi=100)
+
+    # normalize
+    for DATA in [y_TAobs,y_RRobs]:
+        DATA /= DATA.max()
+        
+    ax3.plot(x_obs,y_TAobs,'k',label='Transverse Acc.')
+    ax3.plot(x_obs,y_RRobs,'r',label='Rotation Rate')
+
+    __pretty_grids(ax3)
+    ax3.set_ylim([-1.1,1.1])
+        
+    ax3.set_ylabel('Normalized amplitude')
+    # ax3.set_title(event)
+    ax3.set_xlabel('Time (s)')
     if save:
         figurename = os.path.join('./figures','waveforms',event+'_phmatch.png')
         plt.savefig(figurename,dpi=200,figsize=(11,8.5))
