@@ -34,6 +34,59 @@ from collections import OrderedDict
 
 mpl.rcParams.update({'font.size': 6.5})
 
+def stf_convolve(st,half_duration,window="bartlett",time_shift=False):
+    """convolve source time function with a stream, time shift if needed
+    :type st: obspy.stream
+    :param st: stream object containing traces of data
+    :type half_duration: float
+    :param half_duration: half duration of stf in seconds
+    :type window: str
+    :param window: window type to return
+    :type time_shift: float
+    :param time_shift: change the starttime
+    ========================================
+    boxcar, triang, blackman, hamming, hann,
+    bartlett, flattop, parzen, bohman,
+    blackmanharris, nuttall, barthann,
+    kaiser (needs beta),
+    gaussian (needs standard deviation),
+    general_gaussian (needs power, width),
+    slepian (needs width),
+    chebwin (needs attenuation),
+    exponential (needs decay scale),
+    tukey (needs taper fraction)
+    NOTE: bartlett window is a triangle that touches 0
+    ========================================
+    :return new_st:
+    """
+    import numpy as np
+    from scipy import signal
+
+    # set up windowtriang
+    npts = st[0].stats.npts
+    sampling_rate = st[0].stats.sampling_rate
+    half_duration_in_samples = round(half_duration * sampling_rate)
+    stf = signal.get_window(window=window,
+                            Nx=(half_duration_in_samples * 2) -1)
+
+    # make sure window touches 0 at the end
+    if stf[-1] != 0:
+        stf = np.append(stf,0)
+    if stf[0] != 0:
+        stf = np.append(0,stf)
+
+    # normalize to keep area of window equal one
+    stf *= (2/len(stf))
+
+    # convolve and time shift if necessary
+    new_st = st.copy()
+    for tr in new_st:
+        if time_shift:
+            tr.stats.starttime = tr.stats.starttime + time_shift
+        new_data = np.convolve(tr.data,stf,mode="same")
+        tr.data = new_data
+
+    return new_st
 
 def grid_stations(event_name):
     """find grid stations surrounding events
@@ -77,10 +130,20 @@ def grid_stations(event_name):
 
 def process_save(station,station_tag,event_name,f_start,f_end,output_path):
     
+    # get event information
+    event_path = './input/tenGoodCMTSolutions'
+    cat = read_events(event_path)
+    for event in cat:
+        if event.event_descriptions[0]['text'] == event_name:
+            half_duration = (event.focal_mechanisms[0].moment_tensor.source_time_function['duration'])/2
+    
     # set sampling rate and copy traces for filtering
     rt = station.synthetic.select(channel='MY*') # rotation [rad]
     tr = station.synthetic.select(channel='MX*') # displacement [m]
-
+    rt = stf.convove(rt,half_duration)
+    tr = stf.convove(tr,half_duration)
+    import ipdb;ipdb.set_trace()
+    
     sampling_rate = int(rt[0].stats.sampling_rate)
     
     velocity_rtz = tr.copy()
@@ -399,9 +462,8 @@ for event_name in cat:
 
     station_list = ds.waveforms.list()[:10] + ds.waveforms.list()[-143:] +\
                                                     grid_nums_list
-    import pdb;pdb.set_trace()
     for station_string in station_list:
-        try:
+        try:cd 
             i+=1
             print(i,end="")
             station = ds.waveforms[station_string]
