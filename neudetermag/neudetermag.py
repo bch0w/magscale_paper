@@ -5,9 +5,8 @@ import os
 import sys
 import glob
 import numpy as np
-
-from obspy import read, read_events, Catalog, UTCDateTime
 from obspy.clients.fdsn import Client
+from obspy import read, read_events, Catalog, UTCDateTime
 from obspy.geodetics.base import gps2dist_azimuth, locations2degrees
 from xml.dom.minidom import parseString
 from collections import OrderedDict
@@ -44,7 +43,7 @@ def __pretty_grids(input_ax):
                     alpha=0.15)
 
 
-def event_info_data(event):
+def event_info_data(code,event):
     """set all event information
     event: obspy event 
     """
@@ -55,26 +54,19 @@ def event_info_data(event):
                        'depth':origin.depth * 0.001}
 
     # set station and channel information
-    pfo_code = "II.PFO.00.BHZ"
-    wet_code = "GR.WET..BHZ"
-    station_code = wet_code
-    net,sta,loc,cha = station_code.split('.')
-    
-    pfo_lon = -116.456
-    pfo_lat = 33.611
-    wet_lat = 12.8782
-    wet_lon = 49.144001
-    lat,lon = wet_lat,wet_lon
-    
 
     # broadband station signal
-    st = download_data(origin_time=event_info_dict['starttime'],
-                       net=net, 
-                       sta=sta, 
-                       loc=loc,
-                       cha=cha)
+    if code[0] == "BW.RLAS.*.BJZ"
+        st, inv = grab_data(origin_time=event_info_dict['starttime'],code=code)
+    else:
+        st, inv = download_data(origin_time=event_info_dict['starttime'],
+                                                                    code=code)
+
     if not st:
         return (None, None, None)
+    
+    lat = inv[0][0].latitude
+    lon = inv[0][0].longitude
 
     # theoretical event backazimuth and distance
     baz = gps2dist_azimuth(event_info_dict['lat'],event_info_dict['lon'],
@@ -88,11 +80,14 @@ def event_info_data(event):
 
     return st, event_info_dict, gcdist
     
-def download_data(origin_time, net, sta, loc, cha):
+def download_data(origin_time,code):
     """download data from FDSN
     """
+    net,sta,loc,cha = code[0].split('.')    
+    client = code[1]
+    print(origin_time)
     try:
-        c = Client("BGR")
+        c = Client(client)
         st = c.get_waveforms(network=net, 
                              station=sta, 
                              location=loc,  
@@ -100,11 +95,53 @@ def download_data(origin_time, net, sta, loc, cha):
                              starttime=origin_time-180,
                              endtime=origin_time+3*3600,
                              attach_response=True)
-    except:
+        inv = c.get_stations(network=net, 
+                             station=sta, 
+                             location=loc,  
+                             channel=cha, 
+                             starttime=origin_time-180,
+                             endtime=origin_time+3*3600)
+    except KeyboardInterrupt:
+        print('keyboard interrupt')
+        sys.exit()
+    except Exception as e:
         print("\tFailed")
-        return None
+        return None, None
         
-    return st
+    return st, inv
+    
+def grab_data(origin_time,code):
+    """internal data grab from munich servers
+    """
+    net,sta,loc,cha = code[0].split('.')
+    year = origin_time.year
+    jday = origin_time.julday    
+    print(origin_time)
+    
+    # set up data paths
+    data_dir = '/import/netapp-m-02-bay200/mseed_online/archive/'
+    path_template = '{y}/{n}/{s}/{c}.D/{n}.{s}.{l}.{c}.D.{y}.{j}'
+    path_complete = path_template.format(y=year,n=net,s=sta,c=cha,l=loc,j=jday)
+    mseed_file = os.path.join(data_dir,path_complete)
+    
+    st = read(mseed_file)
+    st.trim(origin_time-180, origin_time+3*3600)
+    
+    inv = c.get_stations(network=net, 
+                         station=sta, 
+                         location=loc,  
+                         channel=cha,
+                         level='Response')
+    
+    
+    except KeyboardInterrupt:
+        print('keyboard interrupt')
+        sys.exit()
+    except Exception as e:
+        print("\tFailed")
+        return None, None
+        
+    return st, inv
 
 def preprocess(st,bounds):
     """preprocess waveform data:
@@ -119,19 +156,20 @@ def preprocess(st,bounds):
                                   # pre_filt=pre_filt,
                                   water_level=60,
                                   plot=False)
+                                  
     st_manipulate.filter('bandpass',freqmin=bounds[0],freqmax=bounds[1])
     st_manipulate.taper(max_percentage=0.05)
 
                                   
     return st_manipulate
 
-def process_save(event):
+def process_save(code,event):
     """main processing
     """
-    st_original, event_info_dict, gcdist = event_info_data(event)
+    st_original, event_info_dict, gcdist = event_info_data(code,event)
     if not st_original:
         return (None,None,None,None)
-    st = preprocess(st_original,bounds=[1/60,1/3])
+    st = preprocess(st_original,bounds=[1/60,1/2])
 
     # set sampling rate and copy traces for filtering, rotate to NEZ->TRZ
     sampling_rate = int(st[0].stats.sampling_rate) 
@@ -195,14 +233,22 @@ def quickplot(st,event,peak2trough,zero_crossing):
 
     plt.close()
             
-def runthrough():
+def runthrough(choice):
     event_list = glob.glob(
-                '/Users/chowbr/Documents/magscale_paper/output/fur/xmls/*.xml')
+        '/Users/chowbr/Documents/magscale_paper/neudetermag/eventxmls/*.xml')
     starttimes,magnitudes,amplitudes,distances = [],[],[],[]
+    code_dict = {"PFO":["II.PFO.00.BHZ","IRIS"],
+                 "ERM":["II.ERM.00.BHZ","IRIS"],
+                 "WET":["GR.WET..BHZ","BGR"],
+                 "FUR":["GR.FUR..BHZ","BGR"],
+                 "RLAS":["BW.RLAS.*.BJZ","LMU"]
+                 }
+    
+    code = code_dict[choice]
     for event_path in event_list:
         try:
             cat = read_events(event_path)
-            st,dist,A,Z = process_save(cat[0])
+            st,dist,A,Z = process_save(code,cat[0])
             if not st:
                 continue
             quickplot(st,cat[0],A,Z)
@@ -216,11 +262,9 @@ def runthrough():
         except Exception as e:
             print('exception ',e)
             continue
-    import ipdb;ipdb.set_trace()
     save_dict = {'starttimes':starttimes,'magnitudes':magnitudes,
                 'amplitudes':amplitudes,'distances':distances}
-    np.savez('/Users/chowbr/Documents/magscale_paper/neudetermag/WETlist',
-                                                                **save_dict)
+    np.savez('./neudetermag/{}list'.format(choice),**save_dict)
     
 if __name__ == "__main__":
-    runthrough()
+    runthrough(choice="WET")
